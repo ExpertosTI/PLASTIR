@@ -1,0 +1,22 @@
+{
+  "name": "MVP FLOW Boutique",
+  "short_name": "MVP FLOW",
+  "description": "Tienda #1 de Ropa Urbana y Streetwear en República Dominicana",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0A0A0C",
+  "theme_color": "#FF1E27",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

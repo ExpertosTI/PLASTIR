@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RENACE Calculador de Envíos</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <!-- Header Bar -->
+  <header class="app-header">
+    <div class="brand-box">
+      <img src="icons/icon48.png" class="brand-logo" alt="RENACE" />
+      <div>
+        <h1 class="brand-title">RENACE</h1>
+        <span class="brand-sub">Calculador de Envíos RD</span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <label class="switch" title="Activar/Desactivar intercepción automática de enlaces">
+        <input type="checkbox" id="enableToggle" checked />
+        <span class="slider"></span>
+      </label>
+    </div>
+  </header>
+
+  <!-- Navigation Tabs -->
+  <nav class="nav-tabs">
+    <button class="nav-tab active" data-tab="calculator">
+      <span>🧮 Calculador</span>
+    </button>
+    <button class="nav-tab" data-tab="history">
+      <span>🕒 Historial (<span id="tabCount">0</span>)</span>
+    </button>
+    <button class="nav-tab" data-tab="settings">
+      <span>⚙️ Ajustes</span>
+    </button>
+  </nav>
+
+  <!-- TAB 1: STANDALONE CALCULATOR -->
+  <main class="tab-content active" id="tab-calculator">
+    <!-- Input Card -->
+    <div class="calc-card">
+      <label class="field-label">
+        <span>📍 Ubicación / Enlace de Maps del Cliente:</span>
+        <span class="label-hint">Maps, WhatsApp, @lat,lng</span>
+      </label>
+      <div class="input-group">
+        <input
+          type="text"
+          id="locationInput"
+          class="text-input"
+          placeholder="Pega aquí el enlace de Google Maps o WhatsApp..."
+          autocomplete="off"
+        />
+        <button id="calcBtn" class="btn-primary" title="Calcular Tarifa">
+          <span>Calcular</span>
+        </button>
+      </div>
+
+      <!-- Quick Preset Chips -->
+      <div class="presets-wrap">
+        <span class="presets-title">Sectores Frecuentes:</span>
+        <div class="presets-list">
+          <button type="button" class="preset-chip" data-coords="18.5085,-69.8620">Los Mina (Local)</button>
+          <button type="button" class="preset-chip" data-coords="18.4912,-69.8635">Alma Rosa</button>
+          <button type="button" class="preset-chip" data-coords="18.5145,-69.8052">Invivienda</button>
+          <button type="button" class="preset-chip" data-coords="18.4765,-69.9320">Naco / Piantini</button>
+          <button type="button" class="preset-chip" data-coords="18.4485,-69.9485">Bella Vista</button>
+          <button type="button" class="preset-chip" data-coords="18.5480,-69.9050">Villa Mella</button>
+          <button type="button" class="preset-chip" data-coords="18.4820,-69.9850">Herrera / Alcarrizos</button>
+          <button type="button" class="preset-chip" data-coords="18.4167,-70.1083">San Cristóbal</button>
+          <button type="button" class="preset-chip" data-coords="19.4517,-70.6970">Santiago</button>
+          <button type="button" class="preset-chip" data-coords="18.5601,-68.3725">Punta Cana</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error Alert -->
+    <div id="calcErrorBox" class="error-box hidden">
+      <span class="error-icon">⚠️</span>
+      <span id="calcErrorText" class="error-text"></span>
+    </div>
+
+    <!-- Calculation Result Card -->
+    <div id="calcResultBox" class="result-box hidden">
+      <!-- Top Metrics -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <span class="metric-label">Distancia</span>
+          <span class="metric-val" id="resDistance">0.0 KM</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Tiempo Est.</span>
+          <span class="metric-val highlight-amber" id="resTime">—</span>
+        </div>
+        <div class="metric-card border-green">
+          <span class="metric-label text-green">Tarifa Envío</span>
+          <span class="metric-val highlight-green" id="resFee">RD$ 0</span>
+        </div>
+      </div>
+
+      <!-- Breakdown info -->
+      <div class="breakdown-tag" id="resBreakdown">
+        ⚡ 0.0 KM · Tarifa Escalonada RD
+      </div>
+
+      <!-- Action Buttons for WhatsApp / Whaticket -->
+      <div class="actions-grid">
+        <button id="copyMsgBtn" class="btn-action btn-copy">
+          <span>📋 Copiar Tarifa WhatsApp</span>
+        </button>
+        <button id="pasteChatBtn" class="btn-action btn-paste" title="Pegar directamente en la conversación activa de Whaticket/WhatsApp">
+          <span>💬 Pegar en Chat Whaticket</span>
+        </button>
+      </div>
+
+      <!-- Open in full Quoter button -->
+      <button id="openQuoterBtn" class="btn-quoter">
+        <span>🚀 Abrir en Cotizador RENACE Completo</span>
+      </button>
+    </div>
+
+    <!-- Pricing Rules Footer Legend -->
+    <div class="pricing-rules-footer">
+      <div class="rules-header">
+        <span>Reglas Tarifarias Escalonadas (Desde Los Mina):</span>
+      </div>
+      <div class="rules-grid">
+        <div><strong>0-10 KM:</strong> RD$ 35/km (Min RD$ 200)</div>
+        <div><strong>10-20 KM:</strong> +RD$ 25/km</div>
+        <div><strong>&gt;20 KM:</strong> +RD$ 15/km</div>
+      </div>
+    </div>
+  </main>
+
+  <!-- TAB 2: HISTORY -->
+  <section class="tab-content" id="tab-history">
+    <div class="history-header">
+      <span class="section-title">Últimas Ubicaciones Capturadas</span>
+      <button id="clearHistoryBtn" class="btn-clear">Limpiar</button>
+    </div>
+    <div id="historyList" class="history-list">
+      <div class="empty-state">No hay ubicaciones registradas aún.</div>
+    </div>
+  </section>
+
+  <!-- TAB 3: SETTINGS -->
+  <section class="tab-content" id="tab-settings">
+    <div class="settings-card">
+      <h3 class="section-title">Configuración del Sistema</h3>
+      
+      <div class="form-group">
+        <label class="field-label">URL del Catálogo / Cotizador RENACE:</label>
+        <div class="input-group">
+          <input type="text" id="baseUrlInput" class="text-input" placeholder="https://mvpflowboutique.com/catalogo" />
+          <button id="saveUrlBtn" class="btn-primary">Guardar</button>
+        </div>
+      </div>
+
+      <div class="status-summary">
+        <div class="summary-row">
+          <span>Intercepción Automática:</span>
+          <strong id="statusAutoCapture" class="text-green">Activa</strong>
+        </div>
+        <div class="summary-row">
+          <span>Origen Fijo de Ruta:</span>
+          <span>Los Mina (San Vicente de Paúl)</span>
+        </div>
+        <div class="summary-row">
+          <span>Versión de la Extensión:</span>
+          <span class="font-mono">v1.1.0</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Toast Notification Feedback -->
+  <div id="popupToast" class="popup-toast hidden">
+    <span id="popupToastMsg">Acción completada</span>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

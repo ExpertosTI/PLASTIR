@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#141724" />
+      <stop offset="50%" stop-color="#090B10" />
+      <stop offset="100%" stop-color="#040508" />
+    </linearGradient>
+
+    <!-- Glowing Red Flow Gradient -->
+    <linearGradient id="redGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF414D" />
+      <stop offset="50%" stop-color="#FF1E27" />
+      <stop offset="100%" stop-color="#990B11" />
+    </linearGradient>
+
+    <!-- Metallic Silver / Chrome Accent -->
+    <linearGradient id="chromeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="40%" stop-color="#E2E8F0" />
+      <stop offset="100%" stop-color="#64748B" />
+    </linearGradient>
+
+    <!-- Glow Filter -->
+    <filter id="glowEffect" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="12" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    
+    <filter id="softShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#FF1E27" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- Outer Rounded Shield / Rounded Squircle Frame -->
+  <rect x="16" y="16" width="480" height="480" rx="100" fill="url(#bgGrad)" stroke="rgba(255, 255, 255, 0.12)" stroke-width="6" />
+  
+  <!-- Outer Glow Ring -->
+  <rect x="28" y="28" width="456" height="456" rx="88" fill="none" stroke="url(#redGlow)" stroke-width="2.5" stroke-opacity="0.4" />
+
+  <!-- Inner Hexagonal Geometry (Catalog Box Shield) -->
+  <g filter="url(#softShadow)">
+    <!-- Isometric Catalog Cube / Diamond Shield -->
+    <!-- Top Face (Stock Lid) -->
+    <polygon points="256,92 384,166 256,240 128,166" fill="#1C2132" stroke="url(#chromeGrad)" stroke-width="3" stroke-linejoin="round" />
+    
+    <!-- Left Face (Catalog Body) -->
+    <polygon points="128,166 256,240 256,388 128,314" fill="#101420" stroke="rgba(255,255,255,0.15)" stroke-width="3" stroke-linejoin="round" />
+    
+    <!-- Right Face (Catalog Action) -->
+    <polygon points="256,240 384,166 384,314 256,388" fill="#0C0F18" stroke="rgba(255,255,255,0.15)" stroke-width="3" stroke-linejoin="round" />
+  </g>
+
+  <!-- High-Tech Catalog Shelf / Grid Stripes (Left Face) -->
+  <line x1="148" y1="210" x2="236" y2="260" stroke="#FF1E27" stroke-width="4" stroke-linecap="round" opacity="0.8" />
+  <line x1="148" y1="250" x2="236" y2="300" stroke="#38BDF8" stroke-width="4" stroke-linecap="round" opacity="0.8" />
+  <line x1="148" y1="290" x2="236" y2="340" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.8" />
+
+  <!-- Central Supercharged MVP Lightning Bolt (Flow Symbol) -->
+  <g filter="url(#glowEffect)">
+    <!-- Lightning Bolt Silhouette -->
+    <polygon points="296,88 192,252 268,252 216,424 352,228 276,228" fill="url(#redGlow)" stroke="#FFFFFF" stroke-width="4" stroke-linejoin="round" />
+  </g>
+
+  <!-- Center Core Star Sparkle -->
+  <circle cx="272" cy="240" r="7" fill="#FFFFFF" />
+  <path d="M 272 224 L 272 256 M 256 240 L 288 240" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" />
+
+  <!-- Bottom Brand Text Label / Badge -->
+  <g transform="translate(0, 412)">
+    <!-- Pill Background -->
+    <rect x="96" y="0" width="320" height="48" rx="24" fill="#0E121D" stroke="url(#redGlow)" stroke-width="2" />
+    <!-- Typography -->
+    <text x="256" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Outfit', sans-serif" font-size="22" font-weight="900" letter-spacing="4" fill="#FFFFFF" text-anchor="middle">
+      CATÁLOGO PRO
+    </text>
+    <!-- Live Dot Indicator -->
+    <circle cx="122" cy="24" r="5" fill="#10B981" />
+  </g>
+</svg>

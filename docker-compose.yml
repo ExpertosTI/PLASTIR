@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  plastir:
+    image: plastir:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - PORT=3000
+      - NODE_ENV=production
+      - STORE_NAME=PLASTIR RD | Tienda por Departamentos
+      - STORE_DOMAIN=plastirrd.com
+      - STORE_WHATSAPP_PHONE=18096560219
+      - WHATICKET_API_URL=https://api.whaticket.com/api/v1
+      - WHATICKET_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJjcmVhdGU6bWVzc2FnZXMiLCJjcmVhdGU6bWVkaWFzIiwicmVhZDp3aGF0c2FwcHMiLCJ1cGRhdGU6d2hhdHNhcHBzIiwiY3JlYXRlOmNvbnRhY3RzIiwicmVhZDpjb250YWN0cyJdLCJjb21wYW55SWQiOiIxYjZmMzk1OC05NTExLTRiYzUtOTRkNy04YmE2ZTI2MDYxYTUiLCJpYXQiOjE3ODc4Nzc3MTB9.igKUXGwsEUCqSWhZxgWkpghAmCasRJ9EgazyZUFHr-M
+      - WHATICKET_COMPANY_ID=1b6f3958-9511-4bc5-94d7-8ba6e26061a5
+      - WHATICKET_CONNECTION_ID=b24ea8c3-f5ed-46de-b612-dbe8f76e53c8
+      - ODOO_URL=https://mvpflow.renace.tech
+      - ODOO_DB=mvpflow
+      - ODOO_USERNAME=info@mvpflowboutique.com
+      - ODOO_API_KEY=abf6067a002549afa0b3b5a6c925d78262658f5c
+    volumes:
+      - /var/www/plastir/server/data:/app/server/data
+    networks:
+      - RenaceNet
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      update_config:
+        parallelism: 1
+        delay: 5s
+        order: start-first
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=RenaceNet
+        
+        # HTTP → HTTPS Redirect
+        - traefik.http.routers.plastir-http.rule=Host(`plastirrd.com`) || Host(`www.plastirrd.com`)
+        - traefik.http.routers.plastir-http.entrypoints=web
+        - traefik.http.routers.plastir-http.middlewares=plastir-https-redirect
+        - traefik.http.middlewares.plastir-https-redirect.redirectscheme.scheme=https
+        - traefik.http.middlewares.plastir-https-redirect.redirectscheme.permanent=true
+
+        # HTTPS Router
+        - traefik.http.routers.plastir-web.rule=Host(`plastirrd.com`) || Host(`www.plastirrd.com`)
+        - traefik.http.routers.plastir-web.entrypoints=websecure
+        - traefik.http.routers.plastir-web.tls=true
+        - traefik.http.routers.plastir-web.tls.certresolver=letsencryptresolver
+        - traefik.http.routers.plastir-web.service=plastir-svc
+
+        # Loadbalancer Port
+        - traefik.http.services.plastir-svc.loadbalancer.server.port=3000
+
+networks:
+  RenaceNet:
+    external: true

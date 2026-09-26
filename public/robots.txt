@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api/
+Disallow: /catalogo.html
+Disallow: /subir-fotos.html
+Disallow: /subir-historias.html
+
+Sitemap: https://mvpflowboutique.com/sitemap.xml
