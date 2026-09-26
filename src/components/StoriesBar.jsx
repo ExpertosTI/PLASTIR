@@ -6,58 +6,69 @@ import { StoryPlayerModal } from './StoryPlayerModal';
 const DEFAULT_STORIES = [
   {
     id: 'story-1',
-    title: 'Jordan 4 Black Cat',
-    badge: 'TOP 1',
-    liveNotice: '🔥 2 pares en 41 y 42',
+    title: 'Herméticos Click',
+    badge: 'COCINA',
+    liveNotice: '🔥 18 sets vendidos hoy',
     type: 'video',
-    thumbnailUrl: '/img/drop-1.jpg',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-fashion-model-showing-sneakers-41132-large.mp4',
-    instagramUrl: 'https://www.instagram.com/mvp_flow_boutique08/',
-    price: 4850,
+    thumbnailUrl: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?q=80&w=400&auto=format&fit=crop',
+    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-hands-folding-clothes-neatly-41150-large.mp4',
+    instagramUrl: 'https://plastirrd.com/',
+    price: 1890,
   },
   {
     id: 'story-2',
-    title: 'Adidas Campus 00s',
-    badge: 'Y2K',
-    liveNotice: '⚡ Pedido a Santiago',
+    title: 'Cajas Clóset',
+    badge: 'ORDEN',
+    liveNotice: '⚡ Envíos express COD',
     type: 'video',
-    thumbnailUrl: '/img/drop-2.jpg',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-young-man-walking-with-sneakers-on-a-street-41135-large.mp4',
-    instagramUrl: 'https://www.instagram.com/mvp_flow_boutique08/',
-    price: 3950,
+    thumbnailUrl: 'https://images.unsplash.com/photo-1558997519-83ea9252def8?q=80&w=400&auto=format&fit=crop',
+    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-hands-folding-clothes-neatly-41150-large.mp4',
+    instagramUrl: 'https://plastirrd.com/',
+    price: 650,
   },
   {
     id: 'story-3',
-    title: '12x Boxers RD$790',
-    badge: 'OFERTA',
-    liveNotice: '📦 89 combos vendidos',
+    title: 'Cesto Ropa',
+    badge: 'LAVADO',
+    liveNotice: '🧺 Ventilado ergonómico',
     type: 'video',
-    thumbnailUrl: '/img/drop-7.jpg',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=400&auto=format&fit=crop',
     videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-hands-folding-clothes-neatly-41150-large.mp4',
-    instagramUrl: 'https://www.instagram.com/mvp_flow_boutique08/',
-    price: 790,
+    instagramUrl: 'https://plastirrd.com/',
+    price: 890,
   },
   {
     id: 'story-4',
-    title: 'Asics Kayano 14',
+    title: 'Gavetero 4 Niv',
     badge: 'NUEVO',
-    liveNotice: '👟 Despacho activo',
+    liveNotice: '✨ Modular resistente',
     type: 'video',
-    thumbnailUrl: '/img/drop-3.jpg',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-feet-of-a-man-walking-in-sneakers-on-the-street-41138-large.mp4',
-    instagramUrl: 'https://www.instagram.com/mvp_flow_boutique08/',
-    price: 4400,
+    thumbnailUrl: 'https://images.unsplash.com/photo-1595428774223-ef52624120d2?q=80&w=400&auto=format&fit=crop',
+    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-hands-folding-clothes-neatly-41150-large.mp4',
+    instagramUrl: 'https://plastirrd.com/',
+    price: 2450,
   },
   {
     id: 'story-5',
-    title: 'Nike Dunk Low Panda',
-    badge: 'CALLE',
-    liveNotice: '🔥 La verdadera grasa',
+    title: 'Zafacón Pedal',
+    badge: 'HIGIENE',
+    liveNotice: '🌿 Sin tocar con manos',
     type: 'video',
-    thumbnailUrl: '/img/drop-4.jpg',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-person-walking-on-a-pavement-in-sneakers-41142-large.mp4',
-    instagramUrl: 'https://www.instagram.com/mvp_flow_boutique08/',
-    price: 4200,
+    thumbnailUrl: 'https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?q=80&w=400&auto=format&fit=crop',
+    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-hands-folding-clothes-neatly-41150-large.mp4',
+    instagramUrl: 'https://plastirrd.com/',
+    price: 990,
+  },
+  {
+    id: 'story-6',
+    title: 'Silla Nórdica',
+    badge: 'HOGAR',
+    liveNotice: '🪑 Resistente a UV',
+    type: 'video',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1503602642458-232111445657?q=80&w=400&auto=format&fit=crop',
+    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-hands-folding-clothes-neatly-41150-large.mp4',
+    instagramUrl: 'https://plastirrd.com/',
+    price: 1350,
   },
 ];
 
@@ -82,12 +93,12 @@ export const StoriesBar = ({ onSelectCategory }) => {
   // Dynamic live sales ticker rotation
   useEffect(() => {
     const notices = [
-      '🔥 Vendido hace 1m en Los Mina',
-      '⚡ Pedido COD a Naco',
+      '🔥 Entregado en Naco hace 5m',
+      '⚡ Pedido COD a Santiago',
       '📦 En camino por Delivery',
-      '👟 Últimos pares en talla 41',
-      '🔥 32 personas viendo ahora',
-      '⚡ Despacho Express activo',
+      '✨ 28 personas viendo ahora',
+      '⚡ Despacho el mismo día',
+      '🏠 Organización de cocina',
     ];
 
     const interval = setInterval(() => {
@@ -109,27 +120,27 @@ export const StoriesBar = ({ onSelectCategory }) => {
 
   return (
     <>
-      <div className="w-full bg-mvp-black/90 border-b border-mvp-cardHover/40 py-2.5 px-3 overflow-x-auto no-scrollbar backdrop-blur-md">
+      <div className="w-full bg-white border-b border-slate-200 py-3 px-3 overflow-x-auto no-scrollbar shadow-sm">
         <div className="flex items-center gap-3 sm:gap-6 min-w-max mx-auto max-w-7xl">
           {/* 1. Special Story: Spin Wheel VIP */}
           <button
             onClick={() => setIsWheelOpen(true)}
             className="flex flex-col items-center gap-1 focus:outline-none group"
-            title="Girar Ruleta VIP (-30% OFF)"
+            title="Girar Ruleta Plastir (-30% OFF)"
           >
-            <div className="relative p-[2.5px] rounded-full transition-transform duration-300 group-hover:scale-110 group-active:scale-95 bg-gradient-to-tr from-amber-400 via-mvp-red to-mvp-crimson animate-pulse shadow-[0_0_15px_rgba(255,30,39,0.5)]">
-              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden border-2 border-mvp-black bg-mvp-dark flex items-center justify-center">
-                <Gift className="text-amber-400 group-hover:scale-110 transition-transform" size={26} />
+            <div className="relative p-[2.5px] rounded-full transition-transform duration-300 group-hover:scale-110 group-active:scale-95 bg-gradient-to-tr from-amber-400 via-[#F16100] to-orange-500 shadow-sm animate-pulse">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden border-2 border-white bg-orange-50 flex items-center justify-center">
+                <Gift className="text-[#F16100] group-hover:scale-110 transition-transform" size={26} />
               </div>
-              <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-gradient-to-r from-amber-400 to-amber-600 text-black text-[8.5px] font-black px-1.5 py-0.2 rounded-md shadow-md uppercase tracking-wider whitespace-nowrap border border-black/20">
+              <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-[#F16100] text-white text-[8.5px] font-black px-1.5 py-0.2 rounded-md shadow uppercase tracking-wider whitespace-nowrap">
                 30% OFF
               </span>
             </div>
-            <span className="text-[11px] font-bold text-amber-300 group-hover:text-white transition-colors max-w-[80px] truncate text-center">
-              Ruleta VIP
+            <span className="text-[11px] font-bold text-slate-800 group-hover:text-[#F16100] transition-colors max-w-[80px] truncate text-center">
+              Ruleta Premios
             </span>
-            <span className="text-[9px] font-semibold text-emerald-400 max-w-[85px] truncate text-center animate-pulse">
-              🔥 Gana hoy
+            <span className="text-[9px] font-semibold text-emerald-600 max-w-[85px] truncate text-center">
+              🎉 Descuento Hoy
             </span>
           </button>
 
@@ -142,19 +153,19 @@ export const StoriesBar = ({ onSelectCategory }) => {
               title={`Ver video: ${story.title}`}
             >
               {/* Story Avatar Ring */}
-              <div className="relative p-[2.5px] rounded-full transition-transform duration-300 group-hover:scale-110 group-active:scale-95 bg-gradient-to-tr from-mvp-red via-orange-500 to-amber-500 shadow-sm">
-                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden border-2 border-mvp-black bg-mvp-dark flex items-center justify-center relative">
+              <div className="relative p-[2.5px] rounded-full transition-transform duration-300 group-hover:scale-110 group-active:scale-95 bg-gradient-to-tr from-[#F16100] via-orange-400 to-amber-400 shadow-sm">
+                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden border-2 border-white bg-slate-100 flex items-center justify-center relative">
                   <img
-                    src={story.thumbnailUrl || '/img/drop-1.jpg'}
+                    src={story.thumbnailUrl}
                     alt={story.title}
                     loading="lazy"
                     decoding="async"
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    onError={(e) => { e.target.src = '/img/drop-1.jpg'; }}
+                    onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?q=80&w=400'; }}
                   />
 
                   {/* Play / Media icon overlay */}
-                  <div className="absolute inset-0 bg-black/25 flex items-center justify-center opacity-70 group-hover:opacity-100 transition-opacity">
+                  <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-70 group-hover:opacity-100 transition-opacity">
                     {story.type === 'instagram' ? (
                       <Instagram size={14} className="text-white drop-shadow" />
                     ) : (
@@ -165,19 +176,19 @@ export const StoriesBar = ({ onSelectCategory }) => {
 
                 {/* Badge */}
                 {story.badge && (
-                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-gradient-to-r from-mvp-red to-mvp-darkRed text-white text-[8px] font-black px-1.5 py-0.2 rounded-md shadow-md uppercase tracking-wider whitespace-nowrap border border-white/20">
+                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-[#F16100] text-white text-[8px] font-black px-1.5 py-0.2 rounded-md shadow uppercase tracking-wider whitespace-nowrap">
                     {story.badge}
                   </span>
                 )}
               </div>
 
               {/* Story Label */}
-              <span className="text-[11px] font-bold text-white group-hover:text-amber-300 transition-colors max-w-[80px] truncate text-center">
+              <span className="text-[11px] font-bold text-slate-800 group-hover:text-[#F16100] transition-colors max-w-[80px] truncate text-center">
                 {story.title}
               </span>
 
               {/* Live sales indicator sublabel */}
-              <span className="text-[9px] font-semibold text-emerald-400 max-w-[85px] truncate text-center">
+              <span className="text-[9px] font-semibold text-emerald-600 max-w-[85px] truncate text-center">
                 {story.liveNotice || '⚡ Ver Short'}
               </span>
             </button>

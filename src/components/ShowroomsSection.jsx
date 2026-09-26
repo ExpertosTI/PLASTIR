@@ -23,26 +23,27 @@ export const ShowroomsSection = ({ onSelectCategory, onSelectProduct }) => {
   };
 
   return (
-    <section id="showrooms" className="py-8 sm:py-12 px-3 sm:px-4 bg-slate-900/60 border-y border-slate-800 relative overflow-hidden">
+  return (
+    <section id="showrooms" className="py-8 sm:py-12 px-3 sm:px-4 bg-slate-50/70 border-y border-slate-200 relative overflow-hidden">
       {/* Background Subtle Accent */}
-      <div className="absolute top-0 right-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-10 w-80 h-80 bg-amber-400/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#F16100]/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-10 w-80 h-80 bg-amber-400/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10 space-y-6 sm:space-y-8">
         
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-bold uppercase tracking-wider mb-2">
-              <Sparkles size={13} className="text-amber-400" />
-              <span>Inspiración Tipo IKEA // Ambientes Reales</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 border border-orange-200 text-[#F16100] text-xs font-bold uppercase tracking-wider mb-2 shadow-sm">
+              <Sparkles size={13} className="text-[#F16100]" />
+              <span>Inspiración de Espacios // Artículos para el Hogar</span>
             </div>
-            <h2 className="text-2xl sm:text-4xl font-black text-white uppercase tracking-tight flex items-center gap-2">
+            <h2 className="text-2xl sm:text-4xl font-black text-slate-900 uppercase tracking-tight flex items-center gap-2">
               <span>EXPLORA POR</span>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-sky-300 to-amber-300">ESPACIOS & AMBIENTES</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F16100] via-[#E05300] to-slate-900">ESPACIOS & AMBIENTES</span>
             </h2>
-            <p className="text-slate-400 text-xs sm:text-sm max-w-2xl mt-1">
-              Descubre cómo transformar cada rincón de tu casa o empresa. Compra el ambiente completo con descuento exclusivo o selecciona productos individuales.
+            <p className="text-slate-500 text-xs sm:text-sm max-w-2xl mt-1">
+              Descubre cómo transformar cada rincón de tu casa o negocio. Compra el ambiente completo con descuento exclusivo o selecciona productos individuales.
             </p>
           </div>
 
@@ -56,12 +57,12 @@ export const ShowroomsSection = ({ onSelectCategory, onSelectProduct }) => {
                   onClick={() => setActiveShowroomId(showroom.id)}
                   className={`px-4 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-2 ${
                     isActive
-                      ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30 scale-105 border border-blue-400'
-                      : 'bg-slate-800/80 hover:bg-slate-750 text-slate-300 hover:text-white border border-slate-700'
+                      ? 'bg-[#F16100] text-white shadow-md shadow-orange-500/25 scale-105 border border-[#F16100]'
+                      : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border border-slate-200 shadow-sm'
                   }`}
                 >
                   <span>{showroom.room}</span>
-                  {isActive && <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>}
+                  {isActive && <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>}
                 </button>
               );
             })}
@@ -69,20 +70,20 @@ export const ShowroomsSection = ({ onSelectCategory, onSelectProduct }) => {
         </div>
 
         {/* Showroom Display Showcase */}
-        <div className="bg-slate-800/60 rounded-3xl border border-slate-700/80 p-4 sm:p-6 backdrop-blur-md">
+        <div className="bg-white rounded-3xl border border-slate-200 p-4 sm:p-6 shadow-xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
             
             {/* Ambient Hero Image with Overlay */}
-            <div className="lg:col-span-7 relative rounded-2xl overflow-hidden aspect-[16/10] group shadow-2xl border border-slate-700">
+            <div className="lg:col-span-7 relative rounded-2xl overflow-hidden aspect-[16/10] group shadow-lg border border-slate-200">
               <img
                 src={activeShowroom.roomImage}
                 alt={activeShowroom.name}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
               {/* Badge on Image */}
-              <div className="absolute top-3 left-3 bg-blue-600/90 backdrop-blur-md text-white text-[11px] font-black uppercase px-3 py-1 rounded-lg border border-blue-400 shadow-md">
+              <div className="absolute top-3 left-3 bg-[#F16100] text-white text-[11px] font-black uppercase px-3 py-1 rounded-lg border border-orange-400 shadow-md">
                 {activeShowroom.tag}
               </div>
 
@@ -99,13 +100,13 @@ export const ShowroomsSection = ({ onSelectCategory, onSelectProduct }) => {
             <div className="lg:col-span-5 space-y-5">
               
               {/* Value proposition bullets */}
-              <div className="space-y-2 bg-slate-900/60 p-4 rounded-2xl border border-slate-700/60">
-                <span className="text-[11px] font-bold text-amber-300 uppercase tracking-wider block">
+              <div className="space-y-2 bg-orange-50/50 p-4 rounded-2xl border border-orange-100">
+                <span className="text-[11px] font-bold text-[#F16100] uppercase tracking-wider block">
                   Beneficios del Ambiente:
                 </span>
                 {activeShowroom.features.map((feat, idx) => (
-                  <div key={idx} className="flex items-start gap-2 text-xs text-slate-300">
-                    <CheckCircle2 size={14} className="text-emerald-400 flex-shrink-0 mt-0.5" />
+                  <div key={idx} className="flex items-start gap-2 text-xs text-slate-700">
+                    <CheckCircle2 size={14} className="text-[#F16100] flex-shrink-0 mt-0.5" />
                     <span>{feat}</span>
                   </div>
                 ))}
@@ -114,11 +115,11 @@ export const ShowroomsSection = ({ onSelectCategory, onSelectProduct }) => {
               {/* Products in this showroom list */}
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
-                    <Layers size={14} className="text-blue-400" />
+                  <span className="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
+                    <Layers size={14} className="text-[#F16100]" />
                     <span>Artículos en este Ambiente ({showroomProducts.length})</span>
                   </span>
-                  <span className="text-[10px] text-slate-400">Clic para ver detalle</span>
+                  <span className="text-[10px] text-slate-500">Clic para ver detalle</span>
                 </div>
 
                 <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto no-scrollbar pr-1">
@@ -126,18 +127,18 @@ export const ShowroomsSection = ({ onSelectCategory, onSelectProduct }) => {
                     <div
                       key={prod.id}
                       onClick={() => onSelectProduct?.(prod)}
-                      className="p-2 rounded-xl bg-slate-900/80 hover:bg-slate-750 border border-slate-750 hover:border-blue-500/50 cursor-pointer transition-all flex items-center gap-2 group"
+                      className="p-2 rounded-xl bg-slate-50 hover:bg-orange-50/40 border border-slate-200 hover:border-[#F16100]/50 cursor-pointer transition-all flex items-center gap-2 group shadow-sm"
                     >
                       <img
                         src={prod.images[0]}
                         alt={prod.name}
-                        className="w-10 h-10 rounded-lg object-cover bg-slate-800 flex-shrink-0"
+                        className="w-10 h-10 rounded-lg object-cover bg-white border border-slate-200 flex-shrink-0"
                       />
                       <div className="overflow-hidden">
-                        <span className="text-[11px] font-bold text-slate-200 block truncate group-hover:text-blue-300">
+                        <span className="text-[11px] font-bold text-slate-800 block truncate group-hover:text-[#F16100]">
                           {prod.name}
                         </span>
-                        <span className="text-[10px] font-black text-amber-400">
+                        <span className="text-[10px] font-black text-[#F16100]">
                           RD$ {prod.price.toLocaleString()}
                         </span>
                       </div>
@@ -147,24 +148,24 @@ export const ShowroomsSection = ({ onSelectCategory, onSelectProduct }) => {
               </div>
 
               {/* Room Bundle Price & Add All Button */}
-              <div className="pt-2 border-t border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="pt-2 border-t border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="text-xl sm:text-2xl font-black text-white">
+                    <span className="text-xl sm:text-2xl font-black text-slate-900">
                       RD$ {activeShowroom.bundlePrice.toLocaleString()}
                     </span>
                     <span className="text-xs text-slate-400 line-through">
                       RD$ {activeShowroom.originalBundlePrice.toLocaleString()}
                     </span>
                   </div>
-                  <span className="text-[11px] text-emerald-400 font-bold block">
+                  <span className="text-[11px] text-emerald-600 font-bold block">
                     ✨ Ahorras {activeShowroom.discountPercent}% llevando el pack completo
                   </span>
                 </div>
 
                 <button
                   onClick={handleAddBundleToCart}
-                  className="px-5 py-3 rounded-xl bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 hover:from-blue-500 hover:to-blue-600 text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-blue-600/30 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2"
+                  className="px-5 py-3 rounded-xl bg-gradient-to-r from-[#F16100] via-[#FA751A] to-[#F16100] hover:from-[#E05300] hover:to-[#F16100] text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-orange-500/25 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2"
                 >
                   <ShoppingBag size={16} />
                   <span>Comprar Ambiente Completo</span>

@@ -1,0 +1,187 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Arquitectura PLASTIR RD: Storefront y Odoo 18",
+    "output": "archvis-plastir.html",
+    "quality_profile": "showcase",
+    "views": [
+      {
+        "id": "customer-flow",
+        "label": "Flujo Comprador (plastirrd.com)",
+        "focus": ["shoppers", "nginx", "storefront", "whaticket"],
+        "note": "El cliente navega la tienda rápida con fondo blanco en plastirrd.com sin exponer la URL del ERP."
+      },
+      {
+        "id": "erp-flow",
+        "label": "Flujo ERP & Admin (app.plastirrd.com)",
+        "focus": ["staff", "nginx", "odoo", "websocket", "postgres"],
+        "note": "El equipo accede a app.plastirrd.com con WebSockets nativos y sesiones aisladas."
+      },
+      {
+        "id": "internal-sync",
+        "label": "Sincronización Interna (Localhost)",
+        "focus": ["storefront", "odoo", "postgres"],
+        "note": "Sincronización en tiempo real de catálogo, stock y pedidos vía JSON-RPC local en puerto 8025."
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "shoppers",
+      "type": "external",
+      "label": "Clientes RD",
+      "sublabel": "plastirrd.com",
+      "pos": [40, 160],
+      "size": [130, 64]
+    },
+    {
+      "id": "staff",
+      "type": "external",
+      "label": "Personal & Admin",
+      "sublabel": "app.plastirrd.com",
+      "pos": [40, 360],
+      "size": [130, 64]
+    },
+    {
+      "id": "nginx",
+      "type": "cloud",
+      "label": "Nginx + Certbot",
+      "sublabel": "SSL HTTPS :443",
+      "pos": [260, 260],
+      "size": [140, 70],
+      "tag": "Let's Encrypt"
+    },
+    {
+      "id": "storefront",
+      "type": "frontend",
+      "label": "Plastir Storefront",
+      "sublabel": "Node / Vite :3000",
+      "pos": [480, 160],
+      "size": [140, 64]
+    },
+    {
+      "id": "odoo",
+      "type": "backend",
+      "label": "Odoo 18 Server",
+      "sublabel": "plastir-server :8025",
+      "pos": [480, 360],
+      "size": [140, 64]
+    },
+    {
+      "id": "websocket",
+      "type": "messagebus",
+      "label": "Odoo WebSocket",
+      "sublabel": "/websocket :8025",
+      "pos": [480, 480],
+      "size": [140, 60]
+    },
+    {
+      "id": "postgres",
+      "type": "database",
+      "label": "PostgreSQL 16",
+      "sublabel": "user: plastir :5432",
+      "pos": [720, 360],
+      "size": [130, 64]
+    },
+    {
+      "id": "whaticket",
+      "type": "external",
+      "label": "Whaticket API",
+      "sublabel": "Chat en Vivo WhatsApp",
+      "pos": [720, 160],
+      "size": [130, 64]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "cluster",
+      "label": "Servidor VPS (Ubuntu/Debian - 85.31.224.232)",
+      "wraps": ["nginx", "storefront", "odoo", "websocket", "postgres"]
+    }
+  ],
+  "connections": [
+    {
+      "id": "shoppers-to-nginx",
+      "from": "shoppers",
+      "to": "nginx",
+      "label": "HTTPS :443",
+      "variant": "emphasis"
+    },
+    {
+      "id": "staff-to-nginx",
+      "from": "staff",
+      "to": "nginx",
+      "label": "HTTPS :443",
+      "variant": "security"
+    },
+    {
+      "id": "nginx-to-store",
+      "from": "nginx",
+      "to": "storefront",
+      "label": "proxy :3000",
+      "variant": "default"
+    },
+    {
+      "id": "nginx-to-odoo",
+      "from": "nginx",
+      "to": "odoo",
+      "label": "proxy :8025",
+      "variant": "default"
+    },
+    {
+      "id": "nginx-to-ws",
+      "from": "nginx",
+      "to": "websocket",
+      "label": "WSS /websocket",
+      "variant": "dashed"
+    },
+    {
+      "id": "store-to-odoo-sync",
+      "from": "storefront",
+      "to": "odoo",
+      "label": "JSON-RPC Sync",
+      "variant": "emphasis"
+    },
+    {
+      "id": "odoo-to-pg",
+      "from": "odoo",
+      "to": "postgres",
+      "label": "SQL :5432",
+      "variant": "default"
+    },
+    {
+      "id": "store-to-whaticket",
+      "from": "storefront",
+      "to": "whaticket",
+      "label": "REST Webhooks",
+      "variant": "dashed"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Aislamiento de Dominio",
+      "items": [
+        "plastirrd.com sirve exclusivamente la tienda departamental con fondo blanco y máxima velocidad de carga.",
+        "app.plastirrd.com aísla el ERP Odoo 18 para el equipo administrativo y contable."
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "WebSockets & Certbot",
+      "items": [
+        "Odoo 18 gestiona WebSockets en /websocket nativamente sin colisionar con rutas de la tienda.",
+        "Certbot emite certificados independientes o combinados de forma 100% automatizada."
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Enmascaramiento Total",
+      "items": [
+        "El cliente final nunca ve la URL del ERP: compra en plastirrd.com con carrito Shopify.",
+        "Los pedidos se sincronizan en milisegundos mediante la API interna a Odoo."
+      ]
+    }
+  ]
+}

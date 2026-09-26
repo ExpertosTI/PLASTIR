@@ -21,56 +21,56 @@ const INITIAL_LOOKS = [
   {
     id: 'look-1',
     user: {
-      name: 'Yariel Santos',
-      handle: '@yariel_flowrd',
-      city: 'Santo Domingo',
-      avatar: '/img/drop-1.jpg',
+      name: 'Carolina Méndez',
+      handle: '@carolina_hogar',
+      city: 'Piantini, Santo Domingo',
+      avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80',
       isVerified: true,
     },
-    image: '/img/drop-1.jpg',
-    caption: 'Rompiendo la calle con los Jordan 5 Retro en Naco 🔥 Calidad G5 dura de verdad.',
+    image: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=800&auto=format&fit=crop',
+    caption: 'Mi despensa transformada con el set de 7 herméticos Plastir. Todo visible, libre de humedad y súper estético.',
     likes: 1240,
     commentsList: [
-      { user: '@alex_flow', text: 'Esos Jordan están durísimos hermano' },
-      { user: '@carlos_flowrd', text: '¿Qué talla pediste tú?' }
+      { user: '@laura_rd', text: '¡Me encanta el orden! ¿Vienen con etiquetas?' },
+      { user: '@carmen_santo', text: 'Los mejores herméticos que he comprado en RD' }
     ],
-    taggedProductId: 'mvp-001',
+    taggedProductId: 'pla-001',
     timeAgo: 'hace 2 horas',
   },
   {
     id: 'look-2',
     user: {
-      name: 'Melvin Santana',
-      handle: '@melvin_urban',
-      city: 'Santiago',
-      avatar: '/img/drop-2.jpg',
+      name: 'Marco Díaz',
+      handle: '@marco_organiza',
+      city: 'Santiago de los Caballeros',
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
       isVerified: true,
     },
-    image: '/img/drop-2.jpg',
-    caption: 'Los Adidas Campus 00s no fallan con los cordones anchos. Entrega rápida en Santiago 💯.',
+    image: 'https://images.unsplash.com/photo-1558997519-83ea9252def8?q=80&w=800&auto=format&fit=crop',
+    caption: 'Clóset ordenado con las cajas transparentes con broches Plastir. Plástico grueso y resistente.',
     likes: 890,
     commentsList: [
-      { user: '@king_stodgo', text: 'Fuego puro 🔥🔥🔥' }
+      { user: '@pedro_valdez', text: 'Hermano, ¿qué capacidad tienen esas cajas?' }
     ],
-    taggedProductId: 'mvp-002',
+    taggedProductId: 'pla-003',
     timeAgo: 'hace 5 horas',
   },
   {
     id: 'look-3',
     user: {
-      name: 'Bryan De La Cruz',
-      handle: '@bryan_mvp',
-      city: 'La Romana',
-      avatar: '/img/drop-6.jpg',
-      isVerified: false,
+      name: 'Laura Guzmán',
+      handle: '@laura_lifestyle',
+      city: 'Bella Vista, Santo Domingo',
+      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80',
+      isVerified: true,
     },
-    image: '/img/drop-6.jpg',
-    caption: 'El combo de tenis Jordan 12 ⚡ Me llegó en 24h a La Romana. Recomendados 100%.',
+    image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800&auto=format&fit=crop',
+    caption: 'Área de lavado perfecta con los cestos ergonómicos y gavetero modular Plastir. Entrega el mismo día impecable.',
     likes: 645,
     commentsList: [
-      { user: '@elchucky_flow', text: 'Esos retro están duros' }
+      { user: '@maria_home', text: '¡Ese cesto es comodísimo para cargar la ropa!' }
     ],
-    taggedProductId: 'mvp-005',
+    taggedProductId: 'pla-006',
     timeAgo: 'hace 8 horas',
   },
 ];
@@ -176,19 +176,20 @@ export const SocialFeed = () => {
   };
 
   return (
-    <section className="py-8 px-4 max-w-7xl mx-auto border-t border-mvp-cardHover/60">
+  return (
+    <section className="py-10 px-4 max-w-7xl mx-auto border-t border-slate-200">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <div className="inline-flex items-center gap-1.5 bg-mvp-red/20 border border-mvp-red/40 text-mvp-red px-3 py-1 rounded-full text-xs font-black uppercase mb-1">
-            <Flame size={14} className="fill-mvp-red animate-flame" />
-            <span>COMUNIDAD MVP FLOW // LOOKS DE LA CALLE</span>
+          <div className="inline-flex items-center gap-1.5 bg-orange-50 border border-orange-200 text-[#F16100] px-3 py-1 rounded-full text-xs font-black uppercase mb-1 shadow-sm">
+            <Sparkles size={14} className="text-[#F16100]" />
+            <span>COMUNIDAD PLASTIR // ESPACIOS REALES</span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-display font-black text-white uppercase tracking-wide">
-            LA GENTE DEL VERDADERO FLOW
+          <h2 className="text-xl sm:text-2xl font-black text-slate-900 uppercase tracking-wide">
+            HOGARES ORGANIZADOS EN REPÚBLICA DOMINICANA
           </h2>
-          <p className="text-xs text-mvp-silver/70">
-            Mira cómo viste nuestra comunidad en Santo Domingo, Santiago y todo el país.
+          <p className="text-xs text-slate-500">
+            Inspírate con cómo nuestra comunidad transforma su cocina, clóset y baño con soluciones Plastir.
           </p>
         </div>
 
@@ -201,10 +202,10 @@ export const SocialFeed = () => {
               setIsUploadModalOpen(true);
             }
           }}
-          className="self-start sm:self-auto flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-mvp-red hover:brightness-110 text-white font-black text-xs uppercase tracking-wider shadow-glow-sm transition-all hover:scale-105"
+          className="self-start sm:self-auto flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#F16100] hover:bg-[#E05300] text-white font-black text-xs uppercase tracking-wider shadow-md shadow-orange-500/25 transition-all hover:scale-105"
         >
           <Camera size={16} />
-          <span>Subir Mi Look (+500 Pts)</span>
+          <span>Compartir Mi Espacio</span>
         </button>
       </div>
 
@@ -218,33 +219,33 @@ export const SocialFeed = () => {
           return (
             <article
               key={look.id}
-              className="bg-mvp-card border border-mvp-cardHover rounded-3xl overflow-hidden shadow-xl flex flex-col justify-between"
+              className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between"
             >
               {/* User Header */}
-              <div className="p-3 sm:p-4 flex items-center justify-between">
+              <div className="p-3 sm:p-4 flex items-center justify-between border-b border-slate-100">
                 <div className="flex items-center gap-2.5">
                   <img
                     src={look.user.avatar}
                     alt={look.user.name}
-                    className="w-10 h-10 rounded-full object-cover border-2 border-mvp-red"
+                    className="w-10 h-10 rounded-full object-cover border-2 border-[#F16100]"
                   />
                   <div>
                     <div className="flex items-center gap-1">
-                      <h4 className="text-xs font-bold text-white leading-none">{look.user.name}</h4>
+                      <h4 className="text-xs font-bold text-slate-900 leading-none">{look.user.name}</h4>
                       {look.user.isVerified && (
-                        <CheckCircle2 size={13} className="text-mvp-neonGreen fill-mvp-neonGreen/20" />
+                        <CheckCircle2 size={13} className="text-emerald-500 fill-emerald-500/20" />
                       )}
                     </div>
-                    <span className="text-[10px] text-mvp-muted">
+                    <span className="text-[10px] text-slate-500">
                       {look.user.handle} • {look.user.city}
                     </span>
                   </div>
                 </div>
-                <span className="text-[10px] text-mvp-muted">{look.timeAgo}</span>
+                <span className="text-[10px] text-slate-400">{look.timeAgo}</span>
               </div>
 
               {/* Photo Area */}
-              <div className="relative aspect-[4/5] bg-black/60 overflow-hidden">
+              <div className="relative aspect-[4/5] bg-slate-100 overflow-hidden">
                 <img
                   src={look.image}
                   alt={look.caption}
@@ -255,22 +256,22 @@ export const SocialFeed = () => {
                 {taggedProduct && (
                   <button
                     onClick={() => handleBuyTaggedProduct(taggedProduct.id)}
-                    className="absolute bottom-3 left-3 right-3 bg-mvp-black/85 backdrop-blur-md border border-white/10 rounded-2xl p-2.5 flex items-center justify-between text-left hover:border-mvp-red transition-all shadow-lg group"
+                    className="absolute bottom-3 left-3 right-3 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl p-2.5 flex items-center justify-between text-left hover:border-[#F16100] transition-all shadow-md group"
                   >
                     <div className="flex items-center gap-2 min-w-0">
                       <img
                         src={taggedProduct.images[0]}
                         alt={taggedProduct.name}
-                        className="w-10 h-10 rounded-xl object-cover bg-black flex-shrink-0"
+                        className="w-10 h-10 rounded-xl object-cover bg-slate-50 flex-shrink-0 border border-slate-200"
                       />
                       <div className="min-w-0">
-                        <span className="text-[9px] text-mvp-red font-black uppercase block">Prenda en este Look</span>
-                        <h5 className="text-xs font-bold text-white truncate max-w-[150px]">{taggedProduct.name}</h5>
+                        <span className="text-[9px] text-[#F16100] font-black uppercase block">Artículo en Foto</span>
+                        <h5 className="text-xs font-bold text-slate-900 truncate max-w-[150px]">{taggedProduct.name}</h5>
                       </div>
                     </div>
                     <div className="text-right flex-shrink-0 pl-2">
-                      <span className="text-xs font-black text-white block">{formatMoney(taggedProduct.price)}</span>
-                      <span className="text-[9px] text-mvp-neonGreen font-bold flex items-center gap-0.5">
+                      <span className="text-xs font-black text-[#F16100] block">{formatMoney(taggedProduct.price)}</span>
+                      <span className="text-[9px] text-emerald-600 font-bold flex items-center gap-0.5">
                         <ShoppingBag size={10} /> Pedir COD
                       </span>
                     </div>
@@ -285,37 +286,37 @@ export const SocialFeed = () => {
                     <button
                       onClick={() => handleLike(look.id)}
                       className={`flex items-center gap-1 text-xs font-bold transition-transform active:scale-125 ${
-                        isLiked ? 'text-mvp-red' : 'text-mvp-silver hover:text-white'
+                        isLiked ? 'text-red-500' : 'text-slate-500 hover:text-slate-800'
                       }`}
                     >
-                      <Heart size={18} className={isLiked ? 'fill-mvp-red text-mvp-red' : ''} />
+                      <Heart size={18} className={isLiked ? 'fill-red-500 text-red-500' : ''} />
                       <span>{look.likes.toLocaleString()}</span>
                     </button>
 
                     <button
                       onClick={() => setActiveCommentPostId(isCommenting ? null : look.id)}
-                      className="flex items-center gap-1 text-xs text-mvp-silver hover:text-white"
+                      className="flex items-center gap-1 text-xs text-slate-500 hover:text-slate-800"
                     >
                       <MessageCircle size={18} />
                       <span>{look.commentsList?.length || 0}</span>
                     </button>
                   </div>
 
-                  <span className="text-[10px] bg-mvp-dark px-2 py-0.5 rounded text-mvp-muted border border-mvp-cardHover">
-                    🇩🇴 Look Verificado
+                  <span className="text-[10px] bg-slate-100 px-2 py-0.5 rounded text-slate-600 border border-slate-200">
+                    🇩🇴 Espacio Verificado
                   </span>
                 </div>
 
-                <p className="text-xs text-mvp-silver/90 leading-snug">
-                  <strong className="text-white font-bold">{look.user.name}:</strong> {look.caption}
+                <p className="text-xs text-slate-600 leading-snug">
+                  <strong className="text-slate-900 font-bold">{look.user.name}:</strong> {look.caption}
                 </p>
 
                 {/* Comments List */}
                 {look.commentsList && look.commentsList.length > 0 && (
-                  <div className="space-y-1 pt-1 border-t border-mvp-cardHover/40 text-[11px]">
+                  <div className="space-y-1 pt-1 border-t border-slate-100 text-[11px]">
                     {look.commentsList.slice(-2).map((c, i) => (
-                      <div key={i} className="text-mvp-silver/80">
-                        <span className="font-bold text-white mr-1">{c.user}:</span>
+                      <div key={i} className="text-slate-600">
+                        <span className="font-bold text-slate-900 mr-1">{c.user}:</span>
                         <span>{c.text}</span>
                       </div>
                     ))}
@@ -330,11 +331,11 @@ export const SocialFeed = () => {
                       placeholder="Escribe un comentario..."
                       value={commentText}
                       onChange={(e) => setCommentText(e.target.value)}
-                      className="flex-1 bg-mvp-black border border-mvp-cardHover focus:border-mvp-red rounded-xl px-2.5 py-1.5 text-xs text-white placeholder-mvp-muted focus:outline-none"
+                      className="flex-1 bg-slate-50 border border-slate-200 focus:border-[#F16100] rounded-xl px-2.5 py-1.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none"
                     />
                     <button
                       type="submit"
-                      className="px-3 py-1.5 bg-mvp-red text-white text-xs font-bold rounded-xl"
+                      className="px-3 py-1.5 bg-[#F16100] text-white text-xs font-bold rounded-xl"
                     >
                       <Send size={12} />
                     </button>
@@ -348,22 +349,22 @@ export const SocialFeed = () => {
 
       {/* Upload Look Modal */}
       {isUploadModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md">
-          <div className="relative w-full max-w-md bg-gradient-to-b from-mvp-card via-mvp-dark to-mvp-black border border-mvp-red/50 rounded-3xl p-5 sm:p-6 space-y-4 shadow-glow-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm">
+          <div className="relative w-full max-w-md bg-white border border-slate-200 rounded-3xl p-5 sm:p-6 space-y-4 shadow-2xl">
             <div className="flex items-center justify-between">
-              <h3 className="text-base font-black text-white uppercase">Publicar mi Look en la Comunidad</h3>
-              <button onClick={() => setIsUploadModalOpen(false)} className="p-1 text-mvp-muted hover:text-white">
+              <h3 className="text-base font-black text-slate-900 uppercase">Compartir mi Espacio Organizado</h3>
+              <button onClick={() => setIsUploadModalOpen(false)} className="p-1 text-slate-400 hover:text-slate-700">
                 <X size={18} />
               </button>
             </div>
 
             <form onSubmit={handlePublishLook} className="space-y-3">
               <div>
-                <label className="text-[11px] text-mvp-muted font-bold block mb-1">Prenda MVP FLOW que llevas puesta:</label>
+                <label className="text-[11px] text-slate-600 font-bold block mb-1">Artículo Plastir en tu espacio:</label>
                 <select
                   value={uploadTaggedProduct}
                   onChange={(e) => setUploadTaggedProduct(e.target.value)}
-                  className="w-full bg-mvp-black border border-mvp-cardHover rounded-xl px-3 py-2 text-xs text-white"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800"
                 >
                   {PRODUCTS.map((p) => (
                     <option key={p.id} value={p.id}>
@@ -374,27 +375,28 @@ export const SocialFeed = () => {
               </div>
 
               <div>
-                <label className="text-[11px] text-mvp-muted font-bold block mb-1">Pie de foto / Comentario sobre el drop:</label>
+                <label className="text-[11px] text-slate-600 font-bold block mb-1">Comentario o tip de organización:</label>
                 <textarea
                   rows={3}
                   required
-                  placeholder="Ej: Rompiendo en Santo Domingo con este hoodie pesado 🔥"
+                  placeholder="Ej: Transformé mi despensa y ahora encuentro todo al instante..."
                   value={uploadCaption}
                   onChange={(e) => setUploadCaption(e.target.value)}
-                  className="w-full bg-mvp-black border border-mvp-cardHover rounded-xl p-3 text-xs text-white placeholder-mvp-muted focus:border-mvp-red focus:outline-none"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-800 placeholder-slate-400 focus:border-[#F16100] focus:outline-none"
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full py-3.5 bg-gradient-to-r from-amber-500 via-mvp-red to-mvp-crimson text-white font-black text-xs uppercase tracking-wider rounded-xl shadow-glow-red hover:scale-[1.02] transition-transform"
+                className="w-full py-3.5 bg-[#F16100] hover:bg-[#E05300] text-white font-black text-xs uppercase tracking-wider rounded-xl shadow-md shadow-orange-500/25 hover:scale-[1.02] transition-transform"
               >
-                Subir Look y Reclamar 500 Puntos
+                Publicar en la Comunidad Plastir
               </button>
             </form>
           </div>
         </div>
       )}
+    </section>
     </section>
   );
 };

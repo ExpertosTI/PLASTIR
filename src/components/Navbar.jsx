@@ -39,7 +39,6 @@ export const Navbar = ({ searchQuery, setSearchQuery, onSelectCategory }) => {
     soundEnabled,
     setSoundEnabled,
     setIsCartOpen, 
-    setIsWheelOpen, 
     setIsTrackerOpen, 
     setIsAdminOpen,
     setIsQuickQuoterOpen,
@@ -83,16 +82,16 @@ export const Navbar = ({ searchQuery, setSearchQuery, onSelectCategory }) => {
   const currentPromo = PROMO_MESSAGES[promoIndex];
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-slate-900/95 backdrop-blur-md border-b border-slate-800 shadow-md">
+    <header className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
       
-      {/* Top Department Store Announcement Bar with Dynamic Rotation */}
-      <div className="bg-gradient-to-r from-blue-700 via-blue-600 to-indigo-700 text-white py-1.5 px-3 text-xs font-semibold overflow-hidden transition-all">
+      {/* Top Department Store Announcement Bar in Plastir Orange */}
+      <div className="bg-gradient-to-r from-[#F16100] via-[#FA751A] to-[#F16100] text-white py-1.5 px-3 text-xs font-semibold overflow-hidden transition-all shadow-sm">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2 overflow-hidden flex-1 mr-2 animate-fade-in key={promoIndex}">
-            <span className="bg-[#FFDB00] text-slate-950 text-[10px] px-2 py-0.5 rounded font-black tracking-wide uppercase flex-shrink-0 shadow-sm">
+            <span className="bg-white text-[#F16100] text-[10px] px-2 py-0.5 rounded font-black tracking-wide uppercase flex-shrink-0 shadow-sm">
               {currentPromo.tag}
             </span>
-            <span className="truncate text-[11px] sm:text-xs font-medium text-blue-50">
+            <span className="truncate text-[11px] sm:text-xs font-medium text-white/95">
               {currentPromo.text}
             </span>
           </div>
@@ -101,27 +100,27 @@ export const Navbar = ({ searchQuery, setSearchQuery, onSelectCategory }) => {
             {/* Quick Quoter Trigger B2B */}
             <button
               onClick={() => setIsQuickQuoterOpen ? setIsQuickQuoterOpen(true) : null}
-              className="hidden md:flex items-center gap-1 text-[11px] font-bold text-amber-300 hover:text-white bg-black/25 hover:bg-black/40 px-2 py-0.5 rounded-full border border-amber-400/40 transition-all"
+              className="hidden md:flex items-center gap-1 text-[11px] font-bold text-white hover:text-orange-100 bg-black/15 hover:bg-black/25 px-2.5 py-0.5 rounded-full border border-white/30 transition-all"
             >
-              <FileText size={12} className="text-amber-300" />
+              <FileText size={12} className="text-white" />
               <span>Cotizador B2B Mayorista</span>
             </button>
 
             {/* Sound Toggle */}
             <button
               onClick={() => setSoundEnabled(!soundEnabled)}
-              className="text-white/80 hover:text-white transition-colors"
+              className="text-white/90 hover:text-white transition-colors"
               title={soundEnabled ? 'Silenciar efectos de sonido' : 'Activar efectos de sonido'}
             >
               {soundEnabled ? <Volume2 size={14} /> : <VolumeX size={14} />}
             </button>
 
             {/* Currency Switcher */}
-            <div className="flex items-center bg-black/40 rounded-full p-0.5 border border-white/20 text-[10px]">
+            <div className="flex items-center bg-black/20 rounded-full p-0.5 border border-white/30 text-[10px]">
               <button
                 onClick={() => setCurrency('DOP')}
                 className={`px-1.5 py-0.5 rounded-full transition-all ${
-                  currency === 'DOP' ? 'bg-[#FFDB00] text-slate-950 font-black' : 'text-white/70 hover:text-white'
+                  currency === 'DOP' ? 'bg-white text-[#F16100] font-black shadow-sm' : 'text-white/80 hover:text-white'
                 }`}
               >
                 RD$
@@ -129,7 +128,7 @@ export const Navbar = ({ searchQuery, setSearchQuery, onSelectCategory }) => {
               <button
                 onClick={() => setCurrency('USD')}
                 className={`px-1.5 py-0.5 rounded-full transition-all ${
-                  currency === 'USD' ? 'bg-[#FFDB00] text-slate-950 font-black' : 'text-white/70 hover:text-white'
+                  currency === 'USD' ? 'bg-white text-[#F16100] font-black shadow-sm' : 'text-white/80 hover:text-white'
                 }`}
               >
                 USD
@@ -152,20 +151,20 @@ export const Navbar = ({ searchQuery, setSearchQuery, onSelectCategory }) => {
           <div className="relative hidden md:block">
             <button
               onClick={() => setIsDeptDropdownOpen(!isDeptDropdownOpen)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-750 border border-slate-700 text-slate-200 text-xs font-bold transition-all"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 hover:text-slate-900 text-xs font-bold transition-all shadow-sm"
             >
-              <Package size={14} className="text-blue-400" />
+              <Package size={14} className="text-[#F16100]" />
               <span>Departamentos</span>
-              <ChevronDown size={14} className={`text-slate-400 transition-transform ${isDeptDropdownOpen ? 'rotate-180' : ''}`} />
+              <ChevronDown size={14} className={`text-slate-500 transition-transform ${isDeptDropdownOpen ? 'rotate-180' : ''}`} />
             </button>
 
             {/* Dropdown Menu */}
             {isDeptDropdownOpen && (
               <div 
-                className="absolute left-0 top-full mt-2 w-64 bg-slate-800/95 backdrop-blur-xl border border-slate-700 rounded-2xl shadow-2xl py-2 z-50 animate-fade-in"
+                className="absolute left-0 top-full mt-2 w-64 bg-white border border-slate-200 rounded-2xl shadow-xl py-2 z-50 animate-fade-in"
                 onMouseLeave={() => setIsDeptDropdownOpen(false)}
               >
-                <div className="px-3 py-1.5 border-b border-slate-700/60 text-[10px] font-black uppercase text-blue-400 tracking-wider">
+                <div className="px-3.5 py-1.5 border-b border-slate-100 text-[10px] font-black uppercase text-[#F16100] tracking-wider">
                   Navegar por Departamentos
                 </div>
                 {CATEGORIES.map((cat) => (
@@ -176,10 +175,10 @@ export const Navbar = ({ searchQuery, setSearchQuery, onSelectCategory }) => {
                       setIsDeptDropdownOpen(false);
                       scrollToSection('catalog');
                     }}
-                    className="w-full text-left px-3.5 py-2 text-xs font-semibold text-slate-200 hover:text-white hover:bg-blue-600/30 flex items-center justify-between transition-colors"
+                    className="w-full text-left px-3.5 py-2 text-xs font-semibold text-slate-700 hover:text-[#F16100] hover:bg-orange-50 flex items-center justify-between transition-colors"
                   >
                     <span>{cat.name}</span>
-                    <span className="text-[10px] text-slate-500 font-mono">→</span>
+                    <span className="text-[10px] text-slate-400 font-mono">→</span>
                   </button>
                 ))}
               </div>
@@ -189,9 +188,9 @@ export const Navbar = ({ searchQuery, setSearchQuery, onSelectCategory }) => {
           {/* Enlace directo a Showrooms IKEA */}
           <button
             onClick={() => scrollToSection('showrooms')}
-            className="hidden lg:flex items-center gap-1.5 text-xs font-bold text-amber-300 hover:text-white transition-colors"
+            className="hidden lg:flex items-center gap-1.5 text-xs font-bold text-slate-700 hover:text-[#F16100] transition-colors"
           >
-            <Sparkles size={14} className="text-amber-400" />
+            <Sparkles size={14} className="text-[#F16100]" />
             <span>Ambientes e Ideas</span>
           </button>
         </div>
@@ -204,13 +203,13 @@ export const Navbar = ({ searchQuery, setSearchQuery, onSelectCategory }) => {
               placeholder="Buscar cajas organizadoras, herméticos, zafacones, sillas..."
               value={searchQuery}
               onChange={(e) => handleSearchChange(e.target.value)}
-              className="w-full bg-slate-800/90 border border-slate-700 rounded-full py-1.5 pl-9 pr-8 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 transition-all shadow-inner"
+              className="w-full bg-slate-100/90 border border-slate-200 rounded-full py-1.5 pl-9 pr-8 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#F16100] focus:ring-2 focus:ring-[#F16100]/20 transition-all shadow-inner"
             />
             <Search className="absolute left-3 top-2 text-slate-400" size={14} />
             {searchQuery && (
               <button 
                 onClick={() => setSearchQuery('')}
-                className="absolute right-2.5 top-1.5 text-xs text-slate-400 hover:text-white bg-slate-700 px-1.5 rounded-full"
+                className="absolute right-2.5 top-1.5 text-xs text-slate-500 hover:text-slate-800 bg-slate-200 px-1.5 rounded-full"
               >
                 ×
               </button>
@@ -224,7 +223,7 @@ export const Navbar = ({ searchQuery, setSearchQuery, onSelectCategory }) => {
           {/* Search Toggle for Mobile */}
           <button
             onClick={() => setIsSearchOpen(!isSearchOpen)}
-            className="md:hidden p-2 rounded-xl bg-slate-800 border border-slate-700 text-slate-300 hover:text-white"
+            className="md:hidden p-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-600 hover:text-slate-900"
             aria-label="Buscar"
           >
             <Search size={16} />
@@ -233,24 +232,24 @@ export const Navbar = ({ searchQuery, setSearchQuery, onSelectCategory }) => {
           {/* CHAT EN VIVO ASESORAS */}
           <button
             onClick={() => openLiveChat()}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600/30 via-teal-600/30 to-emerald-500/30 border border-emerald-500/70 hover:border-emerald-400 text-emerald-300 hover:text-white text-xs font-black transition-all shadow-sm hover:scale-105"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-500/60 hover:border-emerald-500 text-emerald-700 hover:text-emerald-800 text-xs font-black transition-all shadow-sm hover:scale-105"
             title="Chat en Vivo con Asesoras"
           >
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </span>
-            <MessageSquare size={14} className="text-emerald-400" />
+            <MessageSquare size={14} className="text-emerald-600" />
             <span className="font-display tracking-wider uppercase text-xs hidden sm:inline">Asesoría</span>
           </button>
 
           {/* Wishlist Button */}
           <button
             onClick={() => setIsWishlistOpen(true)}
-            className="relative p-2 rounded-xl bg-slate-800 border border-slate-700 hover:border-blue-500/50 text-slate-300 hover:text-white text-xs transition-all"
+            className="relative p-2 rounded-xl bg-slate-50 border border-slate-200 hover:border-[#F16100]/50 text-slate-600 hover:text-[#F16100] text-xs transition-all shadow-sm"
             title="Mis Favoritos"
           >
-            <Heart size={16} className={wishlist?.length > 0 ? 'text-red-500 fill-red-500/20' : ''} />
+            <Heart size={16} className={wishlist?.length > 0 ? 'text-red-500 fill-red-500' : ''} />
             {wishlist?.length > 0 && (
               <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[9px] font-black w-3.5 h-3.5 rounded-full flex items-center justify-center">
                 {wishlist.length}
@@ -261,20 +260,20 @@ export const Navbar = ({ searchQuery, setSearchQuery, onSelectCategory }) => {
           {/* User Auth/Profile */}
           <button
             onClick={() => currentUser ? setIsProfileModalOpen(true) : setIsAuthModalOpen(true)}
-            className="p-2 rounded-xl bg-slate-800 border border-slate-700 hover:border-blue-500/50 text-slate-300 hover:text-white text-xs transition-all"
+            className="p-2 rounded-xl bg-slate-50 border border-slate-200 hover:border-[#F16100]/50 text-slate-600 hover:text-[#F16100] text-xs transition-all shadow-sm"
             title={currentUser ? `Hola, ${currentUser.name}` : 'Iniciar Sesión'}
           >
-            <User size={16} className={currentUser ? 'text-blue-400' : ''} />
+            <User size={16} className={currentUser ? 'text-[#F16100]' : ''} />
           </button>
 
-          {/* Cart Drawer Trigger Button (Shopify Style) */}
+          {/* Cart Drawer Trigger Button (Shopify Style in Plastir Orange) */}
           <button
             onClick={() => setIsCartOpen(true)}
-            className="relative flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 hover:from-blue-500 hover:to-blue-600 text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-blue-600/30 hover:scale-105 active:scale-95 transition-all"
+            className="relative flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl bg-gradient-to-r from-[#F16100] via-[#FA751A] to-[#F16100] hover:from-[#E05300] hover:to-[#F16100] text-white font-black text-xs uppercase tracking-wider shadow-md shadow-orange-500/25 hover:scale-105 active:scale-95 transition-all"
           >
             <ShoppingBag size={16} />
             <span className="hidden sm:inline">Carrito</span>
-            <span className="bg-[#FFDB00] text-slate-950 font-black text-[11px] px-1.5 py-0.2 rounded-full min-w-[18px] text-center">
+            <span className="bg-white text-[#F16100] font-black text-[11px] px-1.5 py-0.2 rounded-full min-w-[18px] text-center shadow-sm">
               {itemsCount}
             </span>
           </button>
@@ -284,21 +283,21 @@ export const Navbar = ({ searchQuery, setSearchQuery, onSelectCategory }) => {
 
       {/* Mobile Search Bar Expansion */}
       {isSearchOpen && (
-        <div className="md:hidden px-3 pb-3 pt-1 border-t border-slate-800 bg-slate-900 animate-fade-in">
+        <div className="md:hidden px-3 pb-3 pt-1 border-t border-slate-200 bg-white animate-fade-in">
           <div className="relative w-full">
             <input
               type="text"
               placeholder="Buscar en departamentos Plastir..."
               value={searchQuery}
               onChange={(e) => handleSearchChange(e.target.value)}
-              className="w-full bg-slate-800 border border-slate-700 rounded-full py-2 pl-9 pr-8 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-blue-500"
+              className="w-full bg-slate-100 border border-slate-200 rounded-full py-2 pl-9 pr-8 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#F16100] focus:ring-2 focus:ring-[#F16100]/20"
               autoFocus
             />
             <Search className="absolute left-3 top-2.5 text-slate-400" size={15} />
             {searchQuery && (
               <button 
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-2 text-xs text-slate-400 bg-slate-700 px-1.5 rounded-full"
+                className="absolute right-3 top-2 text-xs text-slate-500 bg-slate-200 px-1.5 rounded-full"
               >
                 ×
               </button>

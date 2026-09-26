@@ -315,16 +315,13 @@ export const CartProvider = ({ children }) => {
     setIsQuickQuoterOpen(true);
   };
 
-  // Coupons dictionary
+  // Coupons dictionary (Corporate & Retail Plastir)
   const VALID_COUPONS = {
-    VIP30: { code: 'VIP30', percent: 30, description: '30% de Descuento VIP Ruleta' },
-    VIP20: { code: 'VIP20', percent: 20, description: '20% de Descuento VIP Ruleta' },
-    VIP15: { code: 'VIP15', percent: 15, description: '15% de Descuento VIP Ruleta' },
-    FLOW20: { code: 'FLOW20', percent: 20, description: '20% OFF Código Promocional' },
-    TIKTOK10: { code: 'TIKTOK10', percent: 10, description: '10% Descuento TikTok Flow' },
+    PLASTIR10: { code: 'PLASTIR10', percent: 10, description: '10% OFF Bienvenida Plastir' },
+    HOGAR15: { code: 'HOGAR15', percent: 15, description: '15% OFF Especial Hogar & Cocina' },
+    B2B20: { code: 'B2B20', percent: 20, description: '20% OFF Descuento Corporativo B2B' },
     ENVIOGRATIS: { code: 'ENVIOGRATIS', freeShipping: true, description: 'Envío Gratis a Todo RD' },
-    GORRAGRATIS: { code: 'GORRAGRATIS', freeGift: 'Gorra G5 Original de Regalo', percent: 15, description: 'Gorra G5 Gratis + 15% OFF' },
-    FLOW500: { code: 'FLOW500', fixedDiscount: 500, description: 'Bono Directo de RD$ 500 OFF' },
+    PLASTIR500: { code: 'PLASTIR500', fixedDiscount: 500, description: 'Bono Directo RD$ 500 OFF' },
   };
 
   const applyCoupon = (code) => {

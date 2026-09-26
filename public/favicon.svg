@@ -1,8 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="8" fill="#0058A3" />
-  <rect x="5" y="6" width="22" height="4" rx="2" fill="#FFDB00" />
-  <rect x="6" y="11" width="20" height="15" rx="3" stroke="#FFFFFF" stroke-width="2.2" fill="none" />
-  <rect x="4" y="14" width="3" height="6" rx="1.5" fill="#FFDB00" />
-  <rect x="25" y="14" width="3" height="6" rx="1.5" fill="#FFDB00" />
-  <line x1="16" y1="13" x2="16" y2="24" stroke="#FFFFFF" stroke-width="1.5" stroke-dasharray="2 2" opacity="0.8" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <rect width="64" height="64" rx="16" fill="#FFFFFF"/>
+  <path d="M12 18C12 16.8954 12.8954 16 14 16H50C51.1046 16 52 16.8954 52 18V22C52 23.1046 51.1046 24 50 24H14C12.8954 24 12 23.1046 12 22V18Z" fill="#F16100"/>
+  <path d="M15 26L18 46C18.2 47.2 19.2 48 20.5 48H43.5C44.8 48 45.8 47.2 46 46L49 26H15Z" fill="#F16100"/>
+  <!-- Basket grid holes -->
+  <rect x="20" y="30" width="4" height="4" rx="1" fill="#FFFFFF"/>
+  <rect x="27" y="30" width="4" height="4" rx="1" fill="#FFFFFF"/>
+  <rect x="34" y="30" width="4" height="4" rx="1" fill="#FFFFFF"/>
+  <rect x="41" y="30" width="4" height="4" rx="1" fill="#FFFFFF"/>
+  <rect x="22" y="38" width="4" height="4" rx="1" fill="#FFFFFF"/>
+  <rect x="29" y="38" width="4" height="4" rx="1" fill="#FFFFFF"/>
+  <rect x="36" y="38" width="4" height="4" rx="1" fill="#FFFFFF"/>
+  <!-- Running feet -->
+  <path d="M22 49L17 56" stroke="#F16100" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M42 49L47 56" stroke="#F16100" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- RD emblem -->
+  <circle cx="53" cy="15" r="7" fill="#F16100"/>
+  <text x="53" y="18" fill="#FFFFFF" font-size="7" font-weight="900" font-family="sans-serif" text-anchor="middle">RD</text>
 </svg>

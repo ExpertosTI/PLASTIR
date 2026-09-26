@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ArchVis | Arquitectura PLASTIR RD: Storefront vs Odoo 18 ERP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #F16100;
+      --primary-dark: #D45000;
+      --bg-dark: #0B0F17;
+      --card-dark: #131B2A;
+      --card-border: #1E293B;
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --green: #10B981;
+      --cyan: #06B6D4;
+      --amber: #F59E0B;
+      --rose: #F43F5E;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Outfit', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 24px;
+    }
+    header {
+      max-width: 1200px;
+      margin: 0 auto 24px;
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      border-b: 1px solid var(--card-border);
+      padding-bottom: 20px;
+    }
+    .brand-title {
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .badge-orange {
+      background: rgba(241, 97, 0, 0.15);
+      border: 1px solid rgba(241, 97, 0, 0.4);
+      color: var(--primary);
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .view-toggles {
+      display: flex;
+      gap: 8px;
+      background: var(--card-dark);
+      padding: 4px;
+      border-radius: 14px;
+      border: 1px solid var(--card-border);
+    }
+    .view-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .view-btn.active, .view-btn:hover {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 4px 12px rgba(241, 97, 0, 0.3);
+    }
+    .canvas-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      background: var(--card-dark);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 24px;
+      position: relative;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      overflow-x: auto;
+    }
+    svg {
+      width: 100%;
+      height: auto;
+      min-width: 900px;
+      display: block;
+    }
+    .decision-grid {
+      max-width: 1200px;
+      margin: 32px auto 0;
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: var(--card-dark);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 20px;
+      position: relative;
+      transition: transform 0.2s ease;
+    }
+    .card:hover { transform: translateY(-3px); }
+    .card.highlight {
+      border-color: rgba(241, 97, 0, 0.4);
+      background: linear-gradient(180deg, rgba(241, 97, 0, 0.05) 0%, var(--card-dark) 100%);
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .dot.cyan { background: var(--cyan); box-shadow: 0 0 10px var(--cyan); }
+    .dot.green { background: var(--green); box-shadow: 0 0 10px var(--green); }
+    .dot.orange { background: var(--primary); box-shadow: 0 0 10px var(--primary); }
+    .dot.rose { background: var(--rose); box-shadow: 0 0 10px var(--rose); }
+    .card-title {
+      font-size: 15px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .card-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .card-list li {
+      position: relative;
+      padding-left: 18px;
+    }
+    .card-list li::before {
+      content: "•";
+      position: absolute;
+      left: 4px;
+      color: var(--primary);
+      font-weight: bold;
+    }
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      background: rgba(0,0,0,0.4);
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 11px;
+      color: #38BDF8;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div>
+      <div class="brand-title">
+        <span>PLASTIR RD</span>
+        <span class="badge-orange">ArchVis 2.0</span>
+      </div>
+      <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">
+        Arquitectura de Producción: Storefront (<strong style="color:white">plastirrd.com</strong>) vs ERP Odoo 18 (<strong style="color:var(--primary)">app.plastirrd.com</strong>)
+      </p>
+    </div>
+
+    <div class="view-toggles">
+      <button class="view-btn active" onclick="highlightView('all')">Vista Global</button>
+      <button class="view-btn" onclick="highlightView('shoppers')">Flujo Comprador</button>
+      <button class="view-btn" onclick="highlightView('erp')">Flujo ERP Odoo 18</button>
+      <button class="view-btn" onclick="highlightView('sync')">Sincronización Local</button>
+    </div>
+  </header>
+
+  <main class="canvas-container">
+    <svg viewBox="0 0 1100 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Defs: Gradients and Markers -->
+      <defs>
+        <marker id="arrow-orange" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1 L 8 5 L 0 9 z" fill="#F16100"/>
+        </marker>
+        <marker id="arrow-cyan" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1 L 8 5 L 0 9 z" fill="#06B6D4"/>
+        </marker>
+        <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1 L 8 5 L 0 9 z" fill="#10B981"/>
+        </marker>
+        <linearGradient id="grad-vps" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#1E293B" stop-opacity="0.3"/>
+          <stop offset="100%" stop-color="#0F172A" stop-opacity="0.6"/>
+        </linearGradient>
+      </defs>
+
+      <!-- VPS Boundary -->
+      <rect x="260" y="40" width="800" height="440" rx="24" fill="url(#grad-vps)" stroke="#334155" stroke-dasharray="6 6" stroke-width="1.5"/>
+      <text x="290" y="75" fill="#94A3B8" font-size="12" font-weight="800" letter-spacing="1">SERVIDOR VPS CLOUD (Ubuntu / Debian - IP 85.31.224.232)</text>
+
+      <!-- 1. External Actors (Left) -->
+      <!-- Comprador -->
+      <g id="node-shoppers">
+        <rect x="30" y="110" width="180" height="85" rx="16" fill="#1E293B" stroke="#475569" stroke-width="1.5"/>
+        <circle cx="55" cy="140" r="14" fill="#38BDF8" fill-opacity="0.2"/>
+        <text x="55" y="145" text-anchor="middle" fill="#38BDF8" font-size="14">🛍️</text>
+        <text x="80" y="137" fill="#FFFFFF" font-size="14" font-weight="800">Clientes RD</text>
+        <text x="80" y="154" fill="#94A3B8" font-size="11">Navegadores & Celulares</text>
+        <text x="80" y="172" fill="#F16100" font-size="11" font-weight="700">plastirrd.com</text>
+      </g>
+
+      <!-- Personal / Admin -->
+      <g id="node-staff">
+        <rect x="30" y="320" width="180" height="85" rx="16" fill="#1E293B" stroke="#475569" stroke-width="1.5"/>
+        <circle cx="55" cy="350" r="14" fill="#F16100" fill-opacity="0.2"/>
+        <text x="55" y="355" text-anchor="middle" fill="#F16100" font-size="14">💼</text>
+        <text x="80" y="347" fill="#FFFFFF" font-size="14" font-weight="800">Equipo & Admin</text>
+        <text x="80" y="364" fill="#94A3B8" font-size="11">Ventas, Inventario, Contable</text>
+        <text x="80" y="382" fill="#38BDF8" font-size="11" font-weight="700">app.plastirrd.com</text>
+      </g>
+
+      <!-- 2. Edge / Ingress: NGINX + Certbot -->
+      <g id="node-nginx">
+        <rect x="300" y="200" width="180" height="120" rx="18" fill="#0F172A" stroke="#F16100" stroke-width="2"/>
+        <rect x="315" y="215" width="28" height="28" rx="8" fill="#F16100" fill-opacity="0.2"/>
+        <text x="329" y="234" text-anchor="middle" fill="#F16100" font-size="14">🛡️</text>
+        <text x="352" y="233" fill="#FFFFFF" font-size="14" font-weight="900">NGINX REVERSE</text>
+        <text x="315" y="260" fill="#94A3B8" font-size="11">Certbot SSL / Let's Encrypt</text>
+        <text x="315" y="278" fill="#10B981" font-size="11" font-weight="700">HTTPS :443 (HTTP/2)</text>
+        <text x="315" y="298" fill="#64748B" font-size="10">Virtual Host Routing</text>
+      </g>
+
+      <!-- 3. Internal Services -->
+      <!-- Storefront Web App -->
+      <g id="node-storefront">
+        <rect x="560" y="110" width="200" height="95" rx="16" fill="#1E293B" stroke="#06B6D4" stroke-width="2"/>
+        <text x="580" y="138" fill="#FFFFFF" font-size="14" font-weight="800">Plastir Storefront</text>
+        <text x="580" y="156" fill="#94A3B8" font-size="11">React + Vite + Node / Express</text>
+        <rect x="580" y="168" width="60" height="20" rx="6" fill="#06B6D4" fill-opacity="0.2"/>
+        <text x="610" y="182" text-anchor="middle" fill="#06B6D4" font-size="10" font-weight="800">PORT 3000</text>
+        <text x="650" y="182" fill="#10B981" font-size="10" font-weight="700">Fondo Blanco</text>
+      </g>
+
+      <!-- Odoo 18 Server -->
+      <g id="node-odoo">
+        <rect x="560" y="260" width="200" height="105" rx="16" fill="#1E293B" stroke="#F16100" stroke-width="2"/>
+        <text x="580" y="288" fill="#FFFFFF" font-size="14" font-weight="800">Odoo 18 Server</text>
+        <text x="580" y="306" fill="#94A3B8" font-size="11">Servicio: plastir-server</text>
+        <rect x="580" y="318" width="60" height="20" rx="6" fill="#F16100" fill-opacity="0.2"/>
+        <text x="610" y="332" text-anchor="middle" fill="#F16100" font-size="10" font-weight="800">PORT 8025</text>
+        <text x="580" y="352" fill="#E2E8F0" font-size="10">Superadmin: plastir-server_***</text>
+      </g>
+
+      <!-- Odoo WebSockets -->
+      <g id="node-ws">
+        <rect x="560" y="395" width="200" height="65" rx="14" fill="#0F172A" stroke="#64748B" stroke-dasharray="4 4" stroke-width="1.5"/>
+        <text x="580" y="420" fill="#CBD5E1" font-size="12" font-weight="800">Odoo WebSocket</text>
+        <text x="580" y="438" fill="#94A3B8" font-size="10">Ruta: /websocket :8025</text>
+        <text x="580" y="452" fill="#10B981" font-size="9">Chat en vivo, POS y Notificaciones</text>
+      </g>
+
+      <!-- PostgreSQL Database -->
+      <g id="node-db">
+        <rect x="840" y="260" width="180" height="95" rx="16" fill="#1E293B" stroke="#38BDF8" stroke-width="1.5"/>
+        <text x="860" y="288" fill="#FFFFFF" font-size="14" font-weight="800">PostgreSQL 16</text>
+        <text x="860" y="306" fill="#94A3B8" font-size="11">DB User: plastir</text>
+        <rect x="860" y="318" width="60" height="20" rx="6" fill="#38BDF8" fill-opacity="0.2"/>
+        <text x="890" y="332" text-anchor="middle" fill="#38BDF8" font-size="10" font-weight="800">PORT 5432</text>
+      </g>
+
+      <!-- Whaticket API -->
+      <g id="node-whaticket">
+        <rect x="840" y="110" width="180" height="95" rx="16" fill="#1E293B" stroke="#10B981" stroke-width="1.5"/>
+        <text x="860" y="138" fill="#FFFFFF" font-size="14" font-weight="800">Whaticket API</text>
+        <text x="860" y="156" fill="#94A3B8" font-size="11">WhatsApp CRM Ventas</text>
+        <text x="860" y="180" fill="#10B981" font-size="10" font-weight="700">Chat Asesoras en Vivo</text>
+      </g>
+
+      <!-- Connections / Arrows -->
+      <!-- Shoppers -> Nginx -->
+      <path d="M 210 152 L 255 152 Q 275 152 275 220 L 275 240 L 300 240" stroke="#06B6D4" stroke-width="2" fill="none" marker-end="url(#arrow-cyan)"/>
+      <text x="215" y="142" fill="#06B6D4" font-size="10" font-weight="700">plastirrd.com</text>
+
+      <!-- Staff -> Nginx -->
+      <path d="M 210 362 L 255 362 Q 275 362 275 290 L 275 280 L 300 280" stroke="#F16100" stroke-width="2" fill="none" marker-end="url(#arrow-orange)"/>
+      <text x="215" y="380" fill="#F16100" font-size="10" font-weight="700">app.plastirrd.com</text>
+
+      <!-- Nginx -> Storefront -->
+      <path d="M 480 230 Q 520 230 520 160 L 560 160" stroke="#06B6D4" stroke-width="2" fill="none" marker-end="url(#arrow-cyan)"/>
+      <text x="495" y="185" fill="#94A3B8" font-size="10">proxy :3000</text>
+
+      <!-- Nginx -> Odoo -->
+      <path d="M 480 280 L 560 280" stroke="#F16100" stroke-width="2" fill="none" marker-end="url(#arrow-orange)"/>
+      <text x="495" y="272" fill="#F16100" font-size="10">proxy :8025</text>
+
+      <!-- Nginx -> WebSocket -->
+      <path d="M 480 300 Q 510 300 510 427 L 560 427" stroke="#64748B" stroke-dasharray="4 4" stroke-width="1.5" fill="none" marker-end="url(#arrow-orange)"/>
+      <text x="490" y="445" fill="#64748B" font-size="9">WSS upgrade</text>
+
+      <!-- Storefront <-> Odoo Sync (Internal REST / JSON-RPC) -->
+      <path d="M 660 205 L 660 260" stroke="#F16100" stroke-width="2" fill="none" marker-end="url(#arrow-orange)"/>
+      <text x="668" y="235" fill="#F16100" font-size="10" font-weight="800">Sync 60s (Localhost)</text>
+
+      <!-- Odoo -> PostgreSQL -->
+      <path d="M 760 307 L 840 307" stroke="#38BDF8" stroke-width="2" fill="none" marker-end="url(#arrow-cyan)"/>
+      <text x="775" y="300" fill="#94A3B8" font-size="10">TCP :5432</text>
+
+      <!-- Storefront -> Whaticket -->
+      <path d="M 760 157 L 840 157" stroke="#10B981" stroke-dasharray="3 3" stroke-width="1.5" fill="none" marker-end="url(#arrow-green)"/>
+      <text x="770" y="150" fill="#10B981" font-size="10">Webhooks COD</text>
+    </svg>
+  </main>
+
+  <section class="decision-grid">
+    <div class="card highlight">
+      <div class="card-header">
+        <div class="dot orange"></div>
+        <h3 class="card-title" style="color: var(--primary)">Veredicto: Subdominio app.plastirrd.com</h3>
+      </div>
+      <ul class="card-list">
+        <li><strong>Aislamiento de WebSockets:</strong> Odoo 18 corre <code>/websocket</code> en la raíz sin romper las rutas de la tienda.</li>
+        <li><strong>Cero colisiones de assets:</strong> Los archivos de <code>/web/assets</code> de Odoo no interfieren con Vite o React.</li>
+        <li><strong>Cookies y Sesiones seguras:</strong> Las sesiones del personal del ERP nunca se filtran al navegador del comprador.</li>
+        <li><strong>Configuración limpia en Nginx:</strong> Cada dominio tiene su propio bloque <code>server { ... }</code> estándar.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="dot rose"></div>
+        <h3 class="card-title" style="color: var(--rose)">¿Por qué NO usar plastirrd.com/odoo?</h3>
+      </div>
+      <ul class="card-list">
+        <li><strong>Ruptura de WebSockets:</strong> El cliente web de Odoo llama a <code>wss://plastirrd.com/websocket</code> en la raíz, chocando con el frontend.</li>
+        <li><strong>Colisiones de URLs:</strong> Odoo pide <code>/web/content</code> y <code>/web/image</code>, pisando el router del frontend.</li>
+        <li><strong>Reescrituras frágiles:</strong> Requiere módulos <code>sub_filter</code> de Nginx que se rompen con gzip o actualizaciones de Odoo.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="dot green"></div>
+        <h3 class="card-title" style="color: var(--green)">Certbot SSL Automático</h3>
+      </div>
+      <ul class="card-list">
+        <li>Con un solo comando de Certbot se obtienen los certificados SSL para ambos dominios:</li>
+        <li><code>certbot --nginx -d plastirrd.com -d www.plastirrd.com -d app.plastirrd.com</code></li>
+        <li>Renovación automática cada 90 días mediante systemd cron de Let's Encrypt.</li>
+      </ul>
+    </div>
+  </section>
+
+  <script>
+    function highlightView(view) {
+      document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+
+      const allNodes = ['node-shoppers', 'node-staff', 'node-nginx', 'node-storefront', 'node-odoo', 'node-ws', 'node-db', 'node-whaticket'];
+      
+      allNodes.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.opacity = '1';
+      });
+
+      if (view === 'shoppers') {
+        const dim = ['node-staff', 'node-ws', 'node-db'];
+        dim.forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.style.opacity = '0.25';
+        });
+      } else if (view === 'erp') {
+        const dim = ['node-shoppers', 'node-storefront', 'node-whaticket'];
+        dim.forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.style.opacity = '0.25';
+        });
+      } else if (view === 'sync') {
+        const dim = ['node-shoppers', 'node-staff', 'node-nginx', 'node-ws', 'node-whaticket'];
+        dim.forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.style.opacity = '0.25';
+        });
+      }
+    }
+  </script>
+</body>
+</html>

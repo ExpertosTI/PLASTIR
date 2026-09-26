@@ -57,10 +57,10 @@ export const ProductCard = ({ product, viewMode = 'grid' }) => {
     return (
       <div 
         onClick={handleCardClick}
-        className="group bg-slate-800/80 hover:bg-slate-750 border border-slate-700/80 hover:border-blue-500/50 rounded-xl px-3 py-2 transition-all flex items-center justify-between gap-3 shadow-sm cursor-pointer"
+        className="group bg-white hover:bg-slate-50 border border-slate-200 hover:border-[#F16100]/60 rounded-xl px-3 py-2 transition-all flex items-center justify-between gap-3 shadow-sm cursor-pointer"
       >
         <div className="flex items-center gap-3 min-w-0 flex-1">
-          <div className="w-12 h-12 rounded-xl overflow-hidden bg-slate-900 flex-shrink-0 relative border border-slate-700">
+          <div className="w-12 h-12 rounded-xl overflow-hidden bg-slate-50 flex-shrink-0 relative border border-slate-200">
             <img
               src={displayImage}
               alt={product.name}
@@ -68,7 +68,7 @@ export const ProductCard = ({ product, viewMode = 'grid' }) => {
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
             />
             {product.discountPercent && (
-              <span className="absolute top-0.5 left-0.5 bg-blue-600 text-white text-[8px] font-black px-1 rounded">
+              <span className="absolute top-0.5 left-0.5 bg-[#F16100] text-white text-[8px] font-black px-1 rounded">
                 -{product.discountPercent}%
               </span>
             )}
@@ -76,16 +76,16 @@ export const ProductCard = ({ product, viewMode = 'grid' }) => {
 
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-1.5 mb-0.5">
-              <span className="text-[9px] uppercase font-bold text-blue-400 truncate">
+              <span className="text-[9px] uppercase font-bold text-[#F16100] truncate">
                 {product.department || product.category}
               </span>
               {product.capacity && (
-                <span className="text-[9px] text-amber-300 font-mono truncate">
+                <span className="text-[9px] text-slate-500 font-mono truncate">
                   • {product.capacity}
                 </span>
               )}
             </div>
-            <h4 className="text-xs sm:text-sm font-bold text-white truncate group-hover:text-blue-300 transition-colors">
+            <h4 className="text-xs sm:text-sm font-bold text-slate-900 truncate group-hover:text-[#F16100] transition-colors">
               {product.name}
             </h4>
           </div>
@@ -93,11 +93,11 @@ export const ProductCard = ({ product, viewMode = 'grid' }) => {
 
         <div className="flex items-center gap-2 flex-shrink-0" onClick={(e) => e.stopPropagation()}>
           <div className="text-right">
-            <div className="text-xs sm:text-sm font-black text-white font-mono">
+            <div className="text-xs sm:text-sm font-black text-slate-900 font-mono">
               {formatMoney(product.price)}
             </div>
             {product.originalPrice && (
-              <div className="text-[9px] text-slate-500 line-through font-mono">
+              <div className="text-[9px] text-slate-400 line-through font-mono">
                 {formatMoney(product.originalPrice)}
               </div>
             )}
@@ -106,7 +106,7 @@ export const ProductCard = ({ product, viewMode = 'grid' }) => {
           <button
             type="button"
             onClick={handleQuickAdd}
-            className="p-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white transition-all shadow"
+            className="p-2 rounded-lg bg-[#F16100] hover:bg-[#E05300] text-white transition-all shadow-sm"
             title="Agregar al Carrito"
           >
             <Plus size={14} />
@@ -118,11 +118,11 @@ export const ProductCard = ({ product, viewMode = 'grid' }) => {
 
   // View Mode: Grid (IKEA + Shopify Card)
   return (
-    <div className="group relative bg-slate-800/85 hover:bg-slate-800 border border-slate-700/80 hover:border-blue-500/50 rounded-2xl p-3 sm:p-3.5 transition-all duration-300 flex flex-col justify-between shadow-lg hover:shadow-xl hover:-translate-y-1">
+    <div className="group relative bg-white hover:bg-white border border-slate-200 hover:border-[#F16100]/60 rounded-2xl p-3 sm:p-3.5 transition-all duration-300 flex flex-col justify-between shadow-sm hover:shadow-xl hover:-translate-y-1">
       
       {/* Product Image Area */}
       <div 
-        className="relative aspect-square rounded-xl overflow-hidden mb-3 bg-slate-900 cursor-pointer border border-slate-700/50"
+        className="relative aspect-square rounded-xl overflow-hidden mb-3 bg-slate-50 cursor-pointer border border-slate-100"
         onClick={handleCardClick}
       >
         <img
@@ -135,12 +135,12 @@ export const ProductCard = ({ product, viewMode = 'grid' }) => {
         {/* Top Left Badges: Department & Capacity */}
         <div className="absolute top-2 left-2 flex flex-col gap-1 items-start max-w-[80%]">
           {product.tag && (
-            <div className="bg-blue-600/90 backdrop-blur-md text-white text-[9px] sm:text-[10px] font-black px-2 py-0.5 rounded shadow uppercase tracking-wider">
+            <div className="bg-[#F16100] text-white text-[9px] sm:text-[10px] font-black px-2 py-0.5 rounded shadow uppercase tracking-wider">
               {product.tag}
             </div>
           )}
           {product.capacity && (
-            <div className="bg-slate-950/80 backdrop-blur-md border border-slate-700 text-amber-300 text-[9px] font-bold px-1.5 py-0.5 rounded shadow">
+            <div className="bg-white/95 backdrop-blur-md border border-slate-200 text-slate-800 text-[9px] font-bold px-1.5 py-0.5 rounded shadow-sm">
               📐 {product.capacity}
             </div>
           )}
@@ -150,8 +150,8 @@ export const ProductCard = ({ product, viewMode = 'grid' }) => {
         <div className="absolute top-2 right-2 flex flex-col items-end gap-1">
           <button
             onClick={handleFavoriteToggle}
-            className={`p-1.5 rounded-full backdrop-blur-md transition-all shadow-md ${
-              isLiked ? 'bg-red-500 text-white scale-110' : 'bg-black/60 text-white/80 hover:text-white hover:bg-black/80'
+            className={`p-1.5 rounded-full backdrop-blur-md transition-all shadow-sm ${
+              isLiked ? 'bg-red-500 text-white scale-110' : 'bg-white/90 text-slate-600 hover:text-red-500 hover:bg-white border border-slate-200'
             }`}
             title="Guardar en favoritos"
           >
@@ -159,16 +159,16 @@ export const ProductCard = ({ product, viewMode = 'grid' }) => {
           </button>
 
           {product.discountPercent && (
-            <div className="bg-[#FFDB00] text-slate-950 text-[10px] font-black px-1.5 py-0.5 rounded shadow">
+            <div className="bg-orange-100 text-[#D45000] border border-orange-200 text-[10px] font-black px-1.5 py-0.5 rounded shadow-sm">
               -{product.discountPercent}%
             </div>
           )}
         </div>
 
         {/* Quick View Overlay on Desktop */}
-        <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
           <span className="bg-white text-slate-900 text-xs font-black px-3.5 py-1.5 rounded-full shadow-lg flex items-center gap-1.5">
-            <Eye size={13} /> Vista Rápida
+            <Eye size={13} className="text-[#F16100]" /> Vista Rápida
           </span>
         </div>
       </div>
@@ -178,13 +178,13 @@ export const ProductCard = ({ product, viewMode = 'grid' }) => {
         <div>
           {/* Department and Rating */}
           <div className="flex items-center justify-between text-xs mb-1">
-            <span className="text-[10px] font-black uppercase tracking-wider text-blue-400">
+            <span className="text-[10px] font-black uppercase tracking-wider text-[#F16100]">
               {product.department || 'Plásticos & Hogar'}
             </span>
 
-            <div className="flex items-center gap-1 text-amber-400">
-              <Star size={12} className="fill-amber-400" />
-              <span className="font-bold text-[11px]">{product.rating || '5.0'}</span>
+            <div className="flex items-center gap-1 text-amber-500">
+              <Star size={12} className="fill-amber-400 text-amber-400" />
+              <span className="font-bold text-[11px] text-slate-700">{product.rating || '5.0'}</span>
               <span className="text-slate-400 text-[10px]">({product.reviewsCount || 42})</span>
             </div>
           </div>
@@ -192,14 +192,14 @@ export const ProductCard = ({ product, viewMode = 'grid' }) => {
           {/* Title */}
           <h3
             onClick={handleCardClick}
-            className="text-xs sm:text-sm font-bold text-white group-hover:text-blue-300 transition-colors line-clamp-2 cursor-pointer leading-snug"
+            className="text-xs sm:text-sm font-bold text-slate-900 group-hover:text-[#F16100] transition-colors line-clamp-2 cursor-pointer leading-snug"
           >
             {product.name}
           </h3>
 
           {/* Material & BPA Free highlight */}
           {product.material && (
-            <div className="flex items-center gap-1 mt-1 text-[10px] text-emerald-400 font-medium truncate">
+            <div className="flex items-center gap-1 mt-1 text-[10px] text-emerald-600 font-medium truncate">
               <ShieldCheck size={12} className="flex-shrink-0" />
               <span className="truncate">Libre de BPA • Grado Alimenticio</span>
             </div>
@@ -218,12 +218,12 @@ export const ProductCard = ({ product, viewMode = 'grid' }) => {
                   }}
                   title={color.name}
                   className={`w-3.5 h-3.5 rounded-full border transition-all ${
-                    selectedColor?.name === color.name ? 'ring-2 ring-blue-400 scale-125' : 'border-white/20'
+                    selectedColor?.name === color.name ? 'ring-2 ring-[#F16100] scale-125' : 'border-slate-300'
                   }`}
                   style={{ backgroundColor: color.hex }}
                 />
               ))}
-              <span className="text-[10px] text-slate-400 ml-1 truncate max-w-[100px]">
+              <span className="text-[10px] text-slate-500 ml-1 truncate max-w-[100px]">
                 {selectedColor?.name}
               </span>
             </div>
@@ -242,8 +242,8 @@ export const ProductCard = ({ product, viewMode = 'grid' }) => {
                   }}
                   className={`text-[9px] px-1.5 py-0.5 rounded border transition-colors ${
                     selectedSize === size
-                      ? 'bg-blue-600 text-white border-blue-500 font-bold'
-                      : 'bg-slate-900 text-slate-300 border-slate-700 hover:border-slate-500'
+                      ? 'bg-[#F16100] text-white border-[#F16100] font-bold'
+                      : 'bg-slate-100 text-slate-600 border-slate-200 hover:border-slate-300'
                   }`}
                 >
                   {size}
@@ -254,22 +254,22 @@ export const ProductCard = ({ product, viewMode = 'grid' }) => {
         </div>
 
         {/* Pricing and Add to Cart Button (Shopify Style) */}
-        <div className="pt-2 border-t border-slate-700/60 space-y-2 mt-2">
+        <div className="pt-2 border-t border-slate-100 space-y-2 mt-2">
           <div className="flex items-baseline justify-between">
             <span className="text-xs text-slate-400 line-through">
               {formatMoney(product.originalPrice)}
             </span>
-            <span className="text-base sm:text-lg font-black text-amber-300 font-sans">
+            <span className="text-base sm:text-lg font-black text-[#F16100] font-sans">
               {formatMoney(product.price)}
             </span>
           </div>
 
           <button
             onClick={handleQuickAdd}
-            className={`w-full py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-md active:scale-95 ${
+            className={`w-full py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm active:scale-95 ${
               addedAnimation
                 ? 'bg-emerald-600 text-white'
-                : 'bg-blue-600 hover:bg-blue-500 text-white shadow-blue-600/20'
+                : 'bg-[#F16100] hover:bg-[#E05300] text-white shadow-orange-500/20'
             }`}
           >
             {addedAnimation ? (

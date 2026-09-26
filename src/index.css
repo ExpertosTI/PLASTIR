@@ -4,16 +4,15 @@
 
 @layer base {
   :root {
-    --color-primary: #0058A3;
-    --color-primary-dark: #003E75;
-    --color-accent: #FFDB00;
-    --color-bg-light: #F9FAFB;
-    --color-border: #E5E7EB;
+    --color-primary: #F16100;
+    --color-primary-dark: #D45000;
+    --color-bg-light: #FFFFFF;
+    --color-border: #E2E8F0;
   }
 
   body {
-    background-color: #0F172A;
-    color: #F1F5F9;
+    background-color: #FAFAFA;
+    color: #0F172A;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 
@@ -23,60 +22,54 @@
     height: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #0F172A;
+    background: #F1F5F9;
   }
   ::-webkit-scrollbar-thumb {
-    background: #334155;
+    background: #CBD5E1;
     border-radius: 9999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #0058A3;
+    background: #F16100;
   }
 }
 
 @layer utilities {
   .bg-glass {
-    background: rgba(30, 41, 59, 0.85);
+    background: rgba(255, 255, 255, 0.92);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(226, 232, 240, 0.8);
   }
 
-  .bg-glass-blue {
-    background: rgba(0, 88, 163, 0.12);
+  .bg-glass-orange {
+    background: rgba(241, 97, 0, 0.08);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(0, 88, 163, 0.3);
+    border: 1px solid rgba(241, 97, 0, 0.25);
   }
 
-  .text-gradient-blue {
-    background: linear-gradient(135deg, #38BDF8 0%, #0058A3 50%, #003E75 100%);
+  .text-gradient-orange {
+    background: linear-gradient(135deg, #FB923C 0%, #F16100 50%, #C2410C 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 
-  .text-gradient-yellow {
-    background: linear-gradient(135deg, #FFF066 0%, #FFDB00 50%, #E5C500 100%);
+  .text-gradient-dark {
+    background: linear-gradient(180deg, #0F172A 0%, #334155 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 
-  .text-gradient-silver {
-    background: linear-gradient(180deg, #FFFFFF 0%, #CBD5E1 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .border-glow-blue {
-    border-color: rgba(0, 88, 163, 0.6);
-    box-shadow: 0 0 20px rgba(0, 88, 163, 0.25);
+  .border-glow-orange {
+    border-color: rgba(241, 97, 0, 0.6);
+    box-shadow: 0 0 20px rgba(241, 97, 0, 0.2);
   }
 }
 
 /* Animations */
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
+  50% { transform: translateY(-5px); }
 }
 
 .animate-float {

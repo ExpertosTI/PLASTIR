@@ -1,6 +1,5 @@
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { Navbar } from './components/Navbar';
-import { StoriesBar } from './components/StoriesBar';
 import { HeroBanner } from './components/HeroBanner';
 import { ShowroomsSection } from './components/ShowroomsSection';
 import { FlashDeals } from './components/FlashDeals';
@@ -10,18 +9,15 @@ import { ProductDetailModal } from './components/ProductDetailModal';
 import { QuickProductActionModal } from './components/QuickProductActionModal';
 import { CartDrawer } from './components/CartDrawer';
 import { CheckoutModal } from './components/CheckoutModal';
-import { SpinWheel } from './components/SpinWheel';
 import { OrderTracker } from './components/OrderTracker';
 import { AdminModal } from './components/AdminModal';
 import { StaffManualModal } from './components/StaffManualModal';
 import { StaffPortal } from './components/StaffPortal';
-import { StoryUploadManager } from './components/StoryUploadManager';
 import { WishlistModal } from './components/WishlistModal';
 import { LiveWhaticketChat } from './components/LiveWhaticketChat';
 import { AuthModal } from './components/AuthModal';
 import { UserProfileModal } from './components/UserProfileModal';
-import { SocialProofToast } from './components/SocialProofToast';
-import { SocialFeed } from './components/SocialFeed';
+import { ExecutiveTrustSection } from './components/ExecutiveTrustSection';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { MobileBottomNav } from './components/MobileBottomNav';
 import { QuickQuoterModal } from './components/QuickQuoterModal';
@@ -157,7 +153,6 @@ export const App = () => {
   const [selectedCategory, setSelectedCategory] = useState('todos');
   const [searchQuery, setSearchQuery] = useState('');
   const [isStaffPortalOpen, setIsStaffPortalOpen] = useState(false);
-  const [isStoriesUploadOpen, setIsStoriesUploadOpen] = useState(false);
   
   // View mode preferences: 'grid', 'list', 'compact'
   const [viewMode, setViewMode] = useState(() => {
@@ -238,7 +233,7 @@ export const App = () => {
   const isSearching = Boolean(searchQuery.trim());
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-blue-600 selection:text-white">
+    <div className="min-h-screen bg-[#FAFAFA] text-slate-900 flex flex-col font-sans selection:bg-[#F16100] selection:text-white">
       
       {/* Sticky Header with Shopify Style MegaMenu */}
       <Navbar
@@ -246,9 +241,6 @@ export const App = () => {
         setSearchQuery={setSearchQuery}
         onSelectCategory={handleSelectCategory}
       />
-
-      {/* Stories Bar (Retail Instagram Style Stories) */}
-      <StoriesBar onOpenUploadModal={() => setIsStoriesUploadOpen(true)} />
 
       {/* Hero Showcase (hidden while searching to keep focus) */}
       {!isSearching && (
@@ -276,16 +268,16 @@ export const App = () => {
         
         {/* Search Results Header */}
         {isSearching ? (
-          <div className="bg-slate-900 border border-blue-500/40 rounded-2xl p-4 mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-lg">
+          <div className="bg-white border border-slate-200 rounded-2xl p-4 mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-sm">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-blue-400 flex-shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-orange-50 border border-orange-200 flex items-center justify-center text-[#F16100] flex-shrink-0">
                 <Search size={18} />
               </div>
               <div>
-                <h2 className="text-base sm:text-lg font-black text-white">
-                  Resultados para: <span className="text-amber-300">"{searchQuery}"</span>
+                <h2 className="text-base sm:text-lg font-black text-slate-900">
+                  Resultados para: <span className="text-[#F16100]">"{searchQuery}"</span>
                 </h2>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-slate-500">
                   {filteredProducts.length} {filteredProducts.length === 1 ? 'artículo encontrado' : 'artículos encontrados'}
                 </p>
               </div>
@@ -295,7 +287,7 @@ export const App = () => {
               <button
                 type="button"
                 onClick={() => setSearchQuery('')}
-                className="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold flex items-center gap-1.5 transition-colors border border-slate-700"
+                className="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold flex items-center gap-1.5 transition-colors border border-slate-200"
               >
                 <X size={14} />
                 <span>Limpiar Búsqueda</span>
@@ -304,33 +296,33 @@ export const App = () => {
           </div>
         ) : (
           /* Normal Department Catalog Header with 3 View Toggles */
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 bg-slate-900/60 border border-slate-800 rounded-2xl p-4 backdrop-blur-md">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-blue-500/15 border border-blue-500/30 flex items-center justify-center text-blue-400 shadow-sm flex-shrink-0">
+              <div className="w-10 h-10 rounded-2xl bg-orange-50 border border-orange-200 flex items-center justify-center text-[#F16100] shadow-sm flex-shrink-0">
                 <Package size={20} />
               </div>
               <div>
-                <h2 className="text-base sm:text-lg font-black text-white leading-tight uppercase tracking-wide">
-                  {selectedCategory === 'todos' ? 'Catálogo General Plastir' : `Departamento: ${selectedCategory.toUpperCase()}`}
+                <h2 className="text-base sm:text-lg font-black text-slate-900 leading-tight uppercase tracking-wide">
+                  {selectedCategory === 'todos' ? 'Catálogo General de Artículos para el Hogar' : `Departamento: ${selectedCategory.toUpperCase()}`}
                 </h2>
                 <div className="flex items-center gap-2 text-xs">
-                  <span className="inline-flex items-center gap-1 text-emerald-400 font-semibold">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span className="inline-flex items-center gap-1 text-emerald-600 font-semibold">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                     Inventario en Tiempo Real
                   </span>
-                  <span className="text-slate-500">•</span>
-                  <span className="text-slate-400 text-[11px]">{filteredProducts.length} artículos</span>
+                  <span className="text-slate-300">•</span>
+                  <span className="text-slate-500 text-[11px]">{filteredProducts.length} artículos</span>
                 </div>
               </div>
             </div>
 
             {/* View Mode Switcher (Compact / List / Grid) */}
-            <div className="flex items-center bg-slate-950 p-1 rounded-xl border border-slate-800 shadow-inner self-end sm:self-auto">
+            <div className="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200 shadow-inner self-end sm:self-auto">
               <button
                 type="button"
                 onClick={() => handleSetViewMode('compact')}
                 className={`p-1.5 sm:p-2 rounded-lg text-xs font-bold transition-all ${
-                  viewMode === 'compact' ? 'bg-blue-600 text-white shadow' : 'text-slate-400 hover:text-white'
+                  viewMode === 'compact' ? 'bg-[#F16100] text-white shadow-sm' : 'text-slate-500 hover:text-slate-900'
                 }`}
                 title="Listado Compacto"
               >
@@ -340,7 +332,7 @@ export const App = () => {
                 type="button"
                 onClick={() => handleSetViewMode('list')}
                 className={`p-1.5 sm:p-2 rounded-lg text-xs font-bold transition-all ${
-                  viewMode === 'list' ? 'bg-blue-600 text-white shadow' : 'text-slate-400 hover:text-white'
+                  viewMode === 'list' ? 'bg-[#F16100] text-white shadow-sm' : 'text-slate-500 hover:text-slate-900'
                 }`}
                 title="Lista Detallada"
               >
@@ -350,7 +342,7 @@ export const App = () => {
                 type="button"
                 onClick={() => handleSetViewMode('grid')}
                 className={`p-1.5 sm:p-2 rounded-lg text-xs font-bold transition-all ${
-                  viewMode === 'grid' ? 'bg-blue-600 text-white shadow' : 'text-slate-400 hover:text-white'
+                  viewMode === 'grid' ? 'bg-[#F16100] text-white shadow-sm' : 'text-slate-500 hover:text-slate-900'
                 }`}
                 title="Cuadrícula Departamental"
               >
@@ -362,15 +354,15 @@ export const App = () => {
 
         {/* Product Cards Container */}
         {filteredProducts.length === 0 ? (
-          <div className="bg-slate-900/60 border border-slate-800 rounded-3xl p-8 sm:p-12 text-center space-y-3 my-6">
-            <p className="text-sm sm:text-base font-bold text-white">No encontramos productos para "{searchQuery}".</p>
-            <p className="text-xs text-slate-400">Prueba buscando por "cajas", "herméticos", "zafacones" o "sillas".</p>
+          <div className="bg-white border border-slate-200 rounded-3xl p-8 sm:p-12 text-center space-y-3 my-6 shadow-sm">
+            <p className="text-sm sm:text-base font-bold text-slate-900">No encontramos productos para "{searchQuery}".</p>
+            <p className="text-xs text-slate-500">Prueba buscando por "cajas", "herméticos", "zafacones" o "sillas".</p>
             <button
               onClick={() => {
                 setSelectedCategory('todos');
                 setSearchQuery('');
               }}
-              className="px-5 py-2.5 rounded-xl bg-blue-600 text-white text-xs font-bold uppercase tracking-wider hover:bg-blue-500 transition-colors shadow-md"
+              className="px-5 py-2.5 rounded-xl bg-[#F16100] text-white text-xs font-bold uppercase tracking-wider hover:bg-[#E05300] transition-colors shadow-md"
             >
               Ver Catálogo Completo
             </button>
@@ -391,8 +383,8 @@ export const App = () => {
 
       </main>
 
-      {/* Community Feed */}
-      {!isSearching && <SocialFeed />}
+      {/* Executive Trust Pillars & Verified Reviews */}
+      {!isSearching && <ExecutiveTrustSection />}
 
       {/* Footer */}
       <Footer onSelectCategory={handleSelectCategory} />
@@ -403,7 +395,6 @@ export const App = () => {
       <CartDrawer />
       <CheckoutModal />
       <QuickQuoterModal />
-      <SpinWheel />
       <OrderTracker />
       <AdminModal onProductUpdated={fetchProductsFromApi} />
       <StaffManualModal />
@@ -413,18 +404,10 @@ export const App = () => {
         allProducts={allProducts} 
         onSyncOdoo={handleSyncOdoo} 
       />
-      {isStoriesUploadOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/85 backdrop-blur-md overflow-y-auto">
-          <div className="relative w-full max-w-4xl my-auto max-h-[92vh] overflow-y-auto">
-            <StoryUploadManager isOpen={true} onClose={() => setIsStoriesUploadOpen(false)} />
-          </div>
-        </div>
-      )}
       <WishlistModal />
       <LiveWhaticketChat />
       <AuthModal />
       <UserProfileModal />
-      <SocialProofToast />
       <FloatingWhatsApp />
 
       {/* Mobile Bottom Navigation Bar */}
