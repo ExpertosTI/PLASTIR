@@ -56,6 +56,7 @@ export const CartProvider = ({ children }) => {
   const [isManualOpen, setIsManualOpen] = useState(false);
   const [isQuickRepliesOpen, setIsQuickRepliesOpen] = useState(false);
   const [isQuickQuoterOpen, setIsQuickQuoterOpen] = useState(false);
+  const [isLocalCatalogOpen, setIsLocalCatalogOpen] = useState(false);
   const [isWhaticketChatOpen, setIsWhaticketChatOpen] = useState(false);
   const [whaticketChatProduct, setWhaticketChatProduct] = useState(null);
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
