@@ -23,7 +23,6 @@ export const ShowroomsSection = ({ onSelectCategory, onSelectProduct }) => {
   };
 
   return (
-  return (
     <section id="showrooms" className="py-8 sm:py-12 px-3 sm:px-4 bg-slate-50/70 border-y border-slate-200 relative overflow-hidden">
       {/* Background Subtle Accent */}
       <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#F16100]/5 rounded-full blur-3xl pointer-events-none" />
