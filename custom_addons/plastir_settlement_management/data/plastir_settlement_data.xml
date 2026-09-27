@@ -59,10 +59,10 @@
             <field name="subtotal_gastos_rd">245000.00</field>
             <field name="itbis_pagado_dua">85200.00</field>
             <field name="itbis_recuperable">85200.00</field>
-            <field name="gasto_arancel_rd">120000.00</field>
-            <field name="gasto_aduanas_rd">45000.00</field>
-            <field name="gasto_transporte_local_rd">50000.00</field>
-            <field name="gasto_otros_rd">30000.00</field>
+            <field name="arancel_dop">120000.00</field>
+            <field name="agente_aduanal_dop">45000.00</field>
+            <field name="transporte_local_dop">50000.00</field>
+            <field name="otros_gastos_1_dop">30000.00</field>
             <field name="notes">Importación marítima contenedor 40HQ procedente de Ningbo, China. 4 facturas comerciales A26TM06007-1 a 4.</field>
         </record>
 
@@ -71,7 +71,7 @@
             <field name="settlement_id" ref="settlement_demo_a26tm06007"/>
             <field name="name">A26TM06007-1</field>
             <field name="date">2026-07-28</field>
-            <field name="recipient">JLG CARGO SRL</field>
+            <field name="partner_id" ref="partner_ningbo_topwin"/>
             <field name="fob_usd">45174.76</field>
             <field name="freight_usd">3500.00</field>
             <field name="insurance_usd">450.00</field>
@@ -83,7 +83,7 @@
             <field name="settlement_id" ref="settlement_demo_a26tm06007"/>
             <field name="name">A26TM06007-2</field>
             <field name="date">2026-07-28</field>
-            <field name="recipient">JLG CARGO SRL</field>
+            <field name="partner_id" ref="partner_ningbo_topwin"/>
             <field name="fob_usd">39046.73</field>
             <field name="freight_usd">3000.00</field>
             <field name="insurance_usd">390.00</field>
@@ -95,7 +95,7 @@
             <field name="settlement_id" ref="settlement_demo_a26tm06007"/>
             <field name="name">A26TM06007-3</field>
             <field name="date">2026-07-28</field>
-            <field name="recipient">JLG CARGO SRL</field>
+            <field name="partner_id" ref="partner_ningbo_topwin"/>
             <field name="fob_usd">39784.34</field>
             <field name="freight_usd">3100.00</field>
             <field name="insurance_usd">395.00</field>
@@ -107,7 +107,7 @@
             <field name="settlement_id" ref="settlement_demo_a26tm06007"/>
             <field name="name">A26TM06007-4</field>
             <field name="date">2026-07-28</field>
-            <field name="recipient">JLG CARGO SRL</field>
+            <field name="partner_id" ref="partner_ningbo_topwin"/>
             <field name="fob_usd">45767.13</field>
             <field name="freight_usd">3600.00</field>
             <field name="insurance_usd">460.00</field>

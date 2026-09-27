@@ -288,13 +288,13 @@
                                 <list string="Facturas" editable="bottom">
                                     <field name="name"/>
                                     <field name="date"/>
-                                    <field name="recipient"/>
+                                    <field name="partner_id" string="Destinatario / Proveedor"/>
                                     <field name="fob_usd" sum="Total FOB"/>
                                     <field name="freight_usd" sum="Total Flete"/>
                                     <field name="insurance_usd" sum="Total Seguro"/>
                                     <field name="discount_usd" sum="Total Descuento"/>
                                     <field name="commission_usd" sum="Total Comisión"/>
-                                    <field name="cif_usd" sum="Total CIF Facturas"/>
+                                    <field name="total_usd" sum="Total CIF Facturas"/>
                                 </list>
                             </field>
                         </page>
@@ -303,12 +303,12 @@
                         <page string="Gastos DGA y Locales (RD$)" name="local_expenses">
                             <group>
                                 <group string="Gastos Pagados en RD$ (Costo Inventario)">
-                                    <field name="gasto_arancel_rd" readonly="state in ('done', 'cancel')"/>
-                                    <field name="gasto_isc_rd" readonly="state in ('done', 'cancel')"/>
-                                    <field name="gasto_aduanas_rd" readonly="state in ('done', 'cancel')"/>
-                                    <field name="gasto_transporte_local_rd" readonly="state in ('done', 'cancel')"/>
-                                    <field name="gasto_honorarios_rd" readonly="state in ('done', 'cancel')"/>
-                                    <field name="gasto_otros_rd" readonly="state in ('done', 'cancel')"/>
+                                    <field name="arancel_dop" readonly="state in ('done', 'cancel')"/>
+                                    <field name="selectivo_dop" readonly="state in ('done', 'cancel')"/>
+                                    <field name="agente_aduanal_dop" readonly="state in ('done', 'cancel')"/>
+                                    <field name="transporte_local_dop" readonly="state in ('done', 'cancel')"/>
+                                    <field name="tasas_portuarias_dop" readonly="state in ('done', 'cancel')"/>
+                                    <field name="otros_gastos_1_dop" readonly="state in ('done', 'cancel')"/>
                                     <field name="subtotal_gastos_rd" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
                                 </group>
                                 <group string="Control Estricto de ITBIS DUA">
