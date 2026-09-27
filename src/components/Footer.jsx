@@ -1,4 +1,3 @@
-import React from 'react';
 import { 
   ShieldCheck, 
   Truck, 
@@ -12,7 +11,8 @@ import {
   Clock,
   Recycle,
   Package,
-  FileText
+  FileText,
+  Sparkles
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { PlastirLogo } from './PlastirLogo';
