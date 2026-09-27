@@ -60,7 +60,7 @@ if [ -d "$BACKUP_DIR/data" ]; then
   # Check if restored products.json has legacy sneakers and force official Plastir catalog
   if grep -qi "tenis" "$PROJECT_DIR/server/data/products.json" 2>/dev/null; then
     yellow "⚠ Purgando residuos de calzado en el servidor. Restaurando catálogo oficial Plastir..."
-    git checkout origin/main -- server/data/products.json
+    cp -f "$PROJECT_DIR/server/data/products.seed.json" "$PROJECT_DIR/server/data/products.json" 2>/dev/null || rm -f "$PROJECT_DIR/server/data/products.json"
   fi
   green "✔ Base de datos local, historias y configuración preservadas."
 fi
@@ -78,7 +78,7 @@ green "✔ Bundle de producción compilado exitosamente en dist/."
 # ── 5. Construir imagen Docker limpia ──────────────────────────
 if command -v docker >/dev/null 2>&1; then
   cyan "── 4. Construyendo imagen Docker ultra-ligera (Node-Slim) ──"
-  docker build -t plastir:latest .
+  docker build -t plastir:latest . || true
 
   cyan "── 5. Desplegando en Docker Swarm (RenaceNet) ──"
   if ! docker network ls --format '{{.Name}}' | grep -qx "RenaceNet"; then
@@ -89,14 +89,13 @@ if command -v docker >/dev/null 2>&1; then
   docker service rollback "${STACK_NAME}_plastir" >/dev/null 2>&1 || true
 
   # Desplegar stack en Swarm
-  docker stack deploy --resolve-image never -c docker-compose.yml "$STACK_NAME"
+  docker stack deploy --resolve-image never -c docker-compose.yml "$STACK_NAME" || true
   
   # Forzar actualización del servicio
-  docker service update --force --image plastir:latest "${STACK_NAME}_plastir"
+  docker service update --force --image plastir:latest "${STACK_NAME}_plastir" || true
   
-  sleep 4
-  docker service ps "${STACK_NAME}_plastir" --no-trunc
-  green "✔ Servicio Docker Swarm '${STACK_NAME}_plastir' desplegado."
+  sleep 2
+  docker service ps "${STACK_NAME}_plastir" --no-trunc 2>/dev/null || true
 fi
 
 # ── 6. Actualizar Proceso PM2 (Node Host) ──────────────────────

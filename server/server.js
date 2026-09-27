@@ -167,7 +167,8 @@ try {
 }
 
 // Official Plastir Catalogue (Seed)
-const INITIAL_PRODUCTS = require("./data/products.json");
+const SEED_FILE = path.join(DATA_DIR, 'products.seed.json');
+const INITIAL_PRODUCTS = fs.existsSync(SEED_FILE) ? getJson(SEED_FILE, []) : getJson(PRODUCTS_FILE, []);
 
 // Helper functions for safe, atomic JSON file reading and writing
 const getJson = (file, defaultVal) => {
