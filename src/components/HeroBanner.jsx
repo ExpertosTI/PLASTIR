@@ -29,7 +29,7 @@ export const HeroBanner = ({ onSelectCategory }) => {
     price: 1890,
     originalPrice: 2600,
     discountPercent: 27,
-    image: 'https://images.unsplash.com/photo-1584992236310-6edddc08acff?q=80&w=800&auto=format&fit=crop',
+    image: '/img/nordic-containers.jpg',
     capacity: 'Set de 7 Tamaños',
     description: 'Herméticos con sello de silicona médica. Mantén tus harinas, pastas y cereales secos y ordenados.',
   };

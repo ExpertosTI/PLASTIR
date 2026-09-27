@@ -108,9 +108,7 @@ export const PRODUCTS = [
     ],
     sizes: ['Set Completo 7 Piezas', 'Pack x2 Sets (14 Piezas)', 'Pack Familiar x3 Sets'],
     images: [
-      'https://images.unsplash.com/photo-1584992236310-6edddc08acff?q=80&w=800&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?q=80&w=800&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?q=80&w=800&auto=format&fit=crop'
+      '/img/nordic-containers.jpg',
     ],
     description: 'Set insignia de 7 recipientes herméticos modulares con broche click-lock de silicona médica. Mantén cereales, harinas, pastas y granos libres de humedad y plagas con diseño nórdico minimalista.',
     features: [
@@ -149,8 +147,7 @@ export const PRODUCTS = [
     ],
     sizes: ['Capacidad 10 KG con Taza Medidora'],
     images: [
-      'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=800&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1584992236310-6edddc08acff?q=80&w=800&auto=format&fit=crop'
+      '/img/grain-dispenser.jpg',
     ],
     description: 'Dispensador rotatorio inteligente con un solo toque dosificador. Almacena arroz, frijoles, avena, maíz y lentejas en un solo lugar compacto y gira con suavidad milimétrica.',
     features: [
@@ -188,8 +185,7 @@ export const PRODUCTS = [
     ],
     sizes: ['1 Unidad (65L)', 'Pack x3 Ahorro (195L Totales)', 'Pack Familiar x6 Unidades'],
     images: [
-      'https://images.unsplash.com/photo-1558997519-83ea9252def8?q=80&w=800&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=800&auto=format&fit=crop'
+      '/img/heavy-duty-box.jpg',
     ],
     description: 'La caja organizadora más resistente de República Dominicana. Broches ergonómicos de alta presión, tapa reforzada acanalada para soportar apilamiento de hasta 80 kg.',
     features: [
@@ -228,8 +224,7 @@ export const PRODUCTS = [
     ],
     sizes: ['4 Niveles (85 cm)', '5 Niveles Torre Alta (105 cm)'],
     images: [
-      'https://images.unsplash.com/photo-1595428774223-ef52624120d2?q=80&w=800&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1558997519-83ea9252def8?q=80&w=800&auto=format&fit=crop'
+      '/img/drawer-tower.jpg',
     ],
     description: 'Gavetero versátil multiusos de alta capacidad con 4 cajones deslizantes suaves, top superior reforzado y ruedas ocultas para moverlo sin esfuerzo al limpiar.',
     features: [
@@ -244,10 +239,10 @@ export const PRODUCTS = [
   },
   {
     id: 'pla-005',
-    name: 'Set x6 Cajas Zapateras Magnéticas Apilables "Drop Box Clear"',
+    name: 'Set x4 Cajas Organizadoras Transparentes para Clóset "Clear Wardrobe"',
     category: 'organizacion',
     department: 'Organización & Clóset',
-    tag: '⭐ ORGANIZACIÓN MODULAR PREMIUM',
+    tag: '⭐ ORGANIZACIÓN MODULAR DE CLÓSET',
     price: 2190,
     originalPrice: 3200,
     discountPercent: 31,
@@ -257,28 +252,27 @@ export const PRODUCTS = [
     soldPercent: 91,
     isFlashDeal: true,
     flashEndHours: 5.0,
-    capacity: 'Capacidad hasta talla 46 (12 US)',
-    dimensions: '36 x 28 x 22 cm cada caja',
+    capacity: 'Cajas de 32 Litros Apilables',
+    dimensions: '38 x 28 x 24 cm cada caja',
     material: 'Acrílico PET Transparente + Marco PP Extra Rígido',
     room: 'Clóset & Dormitorio',
     colors: [
       { name: 'Transparente Cristal 100%', hex: '#FFFFFF' },
       { name: 'Ahumado Black Smoke', hex: '#1E293B' }
     ],
-    sizes: ['Pack x6 Cajas', 'Pack x12 Cajas Pared Completa'],
+    sizes: ['Pack x4 Cajas', 'Pack x8 Cajas Armario Completo'],
     images: [
-      'https://images.unsplash.com/photo-1558997519-83ea9252def8?q=80&w=800&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1595428774223-ef52624120d2?q=80&w=800&auto=format&fit=crop'
+      '/img/closet-boxes.jpg',
     ],
-    description: 'El organizador definitivo para calzado. Puerta frontal abatible con cierre magnético y ventilación trasera anti-olores. Convierte tu colección de calzado en una galería.',
+    description: 'El organizador definitivo para armarios, ropa de cama, toallas y prendas. Estructura transparente apilable con asas integradas que protege contra polvo y humedad.',
     features: [
-      'Puerta frontal magnética de apertura instantánea con una sola mano',
-      'Encastre superior y lateral patentado: apila hasta 15 cajas sin tambalearse',
-      'Orificios traseros de micro-ventilación que evitan humedad y malos olores',
-      'Plástico transparente anti-amarilleo UV'
+      'Asas ergonómicas frontales y laterales para deslizar en repisas',
+      'Encastre superior seguro para apilar torres estables',
+      'Plástico 100% virgen libre de BPA y resistente a impactos',
+      'Visibilidad inmediata del contenido sin tener que abrir'
     ],
     reviews: [
-      { user: 'Miguel A. (Gazcue)', rating: 5, date: 'Ayer', comment: 'Las cajas son super resistentes y el cierre frontal magnético es una maravilla. El clóset quedó 10/10.' }
+      { user: 'Miguel A. (Gazcue)', rating: 5, date: 'Ayer', comment: 'Las cajas son super resistentes y la visibilidad es excelente. El clóset quedó ordenadísimo.' }
     ]
   },
   {
@@ -306,8 +300,7 @@ export const PRODUCTS = [
     ],
     sizes: ['Capacidad Estándar 60L', 'Pack x2 Cestos (Ropa Clara / Ropa Oscura)'],
     images: [
-      'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=800&auto=format&fit=crop'
+      '/img/laundry-basket.jpg',
     ],
     description: 'Cesto de ropa de gran capacidad con diseño de rombos micro-ventilados que previenen olores por sudor o humedad. Asas suaves engomadas para traslado fácil.',
     features: [
@@ -500,18 +493,17 @@ export const PRODUCTS = [
     ],
     sizes: ['120 Litros con Pedal y Ruedas', '80 Litros Compacto', '50 Litros Interior'],
     images: [
-      'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=800&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1558997519-83ea9252def8?q=80&w=800&auto=format&fit=crop'
+      '/img/zafacon-pedal.jpg',
     ],
-    description: 'Contenedor de basura industrial para restaurantes, clínicas, condominios y empresas. Pedal mecánico reforzado para apertura higiénica sin tocar la tapa y ruedas de goma maciza para transporte suave.',
+    description: 'Contenedor de basura con pedal mecánico reforzado para apertura higiénica sin tocar la tapa con las manos. Ruedas suaves para transporte fácil en cocina, patio o negocio.',
     features: [
       'Pedal ultra-resistente probado para más de 100,000 aperturas',
-      'Ruedas macizas de 200 mm que no se pinchan y suben aceras',
+      'Ruedas macizas que no se pinchan y facilitan el traslado',
       'Tapa hermética con labio de cierre anti-olores e insectos',
-      'Cumple normativas de sanidad y gestión ambiental en RD'
+      'Cumple normativas de sanidad y gestión de residuos en RD'
     ],
     reviews: [
-      { user: 'Ing. Gustavo B. (Parque Industrial Haina)', rating: 5, date: 'Hace 3 días', comment: 'Compramos 10 para la nave industrial. Excelente grosor del plástico y el pedal aguanta trato rudo.' }
+      { user: 'Ing. Gustavo B. (Santo Domingo)', rating: 5, date: 'Hace 3 días', comment: 'Excelente grosor del plástico y el pedal aguanta uso continuo. Súper higiénico.' }
     ]
   },
   {
@@ -540,14 +532,13 @@ export const PRODUCTS = [
     sizes: ['1 Unidad', 'Pack x6 Cajas', 'Pack x6 Cajas Multiuso'],
     images: [
       'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=800&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1558997519-83ea9252def8?q=80&w=800&auto=format&fit=crop'
     ],
-    description: 'La caja estándar de distribución y almacenamiento para colmados, supermercados, agropecuarias y almacenes. Apilamiento vertical seguro con nervaduras de refuerzo continuo.',
+    description: 'La caja estándar de distribución y almacenamiento para colmados, supermercados, despensas y almacenes. Apilamiento vertical seguro con nervaduras de refuerzo continuo.',
     features: [
-      'Ventilación lateral y de fondo para conservación de frutas y víveres',
+      'Ventilación lateral y de fondo para conservación de víveres',
       'Asas integradas en los cuatro costados para manipulación ágil',
       'Resistencia a compresión: soporta torres de hasta 8 cajas llenas',
-      'Fácilmente lavable con hidrolavadora a presión'
+      'Fácilmente lavable con agua a presión'
     ],
     reviews: [
       { user: 'Félix N. (Merca Santo Domingo)', rating: 5, date: 'Hace 1 semana', comment: 'El mejor precio del mercado y aguantan peso de verdad. Cliente fijo de Plastir.' }
@@ -578,8 +569,7 @@ export const PRODUCTS = [
     ],
     sizes: ['1 Silla', 'Pack x4 Sillas Comedor', 'Set Familiar x8 Sillas'],
     images: [
-      'https://images.unsplash.com/photo-1592078615290-033ee584e267?q=80&w=800&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=800&auto=format&fit=crop'
+      '/img/silla-nordic.jpg',
     ],
     description: 'Silla plástica inyectada de una sola pieza con respaldo anatómico transpirable y patas reforzadas con topes antideslizantes. Ideal para terrazas, restaurantes, patios y eventos.',
     features: [

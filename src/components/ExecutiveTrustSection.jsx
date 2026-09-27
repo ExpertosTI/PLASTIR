@@ -31,7 +31,7 @@ const REVIEWS = [
     date: 'Hace 3 días',
     title: 'Plástico grueso, sin olores químicos y broches fuertes',
     comment:
-      'Las cajas organizadoras transparentes para clóset y zapateras magnéticas son de calidad superior. Cero olores a plástico reciclado, todo se ve ordenado y elegante. Excelente servicio de entrega en mi puerta.',
+      'Las cajas organizadoras transparentes para clóset y gaveteros modulares son de calidad superior. Cero olores a plástico reciclado, todo se ve ordenado y elegante. Excelente servicio de entrega en mi puerta.',
     verified: true,
   },
   {
