@@ -200,6 +200,14 @@ class PlastirSettlement(models.Model):
     otros_gastos_1_dop = fields.Float(string='Otros Gastos Atribuibles 1 (RD$)', default=0.0)
     otros_gastos_2_dop = fields.Float(string='Otros Gastos Atribuibles 2 (RD$)', default=0.0)
 
+    # Campos Alias de compatibilidad total
+    gasto_arancel_rd = fields.Float(string='Arancel / Gravamen DGA (RD$)', related='arancel_dop', readonly=False)
+    gasto_isc_rd = fields.Float(string='Impuesto Selectivo al Consumo (RD$)', related='selectivo_dop', readonly=False)
+    gasto_aduanas_rd = fields.Float(string='Agente Aduanal y Despacho (RD$)', related='agente_aduanal_dop', readonly=False)
+    gasto_transporte_local_rd = fields.Float(string='Transporte Terrestre Local (RD$)', related='transporte_local_dop', readonly=False)
+    gasto_honorarios_rd = fields.Float(string='Tasas y Honorarios (RD$)', related='tasas_portuarias_dop', readonly=False)
+    gasto_otros_rd = fields.Float(string='Otros Gastos Atribuibles (RD$)', related='otros_gastos_1_dop', readonly=False)
+
     subtotal_gastos_rd = fields.Float(
         string='Subtotal Gastos y Tributos RD$',
         compute='_compute_subtotal_gastos_rd',

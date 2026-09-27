@@ -29,6 +29,7 @@ class PlastirSettlementLine(models.Model):
     sku = fields.Char(string='Código SKU', index=True)
     name = fields.Char(string='Descripción', required=True)
     uom_id = fields.Many2one('uom.uom', string='Unidad')
+    uom_name = fields.Char(string='Unidad (Texto)', default='PCS')
     
     quantity = fields.Float(string='Unidades', default=1.0, required=True)
     cartons = fields.Integer(string='Cajas', default=0)
