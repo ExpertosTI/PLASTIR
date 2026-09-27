@@ -9,7 +9,6 @@
                 <field name="name"/>
                 <field name="operation_code"/>
                 <field name="shipping_ref" optional="show"/>
-                <field name="eta_date" optional="show"/>
                 <field name="date"/>
                 <field name="partner_id"/>
                 <field name="total_fob_usd" sum="Total FOB USD" widget="monetary" options="{'currency_field': 'currency_id'}"/>
@@ -38,7 +37,6 @@
                 <field name="shipping_ref"/>
                 <field name="partner_id"/>
                 <field name="date"/>
-                <field name="eta_date"/>
                 <field name="total_fob_usd"/>
                 <field name="total_costo_inventario_rd"/>
                 <field name="exchange_rate"/>
@@ -82,16 +80,9 @@
                         </div>
 
                         <div class="o_kanban_record_bottom mt-2 pt-2 border-top d-flex justify-content-between align-items-center">
-                            <div class="d-flex align-items-center gap-1">
-                                <span class="badge rounded-pill bg-primary-subtle text-primary border border-primary-subtle">
-                                    Tasa: RD$ <field name="exchange_rate"/>
-                                </span>
-                                <t t-if="record.eta_date.raw_value">
-                                    <span class="badge rounded-pill bg-info-subtle text-info border border-info-subtle small" title="Fecha Estimada de Llegada">
-                                        <i class="fa fa-anchor me-1"/><field name="eta_date"/>
-                                    </span>
-                                </t>
-                            </div>
+                            <span class="badge rounded-pill bg-primary-subtle text-primary border border-primary-subtle">
+                                Tasa: RD$ <field name="exchange_rate"/>
+                            </span>
                             <div class="d-flex align-items-center gap-2">
                                 <field name="activity_ids" widget="kanban_activity"/>
                                 <div class="text-muted small">
@@ -254,7 +245,6 @@
                         <group name="general_info" string="Información del Embarque">
                             <field name="operation_code" readonly="state in ('done', 'cancel')"/>
                             <field name="shipping_ref" readonly="state in ('done', 'cancel')"/>
-                            <field name="eta_date" readonly="state in ('done', 'cancel')"/>
                             <field name="date" readonly="state in ('done', 'cancel')"/>
                             <field name="partner_id" readonly="state in ('done', 'cancel')"/>
                             <field name="company_id" groups="base.group_multi_company" readonly="state in ('done', 'cancel')"/>
@@ -374,8 +364,6 @@
                 <filter name="filter_in_transit" string="En Tránsito Marítimo / Aéreo" domain="[('state', '=', 'in_transit')]"/>
                 <filter name="filter_liquidated" string="Liquidadas" domain="[('state', '=', 'liquidated')]"/>
                 <filter name="filter_done" string="Cerradas / Contabilizadas" domain="[('state', '=', 'done')]"/>
-                <separator/>
-                <filter name="filter_late" string="Llegada con Retraso (ETA)" domain="[('eta_date', '&lt;', context_today), ('state', '!=', 'done')]"/>
                 <separator/>
                 <filter name="filter_my_activities" string="Mis Actividades" domain="[('activity_ids.user_id', '=', uid)]"/>
                 <filter name="filter_late_activities" string="Actividades Vencidas" domain="[('activity_ids.date_deadline', '&lt;', context_today)]"/>

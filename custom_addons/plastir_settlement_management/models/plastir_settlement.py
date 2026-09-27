@@ -50,11 +50,6 @@ class PlastirSettlement(models.Model):
         default=lambda self: self.env.company,
         required=True
     )
-    eta_date = fields.Date(
-        string='Fecha Estimada de Llegada (ETA)',
-        tracking=True,
-        help='Fecha estimada de arribo a puerto / aduana'
-    )
     partner_id = fields.Many2one(
         'res.partner',
         string='Proveedor Internacional',
@@ -409,11 +404,11 @@ class PlastirSettlement(models.Model):
                     activity_type_id=act_eta.id,
                     summary=_('Monitoreo de Arribo / ETA'),
                     note=_('Seguimiento al arribo del contenedor/embarque %s (B/L: %s).') % (rec.operation_code, rec.shipping_ref or 'N/A'),
-                    date_deadline=rec.eta_date or fields.Date.context_today(rec),
+                    date_deadline=rec.date or fields.Date.context_today(rec),
                 )
             rec.message_post(
-                body=_("🚢 <strong>Embarque marcado En Tránsito</strong>. B/L / Contenedor: %s. ETA programada: %s.") %
-                     (rec.shipping_ref or 'N/A', rec.eta_date or _('No especificada')),
+                body=_("🚢 <strong>Embarque marcado En Tránsito</strong>. B/L / Contenedor: %s.") %
+                     (rec.shipping_ref or 'N/A'),
                 message_type='notification'
             )
 
