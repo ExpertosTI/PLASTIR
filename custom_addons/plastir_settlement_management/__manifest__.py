@@ -62,6 +62,11 @@ Este módulo resuelve de forma integral la gestión de compras y la contabilidad
         'views/res_config_settings_views.xml',
         'views/menus.xml',
     ],
+    'assets': {
+        'web.assets_backend': [
+            'plastir_settlement_management/static/src/scss/settlement_modern.scss',
+        ],
+    },
     'application': True,
     'installable': True,
     'auto_install': False,

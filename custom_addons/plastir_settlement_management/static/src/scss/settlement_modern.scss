@@ -1,0 +1,22 @@
+/* -*- coding: utf-8 -*- */
+/* Modern Styling for Plastir Settlement Management (Odoo 18) */
+
+.o_plastir_kpi_card {
+    border-radius: 0.75rem;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+}
+
+.o_plastir_badge_status {
+    font-weight: 700;
+    letter-spacing: 0.025em;
+    border-radius: 9999px;
+    padding: 0.25rem 0.65rem;
+}
