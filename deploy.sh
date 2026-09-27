@@ -57,6 +57,11 @@ fi
 if [ -d "$BACKUP_DIR/data" ]; then
   mkdir -p "$PROJECT_DIR/server/data"
   cp -r "$BACKUP_DIR/data/"* "$PROJECT_DIR/server/data/" 2>/dev/null || true
+  # Check if restored products.json has legacy sneakers and force official Plastir catalog
+  if grep -qi "tenis" "$PROJECT_DIR/server/data/products.json" 2>/dev/null; then
+    yellow "⚠ Purgando residuos de calzado en el servidor. Restaurando catálogo oficial Plastir..."
+    git checkout origin/main -- server/data/products.json
+  fi
   green "✔ Base de datos local, historias y configuración preservadas."
 fi
 

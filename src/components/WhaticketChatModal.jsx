@@ -8,8 +8,8 @@ export const WhaticketChatModal = () => {
     {
       id: 1,
       sender: 'agent',
-      name: 'Equipo de Ventas MVP Flow',
-      text: '¡Hola! 🔥 Bienvenido a MVP Flow Boutique RD en Los Mina. ¿En qué modelo, talla o combo te podemos colaborar hoy?',
+      name: 'Equipo de Ventas Plastir RD',
+      text: '¡Hola! 🏡 Bienvenido a Plastir RD, tu tienda de artículos plásticos y organización para el hogar. ¿En qué artículo, medidas o combo de cocina te colaboramos hoy?',
       time: 'Ahora'
     }
   ]);
@@ -18,10 +18,10 @@ export const WhaticketChatModal = () => {
   const messagesEndRef = useRef(null);
 
   const QUICK_PROMPTS = [
-    '¿Tienen disponibilidad en talla 41 / 42 para entrega hoy?',
+    '¿Tienen disponibilidad para entrega hoy?',
     'Quiero pedir con Pago Contra Entrega (COD) en efectivo.',
-    '¿Hacen envíos express a mi dirección?',
-    'Deseo ver fotos y videos reales de las prendas.'
+    '¿Cuáles son las medidas y capacidad en litros?',
+    '¿Tienen combos con descuento para cocina o clóset?'
   ];
 
   useEffect(() => {
@@ -31,11 +31,11 @@ export const WhaticketChatModal = () => {
         {
           id: Date.now(),
           sender: 'system',
-          text: `👟 Has consultado por: ${whaticketChatProduct.name} (RD$ ${Number(whaticketChatProduct.price).toLocaleString('es-DO')})`,
+          text: `📦 Has consultado por: ${whaticketChatProduct.name} (RD$ ${Number(whaticketChatProduct.price).toLocaleString('es-DO')})`,
           time: 'Ahora'
         }
       ]);
-      setInputText(`¡Hola! Quisiera confirmar disponibilidad y entrega del modelo ${whaticketChatProduct.name} en talla...`);
+      setInputText(`¡Hola! Quisiera confirmar disponibilidad y entrega de: ${whaticketChatProduct.name}...`);
     }
   }, [whaticketChatProduct, isWhaticketChatOpen]);
 
