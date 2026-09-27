@@ -85,16 +85,14 @@ if command -v docker >/dev/null 2>&1; then
     docker network create --driver overlay --attachable RenaceNet || true
   fi
   
-  # Desbloquear servicio si estaba pausado por el bind mount previo
-  docker service rollback "${STACK_NAME}_plastir" >/dev/null 2>&1 || true
+  # Si el servicio estaba pausado por error previo, removerlo para iniciar limpio
+  docker service rm "${STACK_NAME}_plastir" >/dev/null 2>&1 || true
+  sleep 2
 
   # Desplegar stack en Swarm
   docker stack deploy --resolve-image never -c docker-compose.yml "$STACK_NAME" || true
   
-  # Forzar actualización del servicio
-  docker service update --force --image plastir:latest "${STACK_NAME}_plastir" || true
-  
-  sleep 2
+  sleep 3
   docker service ps "${STACK_NAME}_plastir" --no-trunc 2>/dev/null || true
 fi
 

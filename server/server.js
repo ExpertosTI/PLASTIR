@@ -166,12 +166,8 @@ try {
   console.error('Config init warning:', e.message);
 }
 
-// Official Plastir Catalogue (Seed)
-const SEED_FILE = path.join(DATA_DIR, 'products.seed.json');
-const INITIAL_PRODUCTS = fs.existsSync(SEED_FILE) ? getJson(SEED_FILE, []) : getJson(PRODUCTS_FILE, []);
-
 // Helper functions for safe, atomic JSON file reading and writing
-const getJson = (file, defaultVal) => {
+function getJson(file, defaultVal) {
   try {
     if (fs.existsSync(file)) {
       const content = fs.readFileSync(file, 'utf8');
@@ -183,9 +179,9 @@ const getJson = (file, defaultVal) => {
     console.error(`[Data Storage] Error reading ${file}:`, e.message);
   }
   return defaultVal;
-};
+}
 
-const saveJson = (file, data) => {
+function saveJson(file, data) {
   try {
     const dir = path.dirname(file);
     if (!fs.existsSync(dir)) {
@@ -198,7 +194,11 @@ const saveJson = (file, data) => {
   } catch (e) {
     console.error(`[Data Storage] Error atomically writing ${file}:`, e.message);
   }
-};
+}
+
+// Official Plastir Catalogue (Seed)
+const SEED_FILE = path.join(DATA_DIR, 'products.seed.json');
+const INITIAL_PRODUCTS = fs.existsSync(SEED_FILE) ? getJson(SEED_FILE, []) : getJson(PRODUCTS_FILE, []);
 
 // ==========================================
 // AUTHENTICATION & SECURITY SYSTEM
