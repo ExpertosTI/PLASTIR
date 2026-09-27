@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_inherit_settlement" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.settlement</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="70"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Liquidaciones PLASTIR" string="Liquidaciones PLASTIR" name="plastir_settlement_management">
+                    <block title="Cuentas Predeterminadas de Liquidación" id="settlement_accounts_setting">
+                        <setting id="transit_account_setting" string="Mercancías en Tránsito" help="Cuenta contable para acumular pagos y costos antes de liquidar el embarque.">
+                            <field name="settlement_transit_account_id"/>
+                        </setting>
+                        <setting id="stock_account_setting" string="Inventario / Existencias" help="Cuenta de valoración de inventario a cargar con el costo landed total.">
+                            <field name="settlement_stock_account_id"/>
+                        </setting>
+                        <setting id="itbis_account_setting" string="ITBIS Crédito Fiscal DGA" help="Cuenta de ITBIS aduanal recuperable.">
+                            <field name="settlement_itbis_account_id"/>
+                        </setting>
+                        <setting id="journal_setting" string="Diario de Liquidaciones" help="Diario contable para registrar los asientos de liquidación de importaciones.">
+                            <field name="settlement_journal_id"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_plastir_settlement_config_settings" model="ir.actions.act_window">
+        <field name="name">Ajustes de Liquidación</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module': 'plastir_settlement_management'}</field>
+    </record>
+</odoo>

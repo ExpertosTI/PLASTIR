@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Acciones especializadas de compras -->
+    <record id="action_purchase_order_international" model="ir.actions.act_window">
+        <field name="name">Compras Internacionales (USD)</field>
+        <field name="res_model">purchase.order</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('is_international_purchase', '=', True)]</field>
+        <field name="context">{'default_is_international_purchase': True}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Cree una nueva orden de compra internacional en moneda extranjera (USD).
+            </p>
+            <p>
+                Al confirmar, podrá vincularla directamente al expediente de liquidación de mercancías para prorrateo de flete, seguro y aduanas.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_purchase_order_local" model="ir.actions.act_window">
+        <field name="name">Compras Locales (RD$)</field>
+        <field name="res_model">purchase.order</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('is_international_purchase', '=', False)]</field>
+        <field name="context">{'default_is_international_purchase': False}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Cree una nueva orden de compra a proveedores locales en RD$.
+            </p>
+            <p>
+                Flujo local: 1. Orden de Compra -&gt; 2. Recepción en Almacén -&gt; 3. Factura de Proveedor con NCF -&gt; 4. Pago.
+            </p>
+        </field>
+    </record>
+
+    <!-- Acción para Ver Todas las Actividades de Liquidación (Estilo Stock Manager Notifications) -->
+    <record id="action_settlement_all_activities" model="ir.actions.act_window">
+        <field name="name">Actividades y Notificaciones Pendientes</field>
+        <field name="res_model">mail.activity</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('res_model', '=', 'plastir.settlement')]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No hay actividades pendientes en este momento.
+            </p>
+            <p>
+                Aquí se centralizan los recordatorios de arribo a puerto (ETA), revisiones DUA, comprobaciones aduanales DGA y cierres contables de mercancías en tránsito.
+            </p>
+        </field>
+    </record>
+
+    <!-- Acción para Configuración de Tipos de Operación -->
+    <record id="action_settlement_type_config" model="ir.actions.act_window">
+        <field name="name">Tipos de Operación y Control</field>
+        <field name="res_model">plastir.settlement.type</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Menú Principal de la Aplicación -->
+    <menuitem id="menu_plastir_settlement_root"
+              name="Liquidaciones PLASTIR"
+              web_icon="plastir_settlement_management,static/description/icon.png"
+              sequence="28"/>
+
+    <!-- MENÚ 1 (PRINCIPAL / DEFAULT): Información General (Dashboard Estilo Inventory Stock Manager) -->
+    <menuitem id="menu_plastir_settlement_dashboard"
+              name="Información general"
+              parent="menu_plastir_settlement_root"
+              action="action_plastir_settlement_dashboard"
+              sequence="1"/>
+
+    <!-- Submenú 2: Operaciones -->
+    <menuitem id="menu_plastir_settlement_operations"
+              name="Operaciones"
+              parent="menu_plastir_settlement_root"
+              sequence="10"/>
+
+    <menuitem id="menu_plastir_settlement_list"
+              name="Expedientes de Liquidación"
+              parent="menu_plastir_settlement_operations"
+              action="action_plastir_settlement"
+              sequence="10"/>
+
+    <menuitem id="menu_plastir_settlement_import"
+              name="Cargar desde Excel"
+              parent="menu_plastir_settlement_operations"
+              action="action_plastir_settlement_import_wizard"
+              sequence="20"/>
+
+    <!-- Submenú 3: Compras -->
+    <menuitem id="menu_plastir_settlement_purchases"
+              name="Gestión de Compras"
+              parent="menu_plastir_settlement_root"
+              sequence="20"/>
+
+    <menuitem id="menu_purchase_international"
+              name="Compras Internacionales (USD)"
+              parent="menu_plastir_settlement_purchases"
+              action="action_purchase_order_international"
+              sequence="10"/>
+
+    <menuitem id="menu_purchase_local"
+              name="Compras Locales (RD$)"
+              parent="menu_plastir_settlement_purchases"
+              action="action_purchase_order_local"
+              sequence="20"/>
+
+    <!-- Submenú 4: Notificaciones y Actividades -->
+    <menuitem id="menu_plastir_settlement_activities"
+              name="Notificaciones &amp; Actividades"
+              parent="menu_plastir_settlement_root"
+              action="action_settlement_all_activities"
+              sequence="30"/>
+
+    <!-- Submenú 5: Configuración -->
+    <menuitem id="menu_plastir_settlement_config"
+              name="Configuración"
+              parent="menu_plastir_settlement_root"
+              groups="group_settlement_manager"
+              sequence="90"/>
+
+    <menuitem id="menu_settlement_type_config_item"
+              name="Tipos de Operación"
+              parent="menu_plastir_settlement_config"
+              action="action_settlement_type_config"
+              sequence="5"/>
+
+    <menuitem id="menu_plastir_settlement_settings"
+              name="Ajustes Contables"
+              parent="menu_plastir_settlement_config"
+              action="action_plastir_settlement_config_settings"
+              sequence="10"/>
+
+    <!-- Integración en menú nativo de Compras Odoo -->
+    <menuitem id="menu_purchase_settlement_integration"
+              name="Liquidación de Mercancías"
+              parent="purchase.menu_procurement_management"
+              action="action_plastir_settlement_dashboard"
+              sequence="25"/>
+</odoo>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_purchase_order_form_inherit_settlement" model="ir.ui.view">
+        <field name="name">purchase.order.form.inherit.settlement</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_create_settlement" string="Crear Liquidación de Importación" type="object" class="btn-primary" invisible="not is_international_purchase or state not in ('purchase', 'done')"/>
+            </xpath>
+            <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+                <button name="action_view_settlements" type="object" class="oe_stat_button" icon="fa-ship" invisible="settlement_count == 0">
+                    <field name="settlement_count" widget="statinfo" string="Liquidaciones"/>
+                </button>
+            </xpath>
+            <xpath expr="//field[@name='currency_id']" position="after">
+                <field name="is_international_purchase" widget="boolean_toggle"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

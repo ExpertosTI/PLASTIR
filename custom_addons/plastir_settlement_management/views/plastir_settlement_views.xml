@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista Lista Moderna de Liquidaciones -->
+    <record id="view_plastir_settlement_tree" model="ir.ui.view">
+        <field name="name">plastir.settlement.tree</field>
+        <field name="model">plastir.settlement</field>
+        <field name="arch" type="xml">
+            <list string="Expedientes de Liquidación" decoration-info="state == 'draft'" decoration-warning="state == 'in_transit'" decoration-primary="state == 'liquidated'" decoration-success="state == 'done'" decoration-muted="state == 'cancel'">
+                <field name="name"/>
+                <field name="operation_code"/>
+                <field name="shipping_ref" optional="show"/>
+                <field name="eta_date" optional="show"/>
+                <field name="date"/>
+                <field name="partner_id"/>
+                <field name="total_fob_usd" sum="Total FOB USD" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="total_freight_usd" sum="Total Flete USD" optional="show" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="total_cif_usd" sum="Total CIF USD" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="exchange_rate"/>
+                <field name="total_gastos_capitalizables_rd" sum="Gastos DGA RD$" optional="show" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
+                <field name="total_costo_inventario_rd" sum="Costo Inventario RD$" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
+                <field name="activity_ids" widget="list_activity" optional="show"/>
+                <field name="currency_id" column_invisible="True"/>
+                <field name="company_currency_id" column_invisible="True"/>
+                <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-warning="state == 'in_transit'" decoration-primary="state == 'liquidated'" decoration-success="state == 'done'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vista Kanban Moderna (Cards Fluidas con Métricas Clave y Actividades) -->
+    <record id="view_plastir_settlement_kanban" model="ir.ui.view">
+        <field name="name">plastir.settlement.kanban</field>
+        <field name="model">plastir.settlement</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" sample="1" class="o_kanban_dashboard">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="operation_code"/>
+                <field name="shipping_ref"/>
+                <field name="partner_id"/>
+                <field name="date"/>
+                <field name="eta_date"/>
+                <field name="total_fob_usd"/>
+                <field name="total_costo_inventario_rd"/>
+                <field name="exchange_rate"/>
+                <field name="currency_id"/>
+                <field name="company_currency_id"/>
+                <field name="state"/>
+                <field name="activity_ids"/>
+                <progressbar field="state" colors='{"done": "success", "liquidated": "primary", "in_transit": "warning", "draft": "info"}'/>
+                <templates>
+                    <t t-name="card">
+                        <div class="o_kanban_record_top mb-2">
+                            <div class="o_kanban_record_headings">
+                                <strong class="o_kanban_record_title text-primary fs-6">
+                                    <field name="name"/>
+                                </strong>
+                                <small class="text-muted d-block mt-1">
+                                    <i class="fa fa-ship me-1 text-primary"/>
+                                    <field name="operation_code"/>
+                                    <t t-if="record.partner_id.value"> — <field name="partner_id"/></t>
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="row g-2 my-2">
+                            <div class="col-6">
+                                <div class="bg-light p-2 rounded-3 border">
+                                    <div class="text-uppercase text-muted" style="font-size: 0.68rem; font-weight: 600;">FOB Total</div>
+                                    <div class="fw-bold text-dark fs-6">
+                                        <field name="total_fob_usd" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="bg-light p-2 rounded-3 border">
+                                    <div class="text-uppercase text-muted" style="font-size: 0.68rem; font-weight: 600;">Costo Landed RD$</div>
+                                    <div class="fw-bold text-success fs-6">
+                                        <field name="total_costo_inventario_rd" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="o_kanban_record_bottom mt-2 pt-2 border-top d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center gap-1">
+                                <span class="badge rounded-pill bg-primary-subtle text-primary border border-primary-subtle">
+                                    Tasa: RD$ <field name="exchange_rate"/>
+                                </span>
+                                <t t-if="record.eta_date.raw_value">
+                                    <span class="badge rounded-pill bg-info-subtle text-info border border-info-subtle small" title="Fecha Estimada de Llegada">
+                                        <i class="fa fa-anchor me-1"/><field name="eta_date"/>
+                                    </span>
+                                </t>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <field name="activity_ids" widget="kanban_activity"/>
+                                <div class="text-muted small">
+                                    <field name="date"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Vista Gráfica de Costos Landed -->
+    <record id="view_plastir_settlement_graph" model="ir.ui.view">
+        <field name="name">plastir.settlement.graph</field>
+        <field name="model">plastir.settlement</field>
+        <field name="arch" type="xml">
+            <graph string="Análisis de Liquidaciones y Costos Landed" type="bar" sample="1">
+                <field name="operation_code"/>
+                <field name="total_costo_inventario_rd" type="measure"/>
+                <field name="total_cif_dop" type="measure"/>
+                <field name="total_gastos_capitalizables_rd" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Vista Pivot Multidimensional -->
+    <record id="view_plastir_settlement_pivot" model="ir.ui.view">
+        <field name="name">plastir.settlement.pivot</field>
+        <field name="model">plastir.settlement</field>
+        <field name="arch" type="xml">
+            <pivot string="Matriz de Costos de Importación" sample="1">
+                <field name="partner_id" type="row"/>
+                <field name="operation_code" type="row"/>
+                <field name="date" interval="month" type="col"/>
+                <field name="total_fob_usd" type="measure"/>
+                <field name="total_freight_usd" type="measure"/>
+                <field name="total_cif_usd" type="measure"/>
+                <field name="total_gastos_capitalizables_rd" type="measure"/>
+                <field name="total_costo_inventario_rd" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Vista Actividades y Seguimiento Aduanal -->
+    <record id="view_plastir_settlement_activity" model="ir.ui.view">
+        <field name="name">plastir.settlement.activity</field>
+        <field name="model">plastir.settlement</field>
+        <field name="arch" type="xml">
+            <activity string="Seguimiento de Embarques">
+                <templates>
+                    <div t-name="activity-box">
+                        <div>
+                            <field name="name" class="fw-bold"/>
+                            <div class="text-muted small">
+                                <field name="operation_code"/> — <field name="partner_id"/>
+                            </div>
+                        </div>
+                    </div>
+                </templates>
+            </activity>
+        </field>
+    </record>
+
+    <!-- Vista Formulario de Liquidaciones (Con Micro-Dashboard KPI Bootstrap 5 Nativo) -->
+    <record id="view_plastir_settlement_form" model="ir.ui.view">
+        <field name="name">plastir.settlement.form</field>
+        <field name="model">plastir.settlement</field>
+        <field name="arch" type="xml">
+            <form string="Expediente de Liquidación de Mercancías">
+                <header>
+                    <button name="action_open_import_wizard" string="Cargar desde Excel" type="object" class="oe_highlight btn-success" invisible="state in ('done', 'cancel')"/>
+                    <button name="action_compute_proration" string="Calcular Prorrateo de Costos" type="object" class="oe_highlight btn-primary" invisible="state in ('done', 'cancel')"/>
+                    <button name="action_set_in_transit" string="Marcar En Tránsito" type="object" invisible="state != 'draft'"/>
+                    <button name="action_update_product_costs" string="Actualizar Costos en Catálogo Odoo" type="object" class="btn-info" invisible="state not in ('liquidated', 'done')"/>
+                    <button name="action_create_accounting_entry" string="Generar Asiento de Cierre Contable" type="object" class="oe_highlight" invisible="state != 'liquidated'"/>
+                    <button name="action_draft" string="Regresar a Borrador" type="object" invisible="state in ('draft', 'done')"/>
+                    <button name="action_cancel" string="Cancelar" type="object" invisible="state in ('done', 'cancel')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,in_transit,liquidated,done"/>
+                </header>
+                <sheet>
+                    <!-- Título y Código Único -->
+                    <div class="oe_title mb-4">
+                        <span class="o_form_label text-muted text-uppercase fw-semibold" style="letter-spacing: 0.05em;">Control Único de Liquidación</span>
+                        <h1 class="display-6 fw-bold text-primary mt-1">
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+
+                    <!-- Micro-Dashboard KPI Cards Nativas Bootstrap 5 (Compatibilidad Absoluta Odoo 18) -->
+                    <div class="row g-3 mb-4">
+                        <div class="col-12 col-md-6 col-xl-3">
+                            <div class="card shadow-sm border-0 rounded-3 p-3 h-100 bg-light">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="text-uppercase text-muted fw-bold" style="font-size: 0.72rem; letter-spacing: 0.05em;">FOB Total (USD)</span>
+                                        <div class="fs-4 fw-bold text-primary mt-1">
+                                            <field name="total_fob_usd" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                        </div>
+                                    </div>
+                                    <span class="badge rounded-circle p-3 bg-primary-subtle text-primary fs-5">
+                                        <i class="fa fa-usd"/>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6 col-xl-3">
+                            <div class="card shadow-sm border-0 rounded-3 p-3 h-100 bg-light">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="text-uppercase text-muted fw-bold" style="font-size: 0.72rem; letter-spacing: 0.05em;">Costo CIF (USD)</span>
+                                        <div class="fs-4 fw-bold mt-1" style="color: #4f46e5;">
+                                            <field name="total_cif_usd" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                        </div>
+                                    </div>
+                                    <span class="badge rounded-circle p-3 bg-info-subtle text-info fs-5">
+                                        <i class="fa fa-ship"/>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6 col-xl-3">
+                            <div class="card shadow-sm border-0 rounded-3 p-3 h-100 bg-light">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="text-uppercase text-muted fw-bold" style="font-size: 0.72rem; letter-spacing: 0.05em;">Gastos DGA (RD$)</span>
+                                        <div class="fs-4 fw-bold mt-1" style="color: #d97706;">
+                                            <field name="total_gastos_capitalizables_rd" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
+                                        </div>
+                                    </div>
+                                    <span class="badge rounded-circle p-3 bg-warning-subtle text-warning fs-5">
+                                        <i class="fa fa-building-o"/>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6 col-xl-3">
+                            <div class="card shadow-sm border-0 rounded-3 p-3 h-100 bg-light">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="text-uppercase text-muted fw-bold" style="font-size: 0.72rem; letter-spacing: 0.05em;">Costo Landed Total (RD$)</span>
+                                        <div class="fs-4 fw-bold text-success mt-1">
+                                            <field name="total_costo_inventario_rd" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
+                                        </div>
+                                    </div>
+                                    <span class="badge rounded-circle p-3 bg-success-subtle text-success fs-5">
+                                        <i class="fa fa-cubes"/>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Datos Generales -->
+                    <group>
+                        <group name="general_info" string="Información del Embarque">
+                            <field name="type_id" readonly="state in ('done', 'cancel')"/>
+                            <field name="operation_code" readonly="state in ('done', 'cancel')"/>
+                            <field name="shipping_ref" readonly="state in ('done', 'cancel')"/>
+                            <field name="eta_date" readonly="state in ('done', 'cancel')"/>
+                            <field name="date" readonly="state in ('done', 'cancel')"/>
+                            <field name="partner_id" readonly="state in ('done', 'cancel')"/>
+                            <field name="company_id" groups="base.group_multi_company" readonly="state in ('done', 'cancel')"/>
+                        </group>
+                        <group name="financial_info" string="Divisa y Conversión">
+                            <field name="currency_id" readonly="state in ('done', 'cancel')"/>
+                            <field name="exchange_rate" readonly="state in ('done', 'cancel')"/>
+                            <field name="company_currency_id" invisible="1"/>
+                            <field name="account_move_id" readonly="1" invisible="not account_move_id"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <!-- Pestaña 1: Mercancías y Prorrateo Landed -->
+                        <page string="Detalle de Mercancías y Prorrateo Landed" name="goods_lines">
+                            <field name="line_ids" readonly="state in ('done', 'cancel')">
+                                <list string="Mercancías Importadas" editable="bottom">
+                                    <field name="invoice_name"/>
+                                    <field name="sku"/>
+                                    <field name="name"/>
+                                    <field name="quantity"/>
+                                    <field name="cartons"/>
+                                    <field name="fob_unit_usd"/>
+                                    <field name="fob_total_usd" sum="Total FOB"/>
+                                    <field name="discount_usd" optional="show" sum="Total Descuentos"/>
+                                    <field name="commission_usd" optional="show" sum="Total Comisiones"/>
+                                    <field name="freight_usd" sum="Total Flete"/>
+                                    <field name="insurance_usd" sum="Total Seguro"/>
+                                    <field name="cif_usd" sum="Total CIF USD"/>
+                                    <field name="gastos_rd" sum="Total Gastos RD$" widget="monetary" options="{'currency_field': 'parent.company_currency_id'}"/>
+                                    <field name="costo_total_rd" sum="Costo Total RD$" widget="monetary" options="{'currency_field': 'parent.company_currency_id'}"/>
+                                    <field name="costo_unitario_rd" widget="monetary" options="{'currency_field': 'parent.company_currency_id'}"/>
+                                    <field name="product_id" optional="show"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <!-- Pestaña 2: Facturas del Proveedor (FOB, Flete, Seguro, etc.) -->
+                        <page string="Facturas Comerciales y Gastos USD" name="invoices">
+                            <field name="invoice_ids" readonly="state in ('done', 'cancel')">
+                                <list string="Facturas" editable="bottom">
+                                    <field name="name"/>
+                                    <field name="date"/>
+                                    <field name="recipient"/>
+                                    <field name="fob_usd" sum="Total FOB"/>
+                                    <field name="freight_usd" sum="Total Flete"/>
+                                    <field name="insurance_usd" sum="Total Seguro"/>
+                                    <field name="discount_usd" sum="Total Descuento"/>
+                                    <field name="commission_usd" sum="Total Comisión"/>
+                                    <field name="cif_usd" sum="Total CIF Facturas"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <!-- Pestaña 3: Gastos Locales y Aduanales en RD$ (DGA, Flete Terrestre, ITBIS) -->
+                        <page string="Gastos DGA y Locales (RD$)" name="local_expenses">
+                            <group>
+                                <group string="Gastos Pagados en RD$ (Costo Inventario)">
+                                    <field name="gasto_arancel_rd" readonly="state in ('done', 'cancel')"/>
+                                    <field name="gasto_isc_rd" readonly="state in ('done', 'cancel')"/>
+                                    <field name="gasto_aduanas_rd" readonly="state in ('done', 'cancel')"/>
+                                    <field name="gasto_transporte_local_rd" readonly="state in ('done', 'cancel')"/>
+                                    <field name="gasto_honorarios_rd" readonly="state in ('done', 'cancel')"/>
+                                    <field name="gasto_otros_rd" readonly="state in ('done', 'cancel')"/>
+                                    <field name="subtotal_gastos_rd" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
+                                </group>
+                                <group string="Control Estricto de ITBIS DUA">
+                                    <field name="itbis_pagado_dua" readonly="state in ('done', 'cancel')"/>
+                                    <field name="itbis_recuperable" readonly="state in ('done', 'cancel')"/>
+                                    <field name="itbis_no_recuperable" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
+                                    <field name="itbis_status" widget="badge" decoration-success="itbis_status == 'OK'" decoration-warning="itbis_status == 'REVISAR RECUPERABLE'" decoration-danger="itbis_status == 'PENDIENTE ITBIS'"/>
+                                    <div class="text-muted small mt-2">
+                                        <i class="fa fa-info-circle me-1"/>
+                                        El ITBIS No Recuperable se suma al costo del inventario según norma DGII. El ITBIS Recuperable va a la cuenta de crédito fiscal.
+                                    </div>
+                                </group>
+                            </group>
+                            <group class="mt-3">
+                                <group string="Resumen de Prorrateo Consolidado">
+                                    <field name="total_gastos_capitalizables_rd" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
+                                    <field name="total_cif_dop" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
+                                    <field name="total_costo_inventario_rd" class="oe_subtotal_footer_separator text-success fw-bold fs-5" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- Pestaña 4: Órdenes de Compra y Recepciones Vinculadas -->
+                        <page string="Documentos de Compra y Recepción" name="procurement_docs">
+                            <group>
+                                <field name="purchase_order_ids" widget="many2many_tags" readonly="state in ('done', 'cancel')"/>
+                                <field name="picking_ids" widget="many2many_tags" readonly="1"/>
+                            </group>
+                        </page>
+
+                        <!-- Pestaña 5: Notas y Observaciones -->
+                        <page string="Notas" name="notes">
+                            <field name="notes" placeholder="Notas sobre el embarque, naviera, DUA o liquidación..." readonly="state in ('done', 'cancel')"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista Búsqueda / Filtros -->
+    <record id="view_plastir_settlement_search" model="ir.ui.view">
+        <field name="name">plastir.settlement.search</field>
+        <field name="model">plastir.settlement</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Liquidaciones">
+                <field name="name"/>
+                <field name="operation_code"/>
+                <field name="shipping_ref"/>
+                <field name="partner_id"/>
+                <field name="type_id"/>
+                <filter name="filter_draft" string="Borrador / Pendiente Prorrateo" domain="[('state', '=', 'draft')]"/>
+                <filter name="filter_in_transit" string="En Tránsito Marítimo / Aéreo" domain="[('state', '=', 'in_transit')]"/>
+                <filter name="filter_liquidated" string="Liquidadas" domain="[('state', '=', 'liquidated')]"/>
+                <filter name="filter_done" string="Cerradas / Contabilizadas" domain="[('state', '=', 'done')]"/>
+                <separator/>
+                <filter name="filter_late" string="Llegada con Retraso (ETA)" domain="[('eta_date', '&lt;', context_today), ('state', '!=', 'done')]"/>
+                <separator/>
+                <filter name="filter_my_activities" string="Mis Actividades" domain="[('activity_ids.user_id', '=', uid)]"/>
+                <filter name="filter_late_activities" string="Actividades Vencidas" domain="[('activity_ids.date_deadline', '&lt;', context_today)]"/>
+                <filter name="filter_today_activities" string="Actividades para Hoy" domain="[('activity_ids.date_deadline', '=', context_today)]"/>
+                <separator/>
+                <filter name="filter_date" date="date"/>
+                <group expand="0" string="Agrupar por">
+                    <filter name="group_by_type" string="Tipo de Operación" context="{'group_by': 'type_id'}"/>
+                    <filter name="group_by_partner" string="Proveedor" context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_by_state" string="Estado" context="{'group_by': 'state'}"/>
+                    <filter name="group_by_date" string="Fecha" context="{'group_by': 'date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Acción de Ventana para Liquidaciones (Multi-Vistas 2026: Kanban, List, Form, Graph, Pivot, Activity) -->
+    <record id="action_plastir_settlement" model="ir.actions.act_window">
+        <field name="name">Liquidación de Mercancías</field>
+        <field name="res_model">plastir.settlement</field>
+        <field name="view_mode">kanban,list,form,graph,pivot,activity</field>
+        <field name="search_view_id" ref="view_plastir_settlement_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Cree una nueva liquidación de importación o cargue una plantilla Excel.
+            </p>
+            <p>
+                Gestione compras internacionales, control de mercancías en tránsito, prorrateo de flete, seguros, tributos DGA y valorización real del inventario.
+            </p>
+        </field>
+    </record>
+</odoo>

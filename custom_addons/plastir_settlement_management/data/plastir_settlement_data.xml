@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Tipos de Actividad Personalizados para Liquidaciones y Tránsito (Notificaciones) -->
+        <record id="mail_act_settlement_eta" model="mail.activity.type">
+            <field name="name">Seguimiento de Embarque / ETA</field>
+            <field name="icon">fa-ship</field>
+            <field name="res_model">plastir.settlement</field>
+            <field name="delay_count">5</field>
+            <field name="delay_unit">days</field>
+            <field name="summary">Monitoreo de arribo a puerto / aduana</field>
+        </record>
+
+        <record id="mail_act_settlement_dga" model="mail.activity.type">
+            <field name="name">Revisión DUA / Impuestos DGA</field>
+            <field name="icon">fa-building</field>
+            <field name="res_model">plastir.settlement</field>
+            <field name="delay_count">2</field>
+            <field name="delay_unit">days</field>
+            <field name="summary">Validación de gravamen, arancel e ITBIS DUA</field>
+        </record>
+
+        <record id="mail_act_settlement_proration" model="mail.activity.type">
+            <field name="name">Validación de Prorrateo Landed</field>
+            <field name="icon">fa-calculator</field>
+            <field name="res_model">plastir.settlement</field>
+            <field name="delay_count">1</field>
+            <field name="delay_unit">days</field>
+            <field name="summary">Comprobación de costos prorrateados por SKU</field>
+        </record>
+
+        <record id="mail_act_settlement_close" model="mail.activity.type">
+            <field name="name">Cierre Mercancías en Tránsito</field>
+            <field name="icon">fa-money</field>
+            <field name="res_model">plastir.settlement</field>
+            <field name="delay_count">3</field>
+            <field name="delay_unit">days</field>
+            <field name="summary">Asiento contable definitivo y valorización</field>
+        </record>
+
+        <!-- Tipos de Operación / Dashboard Cards (Estilo Inventory Stock Manager) -->
+        <record id="type_in_transit" model="plastir.settlement.type">
+            <field name="name">Liquidaciones en Tránsito Marítimo / Aéreo</field>
+            <field name="code">in_transit</field>
+            <field name="sequence">10</field>
+            <field name="color">4</field>
+            <field name="icon">fa-ship</field>
+        </record>
+
+        <record id="type_customs" model="plastir.settlement.type">
+            <field name="name">Gestión DGA &amp; Despacho Aduanal</field>
+            <field name="code">customs</field>
+            <field name="sequence">20</field>
+            <field name="color">2</field>
+            <field name="icon">fa-building</field>
+        </record>
+
+        <record id="type_draft" model="plastir.settlement.type">
+            <field name="name">Pendientes de Prorrateo &amp; Costeo Landed</field>
+            <field name="code">draft</field>
+            <field name="sequence">30</field>
+            <field name="color">3</field>
+            <field name="icon">fa-calculator</field>
+        </record>
+
+        <record id="type_done" model="plastir.settlement.type">
+            <field name="name">Cierre Contable Tránsito &amp; Inventario</field>
+            <field name="code">done</field>
+            <field name="sequence">40</field>
+            <field name="color">10</field>
+            <field name="icon">fa-cubes</field>
+        </record>
+
+        <record id="type_local" model="plastir.settlement.type">
+            <field name="name">Compras Locales (RD$)</field>
+            <field name="code">local</field>
+            <field name="sequence">50</field>
+            <field name="color">1</field>
+            <field name="icon">fa-shopping-cart</field>
+        </record>
+
+        <!-- Proveedor Internacional Oficial Plantilla -->
+        <record id="partner_ningbo_topwin" model="res.partner">
+            <field name="name">NINGBO TOPWIN CO., LTD</field>
+            <field name="supplier_rank">1</field>
+            <field name="is_company">1</field>
+            <field name="country_id" ref="base.cn"/>
+            <field name="comment">Proveedor internacional oficial de importación PLASTIR SRL</field>
+        </record>
+
+        <!-- Expediente Demo Precargado basado en Plantilla_Liquidacion_Mercancias_PLASTIR_SRL.xlsx -->
+        <record id="settlement_demo_a26tm06007" model="plastir.settlement">
+            <field name="name">07/2026/A26TM06007</field>
+            <field name="operation_code">A26TM06007</field>
+            <field name="shipping_ref">BL-TOPWIN-2026-07</field>
+            <field name="date">2026-07-28</field>
+            <field name="eta_date">2026-08-15</field>
+            <field name="partner_id" ref="partner_ningbo_topwin"/>
+            <field name="type_id" ref="type_in_transit"/>
+            <field name="state">in_transit</field>
+            <field name="exchange_rate">60.00</field>
+            <field name="subtotal_gastos_rd">245000.00</field>
+            <field name="itbis_pagado_dua">85200.00</field>
+            <field name="itbis_recuperable">85200.00</field>
+            <field name="gasto_arancel_rd">120000.00</field>
+            <field name="gasto_aduanas_rd">45000.00</field>
+            <field name="gasto_transporte_local_rd">50000.00</field>
+            <field name="gasto_otros_rd">30000.00</field>
+            <field name="notes">Importación marítima contenedor 40HQ procedente de Ningbo, China. 4 facturas comerciales A26TM06007-1 a 4.</field>
+        </record>
+
+        <!-- Facturas Vinculadas al Embarque Demo -->
+        <record id="invoice_demo_1" model="plastir.settlement.invoice">
+            <field name="settlement_id" ref="settlement_demo_a26tm06007"/>
+            <field name="name">A26TM06007-1</field>
+            <field name="date">2026-07-28</field>
+            <field name="recipient">JLG CARGO SRL</field>
+            <field name="fob_usd">45174.76</field>
+            <field name="freight_usd">3500.00</field>
+            <field name="insurance_usd">450.00</field>
+            <field name="discount_usd">451.75</field>
+            <field name="commission_usd">1355.24</field>
+        </record>
+
+        <record id="invoice_demo_2" model="plastir.settlement.invoice">
+            <field name="settlement_id" ref="settlement_demo_a26tm06007"/>
+            <field name="name">A26TM06007-2</field>
+            <field name="date">2026-07-28</field>
+            <field name="recipient">JLG CARGO SRL</field>
+            <field name="fob_usd">39046.73</field>
+            <field name="freight_usd">3000.00</field>
+            <field name="insurance_usd">390.00</field>
+            <field name="discount_usd">390.47</field>
+            <field name="commission_usd">1171.40</field>
+        </record>
+
+        <record id="invoice_demo_3" model="plastir.settlement.invoice">
+            <field name="settlement_id" ref="settlement_demo_a26tm06007"/>
+            <field name="name">A26TM06007-3</field>
+            <field name="date">2026-07-28</field>
+            <field name="recipient">JLG CARGO SRL</field>
+            <field name="fob_usd">39784.34</field>
+            <field name="freight_usd">3100.00</field>
+            <field name="insurance_usd">395.00</field>
+            <field name="discount_usd">397.84</field>
+            <field name="commission_usd">1193.53</field>
+        </record>
+
+        <record id="invoice_demo_4" model="plastir.settlement.invoice">
+            <field name="settlement_id" ref="settlement_demo_a26tm06007"/>
+            <field name="name">A26TM06007-4</field>
+            <field name="date">2026-07-28</field>
+            <field name="recipient">JLG CARGO SRL</field>
+            <field name="fob_usd">45767.13</field>
+            <field name="freight_usd">3600.00</field>
+            <field name="insurance_usd">460.00</field>
+            <field name="discount_usd">457.67</field>
+            <field name="commission_usd">1373.01</field>
+        </record>
+
+        <!-- Mercancías Representativas de la Plantilla -->
+        <record id="line_demo_1" model="plastir.settlement.line">
+            <field name="settlement_id" ref="settlement_demo_a26tm06007"/>
+            <field name="invoice_id" ref="invoice_demo_1"/>
+            <field name="sku">PG153</field>
+            <field name="name">Imán de nevera decorativo</field>
+            <field name="uom_name">PCS</field>
+            <field name="quantity">2400</field>
+            <field name="cartons">5</field>
+            <field name="fob_unit_usd">0.25</field>
+            <field name="fob_total_usd">600.00</field>
+        </record>
+
+        <record id="line_demo_2" model="plastir.settlement.line">
+            <field name="settlement_id" ref="settlement_demo_a26tm06007"/>
+            <field name="invoice_id" ref="invoice_demo_1"/>
+            <field name="sku">PG154</field>
+            <field name="name">Imán de nevera diseño floral</field>
+            <field name="uom_name">PCS</field>
+            <field name="quantity">2400</field>
+            <field name="cartons">5</field>
+            <field name="fob_unit_usd">0.20</field>
+            <field name="fob_total_usd">480.00</field>
+        </record>
+
+        <record id="line_demo_3" model="plastir.settlement.line">
+            <field name="settlement_id" ref="settlement_demo_a26tm06007"/>
+            <field name="invoice_id" ref="invoice_demo_1"/>
+            <field name="sku">PG283</field>
+            <field name="name">Set de tazas cerámicas cocina</field>
+            <field name="uom_name">PCS</field>
+            <field name="quantity">180</field>
+            <field name="cartons">5</field>
+            <field name="fob_unit_usd">2.02</field>
+            <field name="fob_total_usd">363.60</field>
+        </record>
+
+        <record id="line_demo_4" model="plastir.settlement.line">
+            <field name="settlement_id" ref="settlement_demo_a26tm06007"/>
+            <field name="invoice_id" ref="invoice_demo_1"/>
+            <field name="sku">PG302</field>
+            <field name="name">Set de taza diseño porcelana</field>
+            <field name="uom_name">PCS</field>
+            <field name="quantity">180</field>
+            <field name="cartons">5</field>
+            <field name="fob_unit_usd">3.37</field>
+            <field name="fob_total_usd">606.60</field>
+        </record>
+    </data>
+</odoo>

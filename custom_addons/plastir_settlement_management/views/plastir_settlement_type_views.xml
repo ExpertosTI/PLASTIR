@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista Dashboard Kanban (Información General Estilo Inventory Stock Manager) -->
+    <record id="view_plastir_settlement_type_kanban" model="ir.ui.view">
+        <field name="name">plastir.settlement.type.kanban</field>
+        <field name="model">plastir.settlement.type</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_dashboard oe_background_grey" create="0">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="color"/>
+                <field name="icon"/>
+                <field name="count_to_process"/>
+                <field name="count_late"/>
+                <field name="count_waiting"/>
+                <field name="total_fob_usd"/>
+                <field name="total_landed_rd"/>
+                <field name="currency_id"/>
+                <field name="company_currency_id"/>
+                <templates>
+                    <t t-name="card">
+                        <div t-attf-class="o_kanban_card_header d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge rounded-circle p-2 bg-primary-subtle text-primary fs-6">
+                                    <i t-attf-class="fa #{record.icon.value or 'fa-ship'}"/>
+                                </span>
+                                <h5 class="o_kanban_record_title m-0 fw-bold text-dark">
+                                    <field name="name"/>
+                                </h5>
+                            </div>
+                            <div class="o_dropdown_kanban dropdown">
+                                <a class="dropdown-toggle btn p-0 text-muted" role="button" data-bs-toggle="dropdown" href="#" aria-label="Acciones">
+                                    <i class="fa fa-ellipsis-v"/>
+                                </a>
+                                <div class="dropdown-menu" role="menu">
+                                    <a role="menuitem" class="dropdown-item" type="object" name="get_action_settlement_tree_ready">
+                                        <i class="fa fa-list me-2"/>Ver Operaciones
+                                    </a>
+                                    <a role="menuitem" class="dropdown-item" type="object" name="action_open_wizard">
+                                        <i class="fa fa-file-excel-o me-2 text-success"/>Cargar desde Excel
+                                    </a>
+                                    <a role="menuitem" class="dropdown-item" type="object" name="action_create_new">
+                                        <i class="fa fa-plus me-2 text-primary"/>Nuevo Registro
+                                    </a>
+                                    <div class="dropdown-divider"/>
+                                    <a role="menuitem" class="dropdown-item" type="object" name="action_view_activities">
+                                        <i class="fa fa-clock-o me-2 text-warning"/>Ver Actividades &amp; Alertas
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="container-fluid p-0 mb-3">
+                            <div class="row g-2 align-items-center">
+                                <div class="col-6">
+                                    <button class="btn btn-primary w-100 py-3 d-flex flex-column align-items-center justify-content-center rounded-3 shadow-sm" type="object" name="get_action_settlement_tree_ready">
+                                        <span class="display-6 fw-bold mb-0">
+                                            <field name="count_to_process"/>
+                                        </span>
+                                        <span class="small text-uppercase fw-semibold" style="letter-spacing: 0.05em;">
+                                            Para Procesar
+                                        </span>
+                                    </button>
+                                </div>
+                                <div class="col-6 d-flex flex-column gap-2">
+                                    <t t-if="record.count_late.raw_value &gt; 0">
+                                        <div class="d-flex justify-content-between align-items-center p-2 rounded-2 bg-danger-subtle text-danger border border-danger-subtle">
+                                            <span class="small fw-semibold"><i class="fa fa-exclamation-triangle me-1"/> Con Retraso:</span>
+                                            <span class="fw-bold fs-6"><field name="count_late"/></span>
+                                        </div>
+                                    </t>
+                                    <t t-else="">
+                                        <div class="d-flex justify-content-between align-items-center p-2 rounded-2 bg-success-subtle text-success border border-success-subtle">
+                                            <span class="small fw-semibold"><i class="fa fa-check-circle me-1"/> Al día:</span>
+                                            <span class="small">Sin retrasos</span>
+                                        </div>
+                                    </t>
+                                    <t t-if="record.total_fob_usd.raw_value &gt; 0">
+                                        <div class="small text-muted d-flex justify-content-between border-top pt-1">
+                                            <span>FOB Total:</span>
+                                            <span class="fw-bold text-dark">
+                                                <field name="total_fob_usd" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                            </span>
+                                        </div>
+                                    </t>
+                                    <t t-if="record.total_landed_rd.raw_value &gt; 0">
+                                        <div class="small text-muted d-flex justify-content-between">
+                                            <span>Landed RD$:</span>
+                                            <span class="fw-bold text-success">
+                                                <field name="total_landed_rd" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
+                                            </span>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="o_kanban_record_bottom border-top pt-2 d-flex justify-content-between align-items-center">
+                            <a class="btn btn-sm btn-link text-decoration-none p-0 text-muted" type="object" name="action_open_wizard">
+                                <i class="fa fa-file-excel-o text-success me-1"/> Cargar Excel
+                            </a>
+                            <a class="btn btn-sm btn-link text-decoration-none p-0 text-primary" type="object" name="action_create_new">
+                                <i class="fa fa-plus me-1"/> Crear Manual
+                            </a>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Vista Lista de Tipos de Operación -->
+    <record id="view_plastir_settlement_type_tree" model="ir.ui.view">
+        <field name="name">plastir.settlement.type.tree</field>
+        <field name="model">plastir.settlement.type</field>
+        <field name="arch" type="xml">
+            <list string="Tipos de Operación y Control">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="count_to_process"/>
+                <field name="count_late"/>
+                <field name="total_fob_usd" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="total_landed_rd" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
+                <field name="currency_id" column_invisible="True"/>
+                <field name="company_currency_id" column_invisible="True"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vista Formulario de Tipo de Operación -->
+    <record id="view_plastir_settlement_type_form" model="ir.ui.view">
+        <field name="name">plastir.settlement.type.form</field>
+        <field name="model">plastir.settlement.type</field>
+        <field name="arch" type="xml">
+            <form string="Tipo de Operación y Control">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name" placeholder="ej. Liquidaciones en Tránsito Marítimo"/></h1>
+                    </div>
+                    <group>
+                        <group name="general">
+                            <field name="code"/>
+                            <field name="sequence"/>
+                            <field name="icon"/>
+                            <field name="active"/>
+                        </group>
+                        <group name="company">
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="currency_id"/>
+                            <field name="company_currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Acción Principal para el Dashboard de Información General -->
+    <record id="action_plastir_settlement_dashboard" model="ir.actions.act_window">
+        <field name="name">Información general</field>
+        <field name="res_model">plastir.settlement.type</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Panel General de Control y Liquidación de Importaciones PLASTIR.
+            </p>
+            <p>
+                Visualice el estado de los embarques en tránsito, costos prorrateados, gestión aduanal DGA y compras locales.
+            </p>
+        </field>
+    </record>
+</odoo>
