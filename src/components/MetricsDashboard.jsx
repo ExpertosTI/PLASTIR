@@ -50,10 +50,10 @@ export const MetricsDashboard = ({ getAuthHeaders, showToast }) => {
 
   const resolveAuthHeaders = () => {
     if (getAuthHeaders) return getAuthHeaders();
-    const token = sessionStorage.getItem('mvpflow_admin_token') || localStorage.getItem('mvpflow_admin_token') || 'MVP2027catalogo';
+    const token = sessionStorage.getItem('plastir_admin_token') || localStorage.getItem('plastir_admin_token') || '';
     return {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
     };
   };
 
@@ -64,29 +64,6 @@ export const MetricsDashboard = ({ getAuthHeaders, showToast }) => {
       let res = await fetch(`/api/analytics/dashboard?range=${selectedRange}`, {
         headers,
       });
-
-      // Auto-recover if token is expired or unauthorized
-      if (res.status === 401) {
-        try {
-          const authRes = await fetch('/api/auth/admin-login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ password: 'MVP2027catalogo' }),
-          });
-          const authData = await authRes.json();
-          if (authData.token) {
-            sessionStorage.setItem('mvpflow_admin_token', authData.token);
-            localStorage.setItem('mvpflow_admin_token', authData.token);
-            headers = {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${authData.token}`,
-            };
-            res = await fetch(`/api/analytics/dashboard?range=${selectedRange}`, {
-              headers,
-            });
-          }
-        } catch {}
-      }
 
       if (res.ok) {
         const data = await res.json();
@@ -1078,7 +1055,7 @@ export const MetricsDashboard = ({ getAuthHeaders, showToast }) => {
                           <td className="py-2 px-3 text-right font-sans">
                             <button
                               onClick={() => {
-                                const text = `🔥 *OFERTA ESPECIAL MVP FLOW*\n👟 *${p.name}*\n💰 Precio: RD$ ${Number(p.price || 0).toLocaleString()}\n📦 Stock Disponible: ${p.stock} pares\n🚚 Envíos a todo RD (Pago Contra Entrega)\n📲 Pide aquí: https://mvpflowboutique.com?buscar=${encodeURIComponent(p.name)}`;
+                                const text = `⭐ *OFERTA DESTACADA PLASTIR RD*\n📦 *${p.name}*\n💰 Precio: RD$ ${Number(p.price || 0).toLocaleString()}\n📦 Stock Disponible: ${p.stock} unidades\n🚚 Envíos a todo RD (Pago Contra Entrega)\n📲 Pide aquí: https://plastirrd.com?buscar=${encodeURIComponent(p.name)}`;
                                 navigator.clipboard.writeText(text);
                                 if (showToast) showToast('Ficha promocional copiada para WhatsApp');
                               }}

@@ -49,7 +49,7 @@ export const AdminModal = ({ onProductUpdated }) => {
   // Admin Password Protection Gate
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
     try {
-      return sessionStorage.getItem('mvpflow_admin_auth') === 'true';
+      return sessionStorage.getItem('plastir_admin_auth') === 'true';
     } catch {
       return false;
     }
@@ -67,21 +67,21 @@ export const AdminModal = ({ onProductUpdated }) => {
   const [editingId, setEditingId] = useState(null);
   const [productForm, setProductForm] = useState({
     name: '',
-    category: 'sneakers',
-    tag: '🔥 NUEVO DROP',
-    price: 1890,
-    originalPrice: 3200,
-    discountPercent: 41,
-    stockLeft: 8,
-    soldPercent: 50,
-    isFlashDeal: true,
-    flashEndHours: 3.5,
+    category: 'cajas',
+    tag: '✨ MÁS VENDIDO',
+    price: 950,
+    originalPrice: 1400,
+    discountPercent: 32,
+    stockLeft: 15,
+    soldPercent: 40,
+    isFlashDeal: false,
+    flashEndHours: 24,
     isPublishedWeb: true,
-    sizes: '39, 40, 41, 42, 43, 44',
-    colors: 'Negro OG (#111111), Blanco (#FFFFFF)',
-    images: '/img/drop-1.jpg',
-    description: 'Calidad G5 garantizada con caja original.',
-    features: 'Suela antideslizante, Cuero premium, Plantilla acolchada',
+    sizes: 'Estándar, 30L, 50L, 70L',
+    colors: 'Transparente (#E2E8F0), Blanco (#FFFFFF), Gris (#64748B)',
+    images: '',
+    description: 'Artículo de plástico de alta resistencia para organización en el hogar y oficina.',
+    features: 'Tapa hermética, Cierre a presión, Libre de BPA, Apilable',
   });
 
   // Whaticket API Config State
@@ -119,7 +119,7 @@ export const AdminModal = ({ onProductUpdated }) => {
   };
 
   const getAuthHeaders = () => {
-    const token = sessionStorage.getItem('mvpflow_admin_token') || '';
+    const token = sessionStorage.getItem('plastir_admin_token') || localStorage.getItem('plastir_admin_token') || '';
     return {
       'Content-Type': 'application/json',
       ...(token ? { 'Authorization': `Bearer ${token}` } : {})
@@ -148,9 +148,9 @@ export const AdminModal = ({ onProductUpdated }) => {
       const data = await res.json();
       if (res.ok && data.success && data.token) {
         setIsAuthenticated(true);
-        sessionStorage.setItem('mvpflow_admin_auth', 'true');
-        sessionStorage.setItem('mvpflow_admin_token', data.token);
-        localStorage.setItem('mvpflow_admin_token', data.token);
+        sessionStorage.setItem('plastir_admin_auth', 'true');
+        sessionStorage.setItem('plastir_admin_token', data.token);
+        localStorage.setItem('plastir_admin_token', data.token);
         setPasswordError(false);
         setAdminPasswordInput('');
         return;
@@ -163,9 +163,9 @@ export const AdminModal = ({ onProductUpdated }) => {
 
   const handleAdminLogout = () => {
     setIsAuthenticated(false);
-    sessionStorage.removeItem('mvpflow_admin_auth');
-    sessionStorage.removeItem('mvpflow_admin_token');
-    localStorage.removeItem('mvpflow_admin_token');
+    sessionStorage.removeItem('plastir_admin_auth');
+    sessionStorage.removeItem('plastir_admin_token');
+    localStorage.removeItem('plastir_admin_token');
   };
 
   const loadProducts = async () => {
@@ -193,7 +193,7 @@ export const AdminModal = ({ onProductUpdated }) => {
     } catch {
       // Fallback
     }
-    const local = JSON.parse(localStorage.getItem('mvpflow_orders') || '[]');
+    const local = JSON.parse(localStorage.getItem('plastir_orders') || '[]');
     setOrders(local);
   };
 
@@ -207,9 +207,9 @@ export const AdminModal = ({ onProductUpdated }) => {
         if (data.odooSyncStatus) setOdooSyncResult({ success: true, ...data.odooSyncStatus });
       }
     } catch {
-      const savedWhaticket = localStorage.getItem('mvpflow_whaticket_config');
+      const savedWhaticket = localStorage.getItem('plastir_whaticket_config');
       if (savedWhaticket) setWhaticketConfig(JSON.parse(savedWhaticket));
-      const savedOdoo = localStorage.getItem('mvpflow_odoo_config');
+      const savedOdoo = localStorage.getItem('plastir_odoo_config');
       if (savedOdoo) setOdooConfig(JSON.parse(savedOdoo));
     }
   };
@@ -235,21 +235,21 @@ export const AdminModal = ({ onProductUpdated }) => {
     setEditingId(null);
     setProductForm({
       name: '',
-      category: 'sneakers',
-      tag: '🔥 NUEVO DROP',
-      price: 1890,
-      originalPrice: 3200,
-      discountPercent: 41,
-      stockLeft: 8,
-      soldPercent: 60,
-      isFlashDeal: true,
-      flashEndHours: 3.5,
+      category: 'cajas',
+      tag: '✨ MÁS VENDIDO',
+      price: 950,
+      originalPrice: 1400,
+      discountPercent: 32,
+      stockLeft: 15,
+      soldPercent: 40,
+      isFlashDeal: false,
+      flashEndHours: 24,
       isPublishedWeb: true,
-      sizes: '39, 40, 41, 42, 43, 44',
-      colors: 'Negro (#111111), Blanco (#FFFFFF)',
-      images: '/img/drop-1.jpg',
-      description: 'Tenis de alta calidad G5 garantizados.',
-      features: 'Suela antideslizante, Cuero premium, Plantilla acolchada',
+      sizes: 'Estándar, 30L, 50L, 70L',
+      colors: 'Transparente (#E2E8F0), Blanco (#FFFFFF), Gris (#64748B)',
+      images: '',
+      description: 'Artículo de plástico de alta resistencia para el hogar.',
+      features: 'Tapa hermética, Cierre a presión, Libre de BPA, Apilable',
     });
     setIsEditingProduct(true);
   };
@@ -258,7 +258,7 @@ export const AdminModal = ({ onProductUpdated }) => {
     setEditingId(prod.id);
     setProductForm({
       name: prod.name,
-      category: prod.category || 'sneakers',
+      category: prod.category || 'cajas',
       tag: prod.tag || '',
       price: prod.price,
       originalPrice: prod.originalPrice || prod.price * 1.5,
@@ -366,7 +366,7 @@ export const AdminModal = ({ onProductUpdated }) => {
   const handleUpdateOrderStatus = async (trackingId, newStatus) => {
     const updated = orders.map((o) => (o.trackingId === trackingId ? { ...o, status: newStatus } : o));
     setOrders(updated);
-    localStorage.setItem('mvpflow_orders', JSON.stringify(updated));
+    localStorage.setItem('plastir_orders', JSON.stringify(updated));
 
     try {
       await fetch(`/api/orders/${trackingId}/status`, {
@@ -388,7 +388,7 @@ export const AdminModal = ({ onProductUpdated }) => {
         body: JSON.stringify({ whaticketConfig }),
       });
     } catch {}
-    localStorage.setItem('mvpflow_whaticket_config', JSON.stringify(whaticketConfig));
+    localStorage.setItem('plastir_whaticket_config', JSON.stringify(whaticketConfig));
     alert('Configuración de Whaticket guardada correctamente.');
   };
 
@@ -421,7 +421,7 @@ export const AdminModal = ({ onProductUpdated }) => {
         body: JSON.stringify({ odooConfig }),
       });
     } catch {}
-    localStorage.setItem('mvpflow_odoo_config', JSON.stringify(odooConfig));
+    localStorage.setItem('plastir_odoo_config', JSON.stringify(odooConfig));
     alert('Configuración de Odoo guardada correctamente.');
   };
 
@@ -825,7 +825,7 @@ export const AdminModal = ({ onProductUpdated }) => {
                     <input
                       type="text"
                       required
-                      placeholder="mvpflow_odoo_prod"
+                      placeholder="plastir_odoo_prod"
                       value={odooConfig.db}
                       onChange={(e) => setOdooConfig({ ...odooConfig, db: e.target.value })}
                       className="w-full bg-mvp-dark border border-mvp-cardHover focus:border-blue-500 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-mvp-muted focus:outline-none font-mono"
@@ -839,7 +839,7 @@ export const AdminModal = ({ onProductUpdated }) => {
                     <input
                       type="text"
                       required
-                      placeholder="admin@mvpflow.com"
+                      placeholder="admin@plastirrd.com"
                       value={odooConfig.username}
                       onChange={(e) => setOdooConfig({ ...odooConfig, username: e.target.value })}
                       className="w-full bg-mvp-dark border border-mvp-cardHover focus:border-blue-500 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-mvp-muted focus:outline-none font-mono"
@@ -1158,9 +1158,11 @@ export const AdminModal = ({ onProductUpdated }) => {
                       onChange={(e) => setProductForm({ ...productForm, category: e.target.value })}
                       className="w-full bg-mvp-dark border border-mvp-cardHover rounded-xl px-3 py-2 text-white focus:outline-none"
                     >
-                      <option value="sneakers">Tenis & Sneakers</option>
-                      <option value="combos">Combos & Ofertas</option>
-                      <option value="hoodies">Ropa Urbana</option>
+                      <option value="cajas">Cajas & Gaveteros</option>
+                      <option value="cocina">Cocina & Herméticos</option>
+                      <option value="limpieza">Limpieza & Cubos</option>
+                      <option value="combos">Combos del Hogar</option>
+                      <option value="muebles">Muebles & Organización</option>
                     </select>
                   </div>
 

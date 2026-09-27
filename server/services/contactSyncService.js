@@ -636,7 +636,7 @@ export const importDeviceContacts = async ({ fileContent, fileName = '', syncToW
 
 /**
  * Perform Full Two-Way Synchronization:
- * Whaticket ⇄ MVPFLOW ⇄ Dispositivos
+ * Whaticket ⇄ PLASTIR ⇄ Dispositivos
  */
 export const performFullTwoWaySync = async () => {
   const whaticketConfig = getActiveWhaticketConfig();

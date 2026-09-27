@@ -38,7 +38,7 @@ export const QuickQuoterModal = () => {
   } = useCart();
 
   // Agent details
-  const [agentName, setAgentName] = useState(() => localStorage.getItem('mvpflow_agent_name') || 'Ventas MVP Flow');
+  const [agentName, setAgentName] = useState(() => localStorage.getItem('plastir_agent_name') || localStorage.getItem('mvpflow_agent_name') || 'Asesor Plastir');
   
   // Customer
   const [customerName, setCustomerName] = useState('');
@@ -53,187 +53,192 @@ export const QuickQuoterModal = () => {
   const [catalogProducts, setCatalogProducts] = useState([]);
   const [productSearchQuery, setProductSearchQuery] = useState('');
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [selectedSize, setSelectedSize] = useState('40 (8)');
+  const [selectedSize, setSelectedSize] = useState('Estándar');
   const [selectedColor, setSelectedColor] = useState('Original');
   const [itemQuantity, setItemQuantity] = useState(1);
   const [customItemPrice, setCustomItemPrice] = useState('');
 
-  // Quoted items list
+  // Cart / Quoted items
   const [quoteItems, setQuoteItems] = useState([]);
-
-  // Shipping & Pricing
-  const [selectedZoneId, setSelectedZoneId] = useState(DOMINICAN_ZONES[0]?.id || 'dn');
-  const [customShippingCost, setCustomShippingCost] = useState('');
+  
+  // Shipping zone & discounts
+  const [selectedZoneId, setSelectedZoneId] = useState('dn');
   const [extraDiscount, setExtraDiscount] = useState(0);
   const [quoteNotes, setQuoteNotes] = useState('');
 
-  // UI status states
+  // UI state
+  const [isCopied, setIsCopied] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [sendSuccess, setSendSuccess] = useState(false);
   const [sendError, setSendError] = useState(null);
-  const [isCopied, setIsCopied] = useState(false);
-  const [isConvertingOrder, setIsConvertingOrder] = useState(false);
   const [createdOrderTicket, setCreatedOrderTicket] = useState(null);
+  const [isConvertingOrder, setIsConvertingOrder] = useState(false);
 
-  // Persist agent name
+  // Load catalog products from API on mount
   useEffect(() => {
-    if (agentName) localStorage.setItem('mvpflow_agent_name', agentName);
-  }, [agentName]);
-
-  // Load products when opening
-  useEffect(() => {
-    if (isQuickQuoterOpen) {
-      loadProducts();
-      loadTickets();
-    }
-  }, [isQuickQuoterOpen]);
-
-  // Handle initial product passed from Catalog
-  useEffect(() => {
-    if (quoterInitialProduct && isQuickQuoterOpen) {
-      const defaultSize = quoterInitialProduct.sizes?.[0] || '40 (8)';
-      const defaultColor = quoterInitialProduct.colors?.[0]?.name || 'Original';
-      
-      setQuoteItems([
-        {
-          id: `${quoterInitialProduct.id}-${Date.now()}`,
-          productId: quoterInitialProduct.id,
-          name: quoterInitialProduct.name,
-          price: Number(quoterInitialProduct.price),
-          size: defaultSize,
-          color: defaultColor,
-          quantity: 1,
-          image: quoterInitialProduct.images?.[0] || '/img/drop-1.jpg',
-        }
-      ]);
-      setQuoterInitialProduct(null);
-    }
-  }, [quoterInitialProduct, isQuickQuoterOpen, setQuoterInitialProduct]);
-
-  const loadProducts = async () => {
-    try {
-      const res = await fetch('/api/products');
-      if (res.ok) {
-        const data = await res.json();
+    fetch('/api/products')
+      .then((res) => (res.ok ? res.json() : []))
+      .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
           setCatalogProducts(data);
-          if (!selectedProduct && data.length > 0) {
-            handleSelectProduct(data[0]);
-          }
         }
-      }
-    } catch {}
-  };
+      })
+      .catch(() => {});
+  }, []);
 
+  // Save agent name
+  useEffect(() => {
+    if (agentName) localStorage.setItem('plastir_agent_name', agentName);
+  }, [agentName]);
+
+  // Load active Whaticket conversations
   const loadTickets = async () => {
     setIsLoadingTickets(true);
     try {
-      const token = sessionStorage.getItem('mvpflow_admin_token') || '';
-      const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
-      const res = await fetch('/api/whaticket/tickets?status=open', { headers });
+      const res = await fetch('/api/whaticket/tickets');
       if (res.ok) {
         const data = await res.json();
-        if (data.success && Array.isArray(data.tickets)) {
-          setWhaticketTickets(data.tickets);
-        } else if (Array.isArray(data)) {
-          setWhaticketTickets(data);
-        }
+        const tickets = Array.isArray(data) ? data : data.tickets || [];
+        setWhaticketTickets(tickets);
       }
     } catch {
+      // Fallback
     } finally {
       setIsLoadingTickets(false);
     }
   };
 
-  const handleSelectTicket = (ticketId) => {
+  useEffect(() => {
+    if (isQuickQuoterOpen) {
+      loadTickets();
+    }
+  }, [isQuickQuoterOpen]);
+
+  // Handle auto-population when opening modal with a specific product
+  useEffect(() => {
+    if (quoterInitialProduct) {
+      setSelectedProduct(quoterInitialProduct);
+      setSelectedSize(quoterInitialProduct.sizes?.[0] || 'Estándar');
+      setSelectedColor(quoterInitialProduct.colors?.[0]?.name || 'Original');
+      setCustomItemPrice(quoterInitialProduct.price || '');
+      setItemQuantity(1);
+    }
+  }, [quoterInitialProduct]);
+
+  // When a ticket conversation is selected from Whaticket
+  const handleSelectTicket = async (ticketId) => {
     setSelectedTicketId(ticketId);
     if (!ticketId) return;
-    const found = whaticketTickets.find((t) => String(t.id) === String(ticketId));
-    if (found) {
-      const name = found.contact?.name || found.name || '';
-      const phone = found.contact?.number || found.number || '';
-      if (name) setCustomerName(name);
-      if (phone) setPhoneNumber(phone);
+
+    const ticket = whaticketTickets.find((t) => String(t.id) === String(ticketId));
+    if (ticket) {
+      setCustomerName(ticket.contact?.name || ticket.name || '');
+      const rawNum = ticket.contact?.number || ticket.number || '';
+      setPhoneNumber(rawNum.replace(/\D/g, ''));
+
+      try {
+        const token = sessionStorage.getItem('plastir_admin_token') || sessionStorage.getItem('mvpflow_admin_token') || '';
+        const res = await fetch(`/api/whaticket/tickets/${ticketId}/messages`, {
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+        });
+        if (res.ok) {
+          const messages = await res.json();
+          if (Array.isArray(messages)) {
+            const fullHistory = messages.map((m) => m.body || '').join(' ');
+            for (const z of DOMINICAN_ZONES) {
+              if (new RegExp(z.id, 'i').test(fullHistory) || new RegExp(z.name.slice(0, 5), 'i').test(fullHistory)) {
+                setSelectedZoneId(z.id);
+                break;
+              }
+            }
+          }
+        }
+      } catch {
+        // Fallback
+      }
     }
   };
 
-  // Filter catalog products for search
+  // Filter products in instant search
   const filteredProducts = useMemo(() => {
-    if (!productSearchQuery.trim()) {
-      return catalogProducts.slice(0, 8);
-    }
+    if (!productSearchQuery.trim()) return catalogProducts.slice(0, 10);
     const q = productSearchQuery.toLowerCase();
-    return catalogProducts.filter((p) => 
+    return catalogProducts.filter((p) =>
       p.name?.toLowerCase().includes(q) ||
       p.sku?.toLowerCase().includes(q) ||
-      p.category?.toLowerCase().includes(q) ||
-      p.tag?.toLowerCase().includes(q)
-    );
+      p.department?.toLowerCase().includes(q) ||
+      p.category?.toLowerCase().includes(q)
+    ).slice(0, 12);
   }, [catalogProducts, productSearchQuery]);
 
   const handleSelectProduct = (prod) => {
     setSelectedProduct(prod);
-    setSelectedSize(prod.sizes?.[0] || '40 (8)');
+    setSelectedSize(prod.sizes?.[0] || 'Estándar');
     setSelectedColor(prod.colors?.[0]?.name || 'Original');
-    setCustomItemPrice(String(prod.price));
+    setCustomItemPrice(prod.price || '');
   };
 
+  // Add item to quote
   const handleAddProductToQuote = () => {
     if (!selectedProduct) return;
+    const finalPrice = customItemPrice !== '' ? Number(customItemPrice) : Number(selectedProduct.price || 0);
 
-    const price = Number(customItemPrice) > 0 ? Number(customItemPrice) : selectedProduct.price;
     const newItem = {
-      id: `${selectedProduct.id}-${selectedSize}-${selectedColor}-${Date.now()}`,
+      id: `${selectedProduct.id}-${Date.now()}`,
       productId: selectedProduct.id,
       name: selectedProduct.name,
-      price: price,
       size: selectedSize,
       color: selectedColor,
+      price: finalPrice,
       quantity: Number(itemQuantity) || 1,
-      image: selectedProduct.images?.[0] || '/img/drop-1.jpg',
+      image: selectedProduct.images?.[0] || selectedProduct.image,
+      sku: selectedProduct.sku || selectedProduct.id,
     };
 
     setQuoteItems((prev) => [...prev, newItem]);
+    setSelectedProduct(null);
+    setProductSearchQuery('');
+    setCustomItemPrice('');
+    setItemQuantity(1);
   };
 
   const handleRemoveQuoteItem = (itemId) => {
-    setQuoteItems((prev) => prev.filter((item) => item.id !== itemId));
+    setQuoteItems((prev) => prev.filter((i) => i.id !== itemId));
   };
 
-  // Shipping calculation
-  const currentZone = useMemo(() => {
-    return DOMINICAN_ZONES.find((z) => z.id === selectedZoneId) || DOMINICAN_ZONES[0] || {
-      name: 'Distrito Nacional',
-      fee: 200,
-      estimatedDelivery: '2 a 4 horas',
-    };
-  }, [selectedZoneId]);
+  // Selected Zone
+  const currentZone = DOMINICAN_ZONES.find((z) => z.id === selectedZoneId) || DOMINICAN_ZONES[0];
+
+  // Financial calculations
+  const subtotal = useMemo(() => {
+    return quoteItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  }, [quoteItems]);
 
   const calculatedShippingCost = useMemo(() => {
-    if (customShippingCost !== '') {
-      return Number(customShippingCost);
-    }
-    const sub = quoteItems.reduce((acc, i) => acc + i.price * i.quantity, 0);
-    if (sub >= 3000) return 0;
-    return currentZone.fee || 200;
-  }, [customShippingCost, quoteItems, currentZone]);
+    if (subtotal >= 4500) return 0;
+    return currentZone.fee || 250;
+  }, [subtotal, currentZone]);
 
-  const subtotal = quoteItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const total = Math.max(0, subtotal + calculatedShippingCost - Number(extraDiscount || 0));
+  const total = useMemo(() => {
+    return Math.max(0, subtotal + calculatedShippingCost - Number(extraDiscount || 0));
+  }, [subtotal, calculatedShippingCost, extraDiscount]);
 
-  // Formatted quote message
+  // Formatted Quotation Message
   const formattedQuoteText = useMemo(() => {
     const itemsList = quoteItems
       .map(
-        (item, idx) =>
-          `${idx + 1}. 👟 *${item.name}*\n   • Talla: ${item.size} | Color: ${item.color}\n   • Cant: ${item.quantity} x RD$ ${item.price.toLocaleString('es-DO')} = *RD$ ${(item.price * item.quantity).toLocaleString('es-DO')}*`
+        (it, idx) =>
+          `*${idx + 1}. ${it.name}*\n` +
+          `   • Presentación: ${it.size} | Color: ${it.color}\n` +
+          `   • Cantidad: ${it.quantity} unid.\n` +
+          `   • Precio: RD$ ${it.price.toLocaleString('es-DO')} c/u (Total: RD$ ${(it.price * it.quantity).toLocaleString('es-DO')})`
       )
       .join('\n\n');
 
     return (
       `⚡ *COTIZACIÓN OFICIAL — PLASTIR RD* ⚡\n` +
-      `🏢 *Tienda por Departamentos (Plásticos & Organización)*\n` +
-      `👤 *Cliente / Empresa:* ${customerName || 'Estimado/a Cliente'}\n` +
+      `🏢 *Artículos para el Hogar, Organización & Plásticos*\n` +
+      `👤 *Cliente / Solicitante:* ${customerName || 'Estimado/a Cliente'}\n` +
       `👩‍💼 *Asesor/a:* ${agentName}\n` +
       `📅 *Fecha:* ${new Date().toLocaleDateString('es-DO')}\n\n` +
       `━━━━━━━━━━━━━━━━━━━━━━\n` +
@@ -241,19 +246,19 @@ export const QuickQuoterModal = () => {
       `━━━━━━━━━━━━━━━━━━━━━━\n\n` +
       (itemsList || '• Sin artículos seleccionados') +
       `\n\n━━━━━━━━━━━━━━━━━━━━━━\n` +
-      `💰 *RESUMEN DE PAGO (COD / FISCAL):*\n` +
+      `💰 *RESUMEN DE PAGO:*\n` +
       `━━━━━━━━━━━━━━━━━━━━━━\n` +
       `• Subtotal: RD$ ${subtotal.toLocaleString('es-DO')}\n` +
-      (extraDiscount > 0 ? `• Descuento Mayorista B2B: - RD$ ${Number(extraDiscount).toLocaleString('es-DO')}\n` : '') +
+      (extraDiscount > 0 ? `• Descuento por Volumen: - RD$ ${Number(extraDiscount).toLocaleString('es-DO')}\n` : '') +
       `• Envío (${currentZone.name}): ${calculatedShippingCost === 0 ? '*¡GRATIS!*' : `RD$ ${calculatedShippingCost.toLocaleString('es-DO')}`}\n` +
       `\n👉 *TOTAL FINAL: RD$ ${total.toLocaleString('es-DO')}*\n\n` +
       `📍 *DESTINO Y ENTREGA:*\n` +
       `• Zona: ${currentZone.name}\n` +
       `• Tiempo estimado: ${currentZone.estimatedDelivery || currentZone.estimatedHours || '2 a 4 horas'}\n` +
-      `• Forma de Pago: *Pago Contra Entrega / Transferencia / Factura Fiscal B01*\n` +
+      `• Forma de Pago: *Pago Contra Entrega / Transferencia*\n` +
       (quoteNotes ? `\n📝 *Nota:* ${quoteNotes}\n` : '') +
-      `\n🛡️ *Garantía Plastir:* 100% Plásticos vírgenes de alta resistencia, libres de BPA. Reposición inmediata garantizada ante cualquier defecto.\n\n` +
-      `¿Deseas confirmar este pedido? Responde *SÍ* o facilítanos tus datos de facturación y entrega para despacharte de inmediato. 🚚💨`
+      `\n🛡️ *Garantía Plastir:* 100% Plásticos vírgenes de alta resistencia, libres de BPA. Reposición directa garantizada ante cualquier inconformidad de fábrica.\n\n` +
+      `¿Deseas confirmar este pedido? Responde *SÍ* o facilítanos tus datos de entrega para despacharte de inmediato. 🚚`
     );
   }, [quoteItems, customerName, agentName, subtotal, extraDiscount, currentZone, calculatedShippingCost, total, quoteNotes]);
 
@@ -263,90 +268,65 @@ export const QuickQuoterModal = () => {
       alert('Por favor ingresa un número de teléfono o WhatsApp para el cliente.');
       return;
     }
-    if (quoteItems.length === 0) {
-      alert('Por favor agrega al menos un producto a la cotización.');
-      return;
-    }
 
     setIsSending(true);
     setSendSuccess(false);
     setSendError(null);
 
-    const quotePayload = {
-      quoteNumber: `COT-${Date.now().toString().slice(-4)}`,
-      customerName: customerName || 'Cliente',
-      agentName: agentName,
-      items: quoteItems,
-      subtotal: subtotal,
-      shippingCost: calculatedShippingCost,
-      discount: Number(extraDiscount || 0),
-      total: total,
-      deliveryZone: currentZone.name,
-      deliveryTime: currentZone.estimatedDelivery || currentZone.estimatedHours || '2 a 4 horas',
-      paymentMethod: 'Pago Contra Entrega (Efectivo al Mensajero)',
-      notes: quoteNotes,
-    };
-
     try {
-      const token = sessionStorage.getItem('mvpflow_admin_token') || '';
-      const headers = {
-        'Content-Type': 'application/json',
-        ...(token ? { 'Authorization': `Bearer ${token}` } : {})
-      };
+      const cleanPhone = phoneNumber.replace(/\D/g, '');
+      const formattedPhone = cleanPhone.length === 10 ? `1${cleanPhone}` : cleanPhone;
+      const token = sessionStorage.getItem('plastir_admin_token') || sessionStorage.getItem('mvpflow_admin_token') || '';
 
-      const res = await fetch('/api/whaticket/send-quote', {
+      const res = await fetch('/api/whaticket/send', {
         method: 'POST',
-        headers,
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
         body: JSON.stringify({
-          phoneNumber: phoneNumber,
-          customerName: customerName || 'Cliente',
-          agentName: agentName,
-          quoteData: quotePayload,
+          ticketId: selectedTicketId || undefined,
+          number: formattedPhone,
+          message: formattedQuoteText,
         }),
       });
 
-      const data = await res.json();
-      if (res.ok && data.success) {
+      if (res.ok) {
         setSendSuccess(true);
-        setTimeout(() => setSendSuccess(false), 6000);
+        setTimeout(() => setSendSuccess(false), 5000);
       } else {
-        setSendError(data.message || 'Error al enviar por el canal de chat.');
+        const err = await res.json().catch(() => ({}));
+        setSendError(err.message || 'No se pudo enviar por Whaticket. Copia el texto para enviarlo por WhatsApp web.');
       }
-    } catch (err) {
-      setSendError(err.message || 'Error de conexión.');
+    } catch {
+      setSendError('Error de conexión con el servicio de mensajería.');
     } finally {
       setIsSending(false);
     }
   };
 
+  // Copy to clipboard
   const handleCopyQuote = () => {
     navigator.clipboard.writeText(formattedQuoteText);
     setIsCopied(true);
     setTimeout(() => setIsCopied(false), 2000);
   };
 
-  // Convert Quote into Confirmed Autopedido Ticket
+  // Convert Quote into an official Order
   const handleConvertToOrder = async () => {
-    if (!customerName || !phoneNumber) {
-      alert('Se requiere nombre y teléfono del cliente para generar el ticket de entrega.');
-      return;
-    }
-    if (quoteItems.length === 0) {
-      alert('Agrega al menos un producto.');
-      return;
-    }
-
+    if (quoteItems.length === 0) return;
     setIsConvertingOrder(true);
-    const trackingId = `MVP-${Math.floor(1000 + Math.random() * 9000)}`;
+
+    const trackingId = `PLASTIR-${Math.floor(100000 + Math.random() * 900000)}`;
 
     const newOrder = {
       trackingId,
-      date: new Date().toISOString(),
+      createdAt: new Date().toISOString(),
       status: 'received',
       agentName: agentName,
       customer: {
-        name: customerName,
-        phone: phoneNumber,
+        name: customerName || 'Cliente Cotización',
+        phone: phoneNumber || '',
       },
       shipping: {
         municipality: currentZone.name,
@@ -355,7 +335,7 @@ export const QuickQuoterModal = () => {
         cost: calculatedShippingCost,
       },
       payment: {
-        method: 'cod',
+        method: 'cash_cod',
         subtotal: subtotal,
         total: total,
       },
@@ -379,8 +359,17 @@ export const QuickQuoterModal = () => {
 
       if (res.ok) {
         setCreatedOrderTicket(trackingId);
+      } else {
+        // Fallback local
+        const local = JSON.parse(localStorage.getItem('plastir_orders') || '[]');
+        local.unshift(newOrder);
+        localStorage.setItem('plastir_orders', JSON.stringify(local));
+        setCreatedOrderTicket(trackingId);
       }
     } catch {
+      const local = JSON.parse(localStorage.getItem('plastir_orders') || '[]');
+      local.unshift(newOrder);
+      localStorage.setItem('plastir_orders', JSON.stringify(local));
       setCreatedOrderTicket(trackingId);
     } finally {
       setIsConvertingOrder(false);
@@ -390,46 +379,46 @@ export const QuickQuoterModal = () => {
   if (!isQuickQuoterOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/90 backdrop-blur-md overflow-y-auto animate-fade-in">
-      <div className="relative w-full max-w-5xl bg-gradient-to-b from-mvp-card via-mvp-dark to-mvp-black border border-mvp-cardHover rounded-3xl shadow-2xl overflow-hidden my-auto max-h-[95vh] flex flex-col text-white">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-slate-900/60 backdrop-blur-sm overflow-y-auto">
+      <div className="relative w-full max-w-5xl bg-white border border-slate-200 rounded-3xl shadow-2xl overflow-hidden my-auto max-h-[95vh] flex flex-col animate-fade-in">
         
         {/* Header */}
-        <div className="p-4 sm:p-5 border-b border-mvp-cardHover bg-mvp-dark flex items-center justify-between gap-3">
+        <div className="p-4 sm:p-5 border-b border-slate-200 bg-white flex items-center justify-between flex-shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-amber-500 via-mvp-red to-mvp-crimson flex items-center justify-center shadow-glow-red flex-shrink-0">
-              <Zap size={20} className="text-white" />
+            <div className="w-10 h-10 rounded-2xl bg-orange-50 border border-orange-200 flex items-center justify-center text-[#F16100] shadow-sm">
+              <Zap size={20} />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-base sm:text-lg font-black uppercase tracking-wider text-white">
-                  COTIZADOR RÁPIDO EXPRESS
+                <h2 className="text-base sm:text-lg font-black uppercase tracking-tight text-slate-900">
+                  Cotizador Rápido B2B & Ventas
                 </h2>
-                <span className="bg-emerald-500/20 text-emerald-300 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-500/30">
-                  Despacho 1-Clic
+                <span className="bg-emerald-50 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-200">
+                  PLASTIR RD
                 </span>
               </div>
-              <p className="text-[11px] text-mvp-silver/70">
-                Arma cotizaciones instantáneas con flete COD y envíalas directamente al cliente.
+              <p className="text-[11px] text-slate-500">
+                Arma presupuestos al instante y envíalos directamente por WhatsApp al cliente.
               </p>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
-            <div className="hidden sm:flex items-center gap-1.5 bg-mvp-black px-3 py-1.5 rounded-xl border border-mvp-cardHover">
-              <User size={13} className="text-mvp-red" />
-              <span className="text-[11px] text-mvp-silver">Asesora:</span>
+            <div className="hidden sm:flex items-center gap-1.5 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200">
+              <User size={13} className="text-[#F16100]" />
+              <span className="text-[11px] text-slate-500 font-medium">Asesor/a:</span>
               <input
                 type="text"
                 value={agentName}
                 onChange={(e) => setAgentName(e.target.value)}
-                placeholder="Ashley"
-                className="bg-transparent text-[11px] font-bold text-white focus:outline-none w-20 text-center border-b border-mvp-red/40"
+                placeholder="Nombre"
+                className="bg-transparent text-[11px] font-bold text-slate-900 focus:outline-none w-24 text-center border-b border-orange-300"
               />
             </div>
 
             <button
               onClick={() => setIsQuickQuoterOpen(false)}
-              className="p-2 text-mvp-muted hover:text-white rounded-xl hover:bg-white/5 transition-colors"
+              className="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-100 transition-colors"
             >
               <X size={20} />
             </button>
@@ -443,10 +432,10 @@ export const QuickQuoterModal = () => {
           <div className="lg:col-span-7 space-y-4">
             
             {/* 1. Customer Picker */}
-            <div className="bg-mvp-dark/80 border border-mvp-cardHover rounded-2xl p-4 space-y-3 shadow-sm">
+            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-3 shadow-sm">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-black uppercase tracking-wider text-mvp-red flex items-center gap-1.5">
-                  <User size={14} />
+                <span className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                  <User size={14} className="text-[#F16100]" />
                   1. Datos del Cliente
                 </span>
 
@@ -454,7 +443,7 @@ export const QuickQuoterModal = () => {
                   <button
                     onClick={loadTickets}
                     disabled={isLoadingTickets}
-                    className="flex items-center gap-1 text-[10px] text-mvp-muted hover:text-white bg-mvp-black px-2 py-1 rounded-lg border border-white/5"
+                    className="flex items-center gap-1 text-[10px] text-slate-600 hover:text-slate-900 bg-white px-2 py-1 rounded-lg border border-slate-200 shadow-sm"
                   >
                     <RefreshCw size={11} className={isLoadingTickets ? 'animate-spin' : ''} />
                     <span>Recargar Chats</span>
@@ -465,13 +454,13 @@ export const QuickQuoterModal = () => {
               {/* Quick chat picker if available */}
               {whaticketTickets.length > 0 && (
                 <div>
-                  <label className="block text-[10px] uppercase font-bold text-mvp-muted mb-1">
+                  <label className="block text-[10px] uppercase font-bold text-slate-500 mb-1">
                     Cargar desde conversación activa:
                   </label>
                   <select
                     value={selectedTicketId}
                     onChange={(e) => handleSelectTicket(e.target.value)}
-                    className="w-full bg-mvp-black border border-mvp-cardHover focus:border-mvp-red rounded-xl px-3 py-2 text-xs text-white focus:outline-none"
+                    className="w-full bg-white border border-slate-200 focus:border-[#F16100] rounded-xl px-3 py-2 text-xs text-slate-900 focus:outline-none"
                   >
                     <option value="">-- Seleccionar cliente de la lista --</option>
                     {whaticketTickets.map((t) => {
@@ -490,33 +479,33 @@ export const QuickQuoterModal = () => {
               {/* Manual inputs */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                 <div>
-                  <label className="block text-[10px] uppercase font-bold text-mvp-muted mb-1">
-                    Nombre del Cliente:
+                  <label className="block text-[10px] uppercase font-bold text-slate-500 mb-1">
+                    Nombre o Empresa:
                   </label>
                   <div className="relative">
-                    <User size={14} className="absolute left-3 top-2.5 text-mvp-muted" />
+                    <User size={14} className="absolute left-3 top-2.5 text-slate-400" />
                     <input
                       type="text"
-                      placeholder="Ej. Kelvin Rosario"
+                      placeholder="Ej. María Pérez / Ferretería Central"
                       value={customerName}
                       onChange={(e) => setCustomerName(e.target.value)}
-                      className="w-full bg-mvp-black border border-mvp-cardHover focus:border-mvp-red rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-mvp-muted focus:outline-none"
+                      className="w-full bg-white border border-slate-200 focus:border-[#F16100] rounded-xl pl-9 pr-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-[10px] uppercase font-bold text-mvp-muted mb-1">
+                  <label className="block text-[10px] uppercase font-bold text-slate-500 mb-1">
                     WhatsApp del Cliente:
                   </label>
                   <div className="relative">
-                    <Phone size={14} className="absolute left-3 top-2.5 text-mvp-muted" />
+                    <Phone size={14} className="absolute left-3 top-2.5 text-slate-400" />
                     <input
                       type="text"
                       placeholder="Ej. 809-656-0219"
                       value={phoneNumber}
                       onChange={(e) => setPhoneNumber(e.target.value)}
-                      className="w-full bg-mvp-black border border-mvp-cardHover focus:border-mvp-red rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-mvp-muted focus:outline-none"
+                      className="w-full bg-white border border-slate-200 focus:border-[#F16100] rounded-xl pl-9 pr-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none"
                     />
                   </div>
                 </div>
@@ -524,31 +513,31 @@ export const QuickQuoterModal = () => {
             </div>
 
             {/* 2. Intelligent Product Search & Picker */}
-            <div className="bg-mvp-dark/80 border border-mvp-cardHover rounded-2xl p-4 space-y-3 shadow-sm">
+            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-3 shadow-sm">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-black uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
-                  <ShoppingBag size={14} />
-                  2. Buscar y Agregar Prenda al Presupuesto
+                <span className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                  <ShoppingBag size={14} className="text-[#F16100]" />
+                  2. Buscar y Agregar Artículo
                 </span>
-                <span className="text-[10px] text-mvp-silver/60">
-                  {catalogProducts.length} modelos en catálogo
+                <span className="text-[10px] text-slate-400">
+                  {catalogProducts.length} productos en catálogo
                 </span>
               </div>
 
               {/* Search Bar */}
               <div className="relative">
-                <Search size={15} className="absolute left-3 top-2.5 text-amber-400" />
+                <Search size={15} className="absolute left-3 top-2.5 text-slate-400" />
                 <input
                   type="text"
-                  placeholder="🔍 Buscar por nombre, marca, tenis, hoodie o SKU..."
+                  placeholder="🔍 Buscar por nombre, cajas, herméticos, zafacones, sillas o SKU..."
                   value={productSearchQuery}
                   onChange={(e) => setProductSearchQuery(e.target.value)}
-                  className="w-full bg-mvp-black border border-amber-500/30 focus:border-amber-400 rounded-xl pl-9 pr-8 py-2 text-xs text-white placeholder-mvp-muted focus:outline-none shadow-inner"
+                  className="w-full bg-white border border-slate-200 focus:border-[#F16100] rounded-xl pl-9 pr-8 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none shadow-sm"
                 />
                 {productSearchQuery && (
                   <button
                     onClick={() => setProductSearchQuery('')}
-                    className="absolute right-2.5 top-2 text-xs text-mvp-muted hover:text-white"
+                    className="absolute right-2.5 top-2 text-xs text-slate-400 hover:text-slate-700"
                   >
                     ×
                   </button>
@@ -556,7 +545,7 @@ export const QuickQuoterModal = () => {
               </div>
 
               {/* Instant Search Grid Results */}
-              <div className="max-h-40 overflow-y-auto space-y-1.5 pr-1 border border-white/5 rounded-xl p-1 bg-black/40">
+              <div className="max-h-40 overflow-y-auto space-y-1.5 pr-1 border border-slate-200 rounded-xl p-1.5 bg-white">
                 {filteredProducts.map((p) => {
                   const isSelected = selectedProduct?.id === p.id;
                   return (
@@ -565,30 +554,30 @@ export const QuickQuoterModal = () => {
                       onClick={() => handleSelectProduct(p)}
                       className={`flex items-center justify-between p-2 rounded-xl cursor-pointer transition-all ${
                         isSelected
-                          ? 'bg-amber-500/20 border border-amber-500/50'
-                          : 'bg-mvp-card/60 hover:bg-mvp-cardHover border border-transparent'
+                          ? 'bg-orange-50 border border-[#F16100]'
+                          : 'bg-slate-50/70 hover:bg-slate-100 border border-transparent'
                       }`}
                     >
                       <div className="flex items-center gap-2.5 min-w-0">
                         <img
-                          src={p.images?.[0] || '/img/drop-1.jpg'}
+                          src={p.images?.[0] || '/logo.PNG'}
                           alt={p.name}
-                          className="w-9 h-9 rounded-lg object-cover border border-white/10 flex-shrink-0"
+                          className="w-9 h-9 rounded-lg object-cover border border-slate-200 bg-white flex-shrink-0"
                         />
                         <div className="min-w-0">
-                          <p className="text-xs font-bold text-white truncate">{p.name}</p>
-                          <p className="text-[10px] text-mvp-silver/70">
-                            SKU: {p.sku || p.id} • Stock: {p.stockLeft || 8}
+                          <p className="text-xs font-bold text-slate-900 truncate">{p.name}</p>
+                          <p className="text-[10px] text-slate-500">
+                            {p.capacity ? `${p.capacity} • ` : ''}SKU: {p.sku || p.id}
                           </p>
                         </div>
                       </div>
 
                       <div className="text-right flex-shrink-0 pl-2">
-                        <span className="text-xs font-mono font-bold text-emerald-400 block">
+                        <span className="text-xs font-mono font-bold text-[#F16100] block">
                           RD$ {Number(p.price).toLocaleString('es-DO')}
                         </span>
                         {isSelected && (
-                          <span className="text-[9px] text-amber-400 font-bold uppercase">
+                          <span className="text-[9px] text-emerald-600 font-bold uppercase">
                             Seleccionado ✓
                           </span>
                         )}
@@ -600,66 +589,65 @@ export const QuickQuoterModal = () => {
 
               {/* Customizer for selected product */}
               {selectedProduct && (
-                <div className="p-3 bg-mvp-black/90 rounded-xl border border-white/10 space-y-3 animate-fade-in">
-                  <div className="flex items-center gap-2 text-xs font-bold text-white">
-                    <span className="text-amber-400">Prenda a Cotizar:</span>
+                <div className="p-3 bg-white rounded-xl border border-slate-200 space-y-3 animate-fade-in shadow-sm">
+                  <div className="flex items-center gap-2 text-xs font-bold text-slate-900">
+                    <span className="text-[#F16100]">Artículo a Cotizar:</span>
                     <span className="truncate">{selectedProduct.name}</span>
                   </div>
 
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                     <div>
-                      <label className="block text-[10px] uppercase font-bold text-mvp-muted mb-1">
-                        Talla:
+                      <label className="block text-[10px] uppercase font-bold text-slate-500 mb-1">
+                        Presentación / Medida:
                       </label>
                       <select
                         value={selectedSize}
                         onChange={(e) => setSelectedSize(e.target.value)}
-                        className="w-full bg-mvp-dark border border-mvp-cardHover focus:border-amber-400 rounded-xl px-2 py-1.5 text-xs text-white"
+                        className="w-full bg-slate-50 border border-slate-200 focus:border-[#F16100] rounded-xl px-2 py-1.5 text-xs text-slate-900"
                       >
-                        {(selectedProduct.sizes || ['39', '40', '41', '42', '43', '44']).map((s) => (
+                        {(selectedProduct.sizes || ['Estándar', 'Pack x 3', 'Pack x 6', 'Bulto Cerrado']).map((s) => (
                           <option key={s} value={s}>{s}</option>
                         ))}
                       </select>
                     </div>
 
                     <div>
-                      <label className="block text-[10px] uppercase font-bold text-mvp-muted mb-1">
+                      <label className="block text-[10px] uppercase font-bold text-slate-500 mb-1">
                         Color:
                       </label>
                       <select
                         value={selectedColor}
                         onChange={(e) => setSelectedColor(e.target.value)}
-                        className="w-full bg-mvp-dark border border-mvp-cardHover focus:border-amber-400 rounded-xl px-2 py-1.5 text-xs text-white"
+                        className="w-full bg-slate-50 border border-slate-200 focus:border-[#F16100] rounded-xl px-2 py-1.5 text-xs text-slate-900"
                       >
-                        {(selectedProduct.colors || [{ name: 'Original Color' }]).map((c, idx) => (
+                        {(selectedProduct.colors || [{ name: 'Original' }]).map((c, idx) => (
                           <option key={idx} value={c.name || c}>{c.name || c}</option>
                         ))}
                       </select>
                     </div>
 
                     <div>
-                      <label className="block text-[10px] uppercase font-bold text-mvp-muted mb-1">
-                        Precio (RD$):
+                      <label className="block text-[10px] uppercase font-bold text-slate-500 mb-1">
+                        Precio Unitario (RD$):
                       </label>
                       <input
                         type="number"
                         value={customItemPrice}
                         onChange={(e) => setCustomItemPrice(e.target.value)}
-                        className="w-full bg-mvp-dark border border-mvp-cardHover focus:border-amber-400 rounded-xl px-2 py-1.5 text-xs text-white font-mono"
+                        className="w-full bg-slate-50 border border-slate-200 focus:border-[#F16100] rounded-xl px-2 py-1.5 text-xs text-slate-900 font-mono"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-[10px] uppercase font-bold text-mvp-muted mb-1">
+                      <label className="block text-[10px] uppercase font-bold text-slate-500 mb-1">
                         Cantidad:
                       </label>
                       <input
                         type="number"
                         min="1"
-                        max="20"
                         value={itemQuantity}
                         onChange={(e) => setItemQuantity(Math.max(1, Number(e.target.value)))}
-                        className="w-full bg-mvp-dark border border-mvp-cardHover focus:border-amber-400 rounded-xl px-2 py-1.5 text-xs text-white text-center"
+                        className="w-full bg-slate-50 border border-slate-200 focus:border-[#F16100] rounded-xl px-2 py-1.5 text-xs text-slate-900 text-center"
                       />
                     </div>
                   </div>
@@ -667,7 +655,7 @@ export const QuickQuoterModal = () => {
                   <button
                     type="button"
                     onClick={handleAddProductToQuote}
-                    className="w-full py-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-black text-xs uppercase tracking-wider rounded-xl flex items-center justify-center gap-1.5 transition-all shadow-md active:scale-98"
+                    className="w-full py-2 bg-[#F16100] hover:bg-[#E05300] text-white font-bold text-xs uppercase tracking-wider rounded-xl flex items-center justify-center gap-1.5 transition-all shadow-sm active:scale-98"
                   >
                     <Plus size={15} />
                     <span>Agregar a la Cotización</span>
@@ -678,36 +666,36 @@ export const QuickQuoterModal = () => {
               {/* Items in quote */}
               {quoteItems.length > 0 && (
                 <div className="space-y-1.5 pt-2">
-                  <span className="text-[11px] font-bold text-mvp-silver uppercase tracking-wider block">
-                    Prendas en esta Cotización ({quoteItems.length}):
+                  <span className="text-[11px] font-bold text-slate-700 uppercase tracking-wider block">
+                    Artículos en esta Cotización ({quoteItems.length}):
                   </span>
                   <div className="space-y-1.5 max-h-36 overflow-y-auto pr-1">
                     {quoteItems.map((item) => (
                       <div
                         key={item.id}
-                        className="flex items-center justify-between p-2 rounded-xl bg-mvp-black border border-mvp-cardHover"
+                        className="flex items-center justify-between p-2 rounded-xl bg-white border border-slate-200"
                       >
                         <div className="flex items-center gap-2 min-w-0">
                           <img
                             src={item.image}
                             alt={item.name}
-                            className="w-8 h-8 rounded-lg object-cover border border-white/10"
+                            className="w-8 h-8 rounded-lg object-cover border border-slate-200"
                           />
                           <div className="min-w-0">
-                            <p className="text-xs font-bold text-white truncate">{item.name}</p>
-                            <p className="text-[10px] text-mvp-silver/70">
-                              Talla: {item.size} | Color: {item.color} | Cant: {item.quantity}
+                            <p className="text-xs font-bold text-slate-900 truncate">{item.name}</p>
+                            <p className="text-[10px] text-slate-500">
+                              {item.size} | Color: {item.color} | Cant: {item.quantity}
                             </p>
                           </div>
                         </div>
 
                         <div className="flex items-center gap-3">
-                          <span className="text-xs font-mono font-bold text-white">
+                          <span className="text-xs font-mono font-bold text-slate-900">
                             RD$ {(item.price * item.quantity).toLocaleString('es-DO')}
                           </span>
                           <button
                             onClick={() => handleRemoveQuoteItem(item.id)}
-                            className="p-1 text-mvp-muted hover:text-red-400 rounded-lg hover:bg-white/5"
+                            className="p-1 text-slate-400 hover:text-red-500 rounded-lg hover:bg-red-50 transition-colors"
                           >
                             <Trash2 size={13} />
                           </button>
@@ -720,21 +708,21 @@ export const QuickQuoterModal = () => {
             </div>
 
             {/* 3. Shipping & Discounts */}
-            <div className="bg-mvp-dark/80 border border-mvp-cardHover rounded-2xl p-4 space-y-3 shadow-sm">
-              <span className="text-xs font-black uppercase tracking-wider text-cyan-400 flex items-center gap-1.5">
-                <MapPin size={14} />
+            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-3 shadow-sm">
+              <span className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                <MapPin size={14} className="text-[#F16100]" />
                 3. Destino de Entrega & Descuentos
               </span>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[10px] uppercase font-bold text-mvp-muted mb-1">
+                  <label className="block text-[10px] uppercase font-bold text-slate-500 mb-1">
                     Zona de Entrega en RD:
                   </label>
                   <select
                     value={selectedZoneId}
                     onChange={(e) => setSelectedZoneId(e.target.value)}
-                    className="w-full bg-mvp-black border border-mvp-cardHover focus:border-cyan-400 rounded-xl px-3 py-2 text-xs text-white"
+                    className="w-full bg-white border border-slate-200 focus:border-[#F16100] rounded-xl px-3 py-2 text-xs text-slate-900"
                   >
                     {DOMINICAN_ZONES.map((z) => (
                       <option key={z.id} value={z.id}>
@@ -745,8 +733,8 @@ export const QuickQuoterModal = () => {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] uppercase font-bold text-mvp-muted mb-1">
-                    Descuento Extra (RD$):
+                  <label className="block text-[10px] uppercase font-bold text-slate-500 mb-1">
+                    Descuento por Volumen (RD$):
                   </label>
                   <input
                     type="number"
@@ -754,21 +742,21 @@ export const QuickQuoterModal = () => {
                     placeholder="0"
                     value={extraDiscount}
                     onChange={(e) => setExtraDiscount(Number(e.target.value))}
-                    className="w-full bg-mvp-black border border-mvp-cardHover focus:border-cyan-400 rounded-xl px-3 py-2 text-xs text-white font-mono"
+                    className="w-full bg-white border border-slate-200 focus:border-[#F16100] rounded-xl px-3 py-2 text-xs text-slate-900 font-mono"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-[10px] uppercase font-bold text-mvp-muted mb-1">
+                <label className="block text-[10px] uppercase font-bold text-slate-500 mb-1">
                   Notas de Entrega / Referencia:
                 </label>
                 <input
                   type="text"
-                  placeholder="Ej. Entregar después de las 2 PM / Frente a la farmacia"
+                  placeholder="Ej. Entregar en almacén / Frente a la estación..."
                   value={quoteNotes}
                   onChange={(e) => setQuoteNotes(e.target.value)}
-                  className="w-full bg-mvp-black border border-mvp-cardHover focus:border-cyan-400 rounded-xl px-3 py-2 text-xs text-white placeholder-mvp-muted"
+                  className="w-full bg-white border border-slate-200 focus:border-[#F16100] rounded-xl px-3 py-2 text-xs text-slate-900 placeholder-slate-400"
                 />
               </div>
             </div>
@@ -779,82 +767,80 @@ export const QuickQuoterModal = () => {
           <div className="lg:col-span-5 flex flex-col space-y-4">
             
             {/* Financial Summary Card */}
-            <div className="bg-mvp-dark border border-mvp-cardHover rounded-2xl p-4 space-y-2.5 shadow-sm">
-              <div className="flex items-center justify-between text-xs text-mvp-silver">
-                <span>Subtotal Prendas:</span>
-                <span className="font-mono text-white font-bold">RD$ {subtotal.toLocaleString('es-DO')}</span>
+            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-2.5 shadow-sm">
+              <div className="flex items-center justify-between text-xs text-slate-600">
+                <span>Subtotal Artículos:</span>
+                <span className="font-mono text-slate-900 font-bold">RD$ {subtotal.toLocaleString('es-DO')}</span>
               </div>
-              <div className="flex items-center justify-between text-xs text-mvp-silver">
+              <div className="flex items-center justify-between text-xs text-slate-600">
                 <span>Envío ({currentZone.name}):</span>
-                <span className="font-mono text-emerald-400 font-bold">
+                <span className="font-mono text-emerald-600 font-bold">
                   {calculatedShippingCost === 0 ? '¡GRATIS!' : `RD$ ${calculatedShippingCost.toLocaleString('es-DO')}`}
                 </span>
               </div>
               {extraDiscount > 0 && (
-                <div className="flex items-center justify-between text-xs text-amber-400">
-                  <span>Descuento Aplicado:</span>
-                  <span className="font-mono font-bold">- RD$ {Number(extraDiscount).toLocaleString('es-DO')}</span>
+                <div className="flex items-center justify-between text-xs text-emerald-600 font-bold">
+                  <span>Descuento Volumen:</span>
+                  <span className="font-mono">- RD$ {Number(extraDiscount).toLocaleString('es-DO')}</span>
                 </div>
               )}
-              <div className="pt-2 border-t border-white/10 flex items-center justify-between">
+              <div className="pt-2 border-t border-slate-200 flex items-center justify-between">
                 <div>
-                  <span className="text-xs font-black uppercase text-mvp-red block">TOTAL A PAGAR (COD):</span>
-                  <span className="text-[10px] text-mvp-silver/60">Paga al mensajero express</span>
+                  <span className="text-xs font-black uppercase text-[#F16100] block">TOTAL A PAGAR:</span>
+                  <span className="text-[10px] text-slate-500">Pago Contra Entrega</span>
                 </div>
-                <span className="text-xl font-mono font-black text-white">
+                <span className="text-xl font-mono font-black text-slate-900">
                   RD$ {total.toLocaleString('es-DO')}
                 </span>
               </div>
             </div>
 
             {/* Live Chat Message Preview */}
-            <div className="flex-1 bg-[#0b141a] border border-emerald-500/30 rounded-2xl p-3.5 flex flex-col shadow-inner">
-              <div className="flex items-center justify-between pb-2 border-b border-white/10 mb-2">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+            <div className="flex-1 bg-white border border-slate-200 rounded-2xl p-3.5 flex flex-col shadow-sm">
+              <div className="flex items-center justify-between pb-2 border-b border-slate-100 mb-2">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                   Vista Previa del Mensaje
                 </span>
                 <button
                   onClick={handleCopyQuote}
-                  className="flex items-center gap-1 text-[11px] text-mvp-silver hover:text-white bg-white/5 hover:bg-white/10 px-2 py-0.5 rounded-lg transition-all"
+                  className="flex items-center gap-1 text-[11px] text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-2 py-0.5 rounded-lg transition-all"
                 >
-                  {isCopied ? <Check size={12} className="text-emerald-400" /> : <Copy size={12} />}
+                  {isCopied ? <Check size={12} className="text-emerald-600" /> : <Copy size={12} />}
                   <span>{isCopied ? '¡Copiado!' : 'Copiar'}</span>
                 </button>
               </div>
 
-              <div className="flex-1 overflow-y-auto text-[11px] font-mono whitespace-pre-wrap text-slate-200 leading-relaxed bg-[#111b21] p-3 rounded-xl border border-white/5 select-all max-h-72">
+              <div className="flex-1 overflow-y-auto text-[11px] font-mono whitespace-pre-wrap text-slate-800 leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-200 select-all max-h-72">
                 {formattedQuoteText}
               </div>
             </div>
 
             {/* Error or Success notification */}
             {sendSuccess && (
-              <div className="bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 p-3 rounded-xl text-xs flex items-center gap-2 animate-fade-in">
-                <CheckCircle2 size={16} className="text-emerald-400 flex-shrink-0" />
-                <span>¡Cotización enviada exitosamente al cliente por el canal de chat!</span>
+              <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 p-3 rounded-xl text-xs flex items-center gap-2 animate-fade-in">
+                <CheckCircle2 size={16} className="text-emerald-600 flex-shrink-0" />
+                <span>¡Cotización enviada exitosamente por chat!</span>
               </div>
             )}
             {sendError && (
-              <div className="bg-red-500/20 border border-red-500/40 text-red-300 p-3 rounded-xl text-xs flex items-center gap-2">
-                <AlertCircle size={16} className="text-red-400 flex-shrink-0" />
+              <div className="bg-red-50 border border-red-200 text-red-700 p-3 rounded-xl text-xs flex items-center gap-2">
+                <AlertCircle size={16} className="text-red-500 flex-shrink-0" />
                 <span>{sendError}</span>
               </div>
             )}
             {createdOrderTicket && (
-              <div className="bg-amber-500/20 border border-amber-500/40 text-amber-300 p-3 rounded-xl text-xs flex items-center justify-between animate-fade-in">
+              <div className="bg-orange-50 border border-orange-200 text-orange-900 p-3 rounded-xl text-xs flex items-center justify-between animate-fade-in">
                 <div className="flex items-center gap-2">
-                  <Package size={16} className="text-amber-400" />
-                  <span>Ticket generado: <strong>#{createdOrderTicket}</strong></span>
+                  <Package size={16} className="text-[#F16100]" />
+                  <span>Pedido generado: <strong>#{createdOrderTicket}</strong></span>
                 </div>
-                <a
-                  href={`/?tracking=${createdOrderTicket}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-white underline font-bold"
+                <button
+                  onClick={() => setIsQuickQuoterOpen(false)}
+                  className="text-[#F16100] underline font-bold"
                 >
-                  Ver Rastreo
-                </a>
+                  Listo
+                </button>
               </div>
             )}
 
@@ -863,7 +849,7 @@ export const QuickQuoterModal = () => {
               <button
                 onClick={handleSendQuote}
                 disabled={isSending || quoteItems.length === 0}
-                className="w-full py-3.5 bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-xs uppercase tracking-wider rounded-2xl shadow-[0_4px_20px_rgba(16,185,129,0.35)] flex items-center justify-center gap-2 transition-all hover:scale-[1.01] active:scale-98 disabled:opacity-50"
+                className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl shadow-md flex items-center justify-center gap-2 transition-all disabled:opacity-50"
               >
                 {isSending ? (
                   <>
@@ -873,7 +859,7 @@ export const QuickQuoterModal = () => {
                 ) : (
                   <>
                     <Send size={15} />
-                    <span>💬 1-Clic Enviar Cotización al Cliente</span>
+                    <span>Enviar Cotización por Chat</span>
                   </>
                 )}
               </button>
@@ -882,18 +868,18 @@ export const QuickQuoterModal = () => {
                 <button
                   onClick={handleConvertToOrder}
                   disabled={isConvertingOrder || quoteItems.length === 0}
-                  className="py-2.5 bg-mvp-card hover:bg-mvp-cardHover text-white font-bold text-xs uppercase tracking-wider rounded-xl border border-white/10 flex items-center justify-center gap-1.5 transition-all"
+                  className="py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs uppercase tracking-wider rounded-xl border border-slate-200 flex items-center justify-center gap-1.5 transition-all"
                 >
-                  <Package size={14} className="text-amber-400" />
-                  <span>Crear Ticket Pedido</span>
+                  <Package size={14} className="text-[#F16100]" />
+                  <span>Crear Orden</span>
                 </button>
 
                 <button
                   onClick={handleCopyQuote}
-                  className="py-2.5 bg-mvp-card hover:bg-mvp-cardHover text-white font-bold text-xs uppercase tracking-wider rounded-xl border border-white/10 flex items-center justify-center gap-1.5 transition-all"
+                  className="py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs uppercase tracking-wider rounded-xl border border-slate-200 flex items-center justify-center gap-1.5 transition-all"
                 >
-                  {isCopied ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
-                  <span>{isCopied ? '¡Texto Copiado!' : 'Copiar Texto'}</span>
+                  {isCopied ? <Check size={14} className="text-emerald-600" /> : <Copy size={14} />}
+                  <span>{isCopied ? '¡Copiado!' : 'Copiar Texto'}</span>
                 </button>
               </div>
             </div>
@@ -906,3 +892,5 @@ export const QuickQuoterModal = () => {
     </div>
   );
 };
+
+export default QuickQuoterModal;

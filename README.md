@@ -26,7 +26,7 @@ Inspirada en la estética nórdica minimalista de **IKEA** y la experiencia de c
 - **Ficha Técnica & Dimensiones:** Medidas exactas, capacidad en litros, certificaciones BPA Free y precios por volumen.
 
 ### 3. Venta Mayorista & B2B
-- **Cotizador B2B Integrado:** Generación de cotizaciones instantáneas por docena y bultos con desglose de ITBIS y comprobante fiscal (NCF B01) para ferreterías, hoteles y restaurantes.
+- **Cotizador Rápido Integrado:** Generación de cotizaciones instantáneas por docena y bultos con precios especiales por volumen para el hogar y negocios.
 - **Chat en Vivo & WhatsApp Directo:** Asesoría personalizada con un toque para ventas mayoristas.
 
 ### 4. Arquitectura y Sincronización ERP (RENACE Core Engine)

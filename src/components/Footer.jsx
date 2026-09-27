@@ -64,12 +64,12 @@ export const Footer = ({ onSelectCategory }) => {
           </div>
 
           <div className="flex items-center gap-3.5 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-            <div className="w-11 h-11 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-700 flex-shrink-0">
-              <FileText size={22} />
+            <div className="w-11 h-11 rounded-xl bg-orange-50 border border-orange-200 flex items-center justify-center text-[#F16100] flex-shrink-0">
+              <Sparkles size={22} />
             </div>
             <div>
-              <h4 className="text-xs font-black text-slate-900 uppercase">Venta Mayorista B2B</h4>
-              <p className="text-slate-500 text-[11px]">Factura con Crédito Fiscal (NCF B01) para empresas.</p>
+              <h4 className="text-xs font-black text-slate-900 uppercase">Asistencia 24/7</h4>
+              <p className="text-slate-500 text-[11px]">Chat inteligente y WhatsApp para ayudarte con tu pedido.</p>
             </div>
           </div>
         </div>
@@ -125,8 +125,8 @@ export const Footer = ({ onSelectCategory }) => {
                 </button>
               </li>
               <li>
-                <button onClick={() => { onSelectCategory?.('industrial'); scrollToSection('catalog'); }} className="hover:text-[#F16100] transition-colors">
-                  Industrial & Hostelería B2B
+                <button onClick={() => { onSelectCategory?.('patio_limpieza'); scrollToSection('catalog'); }} className="hover:text-[#F16100] transition-colors">
+                  Patio, Limpieza & Exteriores
                 </button>
               </li>
               <li>
@@ -149,8 +149,8 @@ export const Footer = ({ onSelectCategory }) => {
                 </button>
               </li>
               <li>
-                <button onClick={() => setIsQuickQuoterOpen?.(true)} className="hover:text-[#F16100] transition-colors">
-                  Cotizador Mayorista B2B (Ferreterías & Negocios)
+                <button onClick={() => scrollToSection('catalog')} className="hover:text-[#F16100] transition-colors">
+                  Envíos a Domicilio y Pago al Recibir (COD)
                 </button>
               </li>
               <li>
@@ -160,13 +160,8 @@ export const Footer = ({ onSelectCategory }) => {
               </li>
               <li>
                 <button onClick={() => setIsQuickQuoterOpen?.(true)} className="hover:text-[#F16100] transition-colors">
-                  Facturación con Comprobante Fiscal (NCF)
+                  Descuentos por Volumen y Bultos
                 </button>
-              </li>
-              <li>
-                <a href="/catalogo.html" className="hover:text-[#F16100] transition-colors">
-                  Catálogo Digital Interactivo
-                </a>
               </li>
             </ul>
           </div>

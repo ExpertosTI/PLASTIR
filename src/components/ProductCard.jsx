@@ -197,11 +197,11 @@ export const ProductCard = ({ product, viewMode = 'grid' }) => {
             {product.name}
           </h3>
 
-          {/* Material & BPA Free highlight */}
+          {/* Material & Durability highlight */}
           {product.material && (
-            <div className="flex items-center gap-1 mt-1 text-[10px] text-emerald-600 font-medium truncate">
-              <ShieldCheck size={12} className="flex-shrink-0" />
-              <span className="truncate">Libre de BPA • Grado Alimenticio</span>
+            <div className="flex items-center gap-1 mt-1 text-[10px] text-slate-500 font-medium truncate">
+              <ShieldCheck size={12} className="flex-shrink-0 text-emerald-600" />
+              <span className="truncate">{product.category === 'cocina' ? 'Libre de BPA • Grado Alimenticio' : 'Polímero Virgen • Alta Resistencia'}</span>
             </div>
           )}
 
@@ -253,12 +253,14 @@ export const ProductCard = ({ product, viewMode = 'grid' }) => {
           )}
         </div>
 
-        {/* Pricing and Add to Cart Button (Shopify Style) */}
+        {/* Pricing and Add to Cart Button */}
         <div className="pt-2 border-t border-slate-100 space-y-2 mt-2">
           <div className="flex items-baseline justify-between">
-            <span className="text-xs text-slate-400 line-through">
-              {formatMoney(product.originalPrice)}
-            </span>
+            {product.originalPrice && product.originalPrice > product.price ? (
+              <span className="text-xs text-slate-400 line-through">
+                {formatMoney(product.originalPrice)}
+              </span>
+            ) : <span />}
             <span className="text-base sm:text-lg font-black text-[#F16100] font-sans">
               {formatMoney(product.price)}
             </span>

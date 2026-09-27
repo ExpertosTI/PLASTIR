@@ -88,8 +88,8 @@ Av. San Vicente de Paúl, Los Mina, Santo Domingo Este (al lado de la estación 
   },
 ];
 
-const STAFF_PASSCODE = 'MVP2027catalogo';
-const AUTH_STORAGE_KEY = 'mvpflow_staff_auth_v1';
+const STAFF_PASSCODE = 'PlastirAdmin2026!';
+const AUTH_STORAGE_KEY = 'plastir_staff_auth_v1';
 
 const SECTORS = [
   { name: 'Santo Domingo Este (Los Mina, San Vicente, Invivienda)', cost: 200, time: '2 a 4 hrs' },
@@ -125,7 +125,7 @@ export const StaffPortal = ({ isOpen, onClose, allProducts = [] }) => {
   // ==========================================
   // ADVANCED COTIZADOR STATE (FULL LEVEL)
   // ==========================================
-  const [agentName, setAgentName] = useState(() => localStorage.getItem('mvpflow_agent_name') || 'Ashley');
+  const [agentName, setAgentName] = useState(() => localStorage.getItem('plastir_agent_name') || localStorage.getItem('mvpflow_agent_name') || 'Asesor Plastir');
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
   const [customerAddress, setCustomerAddress] = useState('');
@@ -137,7 +137,7 @@ export const StaffPortal = ({ isOpen, onClose, allProducts = [] }) => {
   // Live product search inside Cotizador
   const [quoterSearchQuery, setQuoterSearchQuery] = useState('');
   const [activeQuoterProduct, setActiveQuoterProduct] = useState(null);
-  const [selectedSize, setSelectedSize] = useState('40 (8)');
+  const [selectedSize, setSelectedSize] = useState('Estándar');
   const [selectedColor, setSelectedColor] = useState('Original');
   const [itemQuantity, setItemQuantity] = useState(1);
   const [customItemPrice, setCustomItemPrice] = useState('');
@@ -184,7 +184,7 @@ export const StaffPortal = ({ isOpen, onClose, allProducts = [] }) => {
   const loadWhaticketTickets = async () => {
     setIsLoadingTickets(true);
     try {
-      const token = sessionStorage.getItem('mvpflow_admin_token') || '';
+      const token = sessionStorage.getItem('plastir_admin_token') || sessionStorage.getItem('mvpflow_admin_token') || '';
       const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
       const res = await fetch('/api/whaticket/tickets?status=open', { headers });
       if (res.ok) {
@@ -306,7 +306,7 @@ export const StaffPortal = ({ isOpen, onClose, allProducts = [] }) => {
   const handleDownloadPhoto = (item) => {
     const a = document.createElement('a');
     a.href = item.imageUrl;
-    a.download = `${(item.title || 'foto-mvpflow').replace(/[^a-zA-Z0-9_-]/g, '_')}.jpg`;
+    a.download = `${(item.title || 'foto-plastir').replace(/[^a-zA-Z0-9_-]/g, '_')}.jpg`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -315,7 +315,7 @@ export const StaffPortal = ({ isOpen, onClose, allProducts = [] }) => {
   };
 
   const getAuthHeaders = () => {
-    const token = sessionStorage.getItem('mvpflow_admin_token') || localStorage.getItem('mvpflow_admin_token') || '';
+    const token = sessionStorage.getItem('plastir_admin_token') || localStorage.getItem('plastir_admin_token') || sessionStorage.getItem('mvpflow_admin_token') || '';
     return {
       'Content-Type': 'application/json',
       ...(token ? { 'Authorization': `Bearer ${token}` } : {})
@@ -395,8 +395,8 @@ export const StaffPortal = ({ isOpen, onClose, allProducts = [] }) => {
         setAuthError(false);
         try {
           localStorage.setItem(AUTH_STORAGE_KEY, 'true');
-          sessionStorage.setItem('mvpflow_admin_token', data.token);
-          localStorage.setItem('mvpflow_admin_token', data.token);
+          sessionStorage.setItem('plastir_admin_token', data.token);
+          localStorage.setItem('plastir_admin_token', data.token);
         } catch {}
         return;
       }
@@ -409,6 +409,8 @@ export const StaffPortal = ({ isOpen, onClose, allProducts = [] }) => {
     setIsAuthenticated(false);
     try {
       localStorage.removeItem(AUTH_STORAGE_KEY);
+      sessionStorage.removeItem('plastir_admin_token');
+      localStorage.removeItem('plastir_admin_token');
       sessionStorage.removeItem('mvpflow_admin_token');
       localStorage.removeItem('mvpflow_admin_token');
     } catch {}
@@ -605,7 +607,7 @@ export const StaffPortal = ({ isOpen, onClose, allProducts = [] }) => {
     // 1. Envío directo por API de Whaticket si hay teléfono
     if (cleanPhone.length >= 10) {
       try {
-        const token = sessionStorage.getItem('mvpflow_admin_token') || '';
+        const token = sessionStorage.getItem('plastir_admin_token') || sessionStorage.getItem('mvpflow_admin_token') || '';
         const headers = {
           'Content-Type': 'application/json',
           ...(token ? { 'Authorization': `Bearer ${token}` } : {})
@@ -794,7 +796,7 @@ export const StaffPortal = ({ isOpen, onClose, allProducts = [] }) => {
               <div>
                 <input
                   type="password"
-                  placeholder="Contraseña (MVP2027catalogo)"
+                  placeholder="Introduce tu contraseña de acceso"
                   value={passwordInput}
                   onChange={(e) => {
                     setPasswordInput(e.target.value);
@@ -804,7 +806,7 @@ export const StaffPortal = ({ isOpen, onClose, allProducts = [] }) => {
                   autoFocus
                 />
                 {authError && (
-                  <p className="text-xs text-mvp-red font-bold mt-2">Contraseña incorrecta. (Clave: MVP2027catalogo)</p>
+                  <p className="text-xs text-rose-500 font-bold mt-2">Contraseña incorrecta. Contacta al administrador.</p>
                 )}
               </div>
 

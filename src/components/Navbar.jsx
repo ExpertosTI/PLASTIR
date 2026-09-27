@@ -16,7 +16,8 @@ import {
   Package,
   Flame,
   FileText,
-  ChevronDown
+  ChevronDown,
+  Bot
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
@@ -26,8 +27,8 @@ import { CATEGORIES } from '../data/products';
 const PROMO_MESSAGES = [
   { tag: '🇩🇴 ENVÍOS RD', text: 'Envíos express el mismo día en Santo Domingo y a todo el país con Pago Contra Entrega (COD)' },
   { tag: '🛡️ 100% VIRGEN & BPA FREE', text: 'Plásticos de máxima durabilidad aprobados para alimentos, microondas y congelador' },
-  { tag: '🏭 VENTA MAYORISTA B2B', text: 'Cotizaciones instantáneas por docena y bultos para ferreterías, hoteles y restaurantes' },
-  { tag: '✨ ESTILO IKEA NÓRDICO', text: 'Diseño funcional que maximiza cada centímetro de tu clóset, cocina y lavandería' },
+  { tag: '🚚 A TU PUERTA', text: 'Recibe en tu casa con seguridad y paga únicamente cuando tengas el producto en tus manos' },
+  { tag: '✨ DISEÑO FUNCIONAL', text: 'Soluciones que maximizan cada centímetro de tu clóset, cocina y despensa' },
   { tag: '💎 GARANTÍA PLASTIR', text: 'Reposición inmediata garantizada ante cualquier defecto de fábrica' },
 ];
 
@@ -36,12 +37,9 @@ export const Navbar = ({ searchQuery, setSearchQuery, onSelectCategory }) => {
     itemsCount, 
     wishlist,
     setIsWishlistOpen,
-    soundEnabled,
-    setSoundEnabled,
     setIsCartOpen, 
     setIsTrackerOpen, 
     setIsAdminOpen,
-    setIsQuickQuoterOpen,
     openLiveChat,
     currency, 
     setCurrency, 
@@ -97,23 +95,10 @@ export const Navbar = ({ searchQuery, setSearchQuery, onSelectCategory }) => {
           </div>
 
           <div className="flex items-center gap-3 sm:gap-4 flex-shrink-0">
-            {/* Quick Quoter Trigger B2B */}
-            <button
-              onClick={() => setIsQuickQuoterOpen ? setIsQuickQuoterOpen(true) : null}
-              className="hidden md:flex items-center gap-1 text-[11px] font-bold text-white hover:text-orange-100 bg-black/15 hover:bg-black/25 px-2.5 py-0.5 rounded-full border border-white/30 transition-all"
-            >
-              <FileText size={12} className="text-white" />
-              <span>Cotizador B2B Mayorista</span>
-            </button>
-
-            {/* Sound Toggle */}
-            <button
-              onClick={() => setSoundEnabled(!soundEnabled)}
-              className="text-white/90 hover:text-white transition-colors"
-              title={soundEnabled ? 'Silenciar efectos de sonido' : 'Activar efectos de sonido'}
-            >
-              {soundEnabled ? <Volume2 size={14} /> : <VolumeX size={14} />}
-            </button>
+            {/* Direct COD Guarantee Badge */}
+            <div className="hidden md:flex items-center gap-1.5 text-[11px] font-bold text-white bg-black/15 px-2.5 py-0.5 rounded-full border border-white/30">
+              <span>💵 Pago Contra Entrega Seguro</span>
+            </div>
 
             {/* Currency Switcher */}
             <div className="flex items-center bg-black/20 rounded-full p-0.5 border border-white/30 text-[10px]">
@@ -229,18 +214,18 @@ export const Navbar = ({ searchQuery, setSearchQuery, onSelectCategory }) => {
             <Search size={16} />
           </button>
 
-          {/* CHAT EN VIVO ASESORAS */}
+          {/* CHAT EN VIVO CON PLASTIR AI */}
           <button
             onClick={() => openLiveChat()}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-500/60 hover:border-emerald-500 text-emerald-700 hover:text-emerald-800 text-xs font-black transition-all shadow-sm hover:scale-105"
-            title="Chat en Vivo con Asesoras"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-orange-50/90 border border-orange-300/80 hover:border-[#C2410C] text-[#C2410C] hover:text-[#9A3412] text-xs font-black transition-all shadow-sm hover:scale-105"
+            title="Chat con Plastir AI Asistente de Ventas"
           >
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#C2410C] opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#C2410C]"></span>
             </span>
-            <MessageSquare size={14} className="text-emerald-600" />
-            <span className="font-display tracking-wider uppercase text-xs hidden sm:inline">Asesoría</span>
+            <Bot size={15} className="text-[#C2410C]" />
+            <span className="font-display tracking-wider uppercase text-xs hidden sm:inline">Plastir AI</span>
           </button>
 
           {/* Wishlist Button */}

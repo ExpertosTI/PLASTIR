@@ -39,16 +39,16 @@ export const MobileBottomNav = ({ selectedCategory, onSelectCategory }) => {
         <span className="text-[10px] font-medium">Ambientes</span>
       </button>
 
-      {/* Cotizador B2B Executive Center Button */}
+      {/* Centro: Asistente de Compras Plastir AI */}
       <button
-        onClick={() => setIsQuickQuoterOpen?.(true)}
+        onClick={() => openLiveChat(null)}
         className="flex flex-col items-center -mt-3 group"
-        title="Cotizador B2B Mayorista"
+        title="Asistente de Compras AI"
       >
-        <div className="w-11 h-11 rounded-full bg-[#F16100] text-white flex items-center justify-center shadow-md shadow-orange-500/30 border-2 border-white group-active:scale-95 transition-transform">
-          <FileText size={18} />
+        <div className="w-11 h-11 rounded-full bg-gradient-to-tr from-[#F16100] to-[#FF8C38] text-white flex items-center justify-center shadow-md shadow-orange-500/30 border-2 border-white group-active:scale-95 transition-transform">
+          <Sparkles size={20} />
         </div>
-        <span className="text-[9px] font-black text-[#F16100] mt-0.5 uppercase tracking-wider">Cotizar B2B</span>
+        <span className="text-[9px] font-black text-[#F16100] mt-0.5 uppercase tracking-wider">Asistente AI</span>
       </button>
 
       {/* Favoritos */}

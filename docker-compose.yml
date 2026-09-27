@@ -16,10 +16,10 @@ services:
       - WHATICKET_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJjcmVhdGU6bWVzc2FnZXMiLCJjcmVhdGU6bWVkaWFzIiwicmVhZDp3aGF0c2FwcHMiLCJ1cGRhdGU6d2hhdHNhcHBzIiwiY3JlYXRlOmNvbnRhY3RzIiwicmVhZDpjb250YWN0cyJdLCJjb21wYW55SWQiOiIxYjZmMzk1OC05NTExLTRiYzUtOTRkNy04YmE2ZTI2MDYxYTUiLCJpYXQiOjE3ODc4Nzc3MTB9.igKUXGwsEUCqSWhZxgWkpghAmCasRJ9EgazyZUFHr-M
       - WHATICKET_COMPANY_ID=1b6f3958-9511-4bc5-94d7-8ba6e26061a5
       - WHATICKET_CONNECTION_ID=b24ea8c3-f5ed-46de-b612-dbe8f76e53c8
-      - ODOO_URL=https://mvpflow.renace.tech
-      - ODOO_DB=mvpflow
-      - ODOO_USERNAME=info@mvpflowboutique.com
-      - ODOO_API_KEY=abf6067a002549afa0b3b5a6c925d78262658f5c
+      - ODOO_URL=${ODOO_URL:-}
+      - ODOO_DB=${ODOO_DB:-}
+      - ODOO_USERNAME=${ODOO_USERNAME:-}
+      - ODOO_API_KEY=${ODOO_API_KEY:-}
     volumes:
       - /var/www/plastir/server/data:/app/server/data
     networks:

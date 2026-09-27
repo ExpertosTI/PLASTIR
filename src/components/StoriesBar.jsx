@@ -10,7 +10,7 @@ const DEFAULT_STORIES = [
     badge: 'COCINA',
     liveNotice: '🔥 18 sets vendidos hoy',
     type: 'video',
-    thumbnailUrl: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?q=80&w=400&auto=format&fit=crop',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1584992236310-6edddc08acff?q=80&w=400&auto=format&fit=crop',
     videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-hands-folding-clothes-neatly-41150-large.mp4',
     instagramUrl: 'https://plastirrd.com/',
     price: 1890,
@@ -161,7 +161,7 @@ export const StoriesBar = ({ onSelectCategory }) => {
                     loading="lazy"
                     decoding="async"
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?q=80&w=400'; }}
+                    onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1584992236310-6edddc08acff?q=80&w=400'; }}
                   />
 
                   {/* Play / Media icon overlay */}

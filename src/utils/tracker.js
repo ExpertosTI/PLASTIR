@@ -47,7 +47,7 @@ const getActiveAgentName = () => {
       window.location.search.includes('catalogo');
 
     if (isStaffPath) {
-      return localStorage.getItem('mvpflow_agent_name') || 'Ashley';
+      return localStorage.getItem('plastir_agent_name') || localStorage.getItem('mvpflow_agent_name') || 'Asesor Plastir';
     }
     return 'Cliente';
   } catch {

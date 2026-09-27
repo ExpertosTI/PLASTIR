@@ -72,16 +72,15 @@ import {
   extractCoordinates,
 } from './utils/distanceCalculator';
 
-const STAFF_PASSCODE = 'MVP2027catalogo';
-const AUTH_STORAGE_KEY = 'mvpflow_staff_auth_v1';
-const AGENT_STORAGE_KEY = 'mvpflow_agent_name';
+const STAFF_PASSCODE = 'PlastirAdmin2026!';
+const AUTH_STORAGE_KEY = 'plastir_staff_auth_v1';
+const AGENT_STORAGE_KEY = 'plastir_agent_name';
 
 const AGENTS = [
-  { id: 'ashley', name: 'Ashley', role: 'Asesora Principal TikTok/WA' },
-  { id: 'carlos', name: 'Carlos', role: 'Especialista en Tenis G5' },
-  { id: 'gerson', name: 'Gerson', role: 'Gerente de Tienda' },
-  { id: 'marilyn', name: 'Marilyn', role: 'Atención al Cliente' },
-  { id: 'central', name: 'Tienda Central', role: 'Soporte General' },
+  { id: 'asesor-1', name: 'Atención al Cliente', role: 'Asesor Principal WhatsApp' },
+  { id: 'ventas', name: 'Ventas y Cotizaciones', role: 'Especialista en Artículos para el Hogar' },
+  { id: 'almacen', name: 'Almacén Central', role: 'Despacho y Logística' },
+  { id: 'central', name: 'Plastir RD Central', role: 'Soporte General' },
 ];
 
 const SECTORS = [
@@ -300,7 +299,7 @@ export const CatalogApp = () => {
 
   // Helper for auth headers
   const getAuthHeaders = () => {
-    const token = sessionStorage.getItem('mvpflow_admin_token') || localStorage.getItem('mvpflow_admin_token') || STAFF_PASSCODE;
+    const token = sessionStorage.getItem('plastir_admin_token') || localStorage.getItem('plastir_admin_token') || sessionStorage.getItem('mvpflow_admin_token') || '';
     return {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
@@ -310,7 +309,7 @@ export const CatalogApp = () => {
   // Ensure active admin token in storage when authenticated
   useEffect(() => {
     if (!isAuthenticated) return;
-    const existing = sessionStorage.getItem('mvpflow_admin_token') || localStorage.getItem('mvpflow_admin_token');
+    const existing = sessionStorage.getItem('plastir_admin_token') || localStorage.getItem('plastir_admin_token');
     if (!existing) {
       fetch('/api/auth/admin-login', {
         method: 'POST',
@@ -320,8 +319,8 @@ export const CatalogApp = () => {
         .then((r) => r.json())
         .then((data) => {
           if (data.success && data.token) {
-            sessionStorage.setItem('mvpflow_admin_token', data.token);
-            localStorage.setItem('mvpflow_admin_token', data.token);
+            sessionStorage.setItem('plastir_admin_token', data.token);
+            localStorage.setItem('plastir_admin_token', data.token);
           }
         })
         .catch(() => {});
@@ -496,7 +495,7 @@ export const CatalogApp = () => {
   const handleDownloadPhoto = (item) => {
     const a = document.createElement('a');
     a.href = item.imageUrl;
-    a.download = `${(item.title || 'foto-mvpflow').replace(/[^a-zA-Z0-9_-]/g, '_')}.jpg`;
+    a.download = `${(item.title || 'foto-plastir').replace(/[^a-zA-Z0-9_-]/g, '_')}.jpg`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -688,13 +687,13 @@ export const CatalogApp = () => {
       if (res.ok && data.success && data.token) {
         setIsAuthenticated(true);
         setAuthError(false);
-        sessionStorage.setItem('mvpflow_admin_auth', 'true');
-        sessionStorage.setItem('mvpflow_admin_token', data.token);
-        localStorage.setItem('mvpflow_admin_token', data.token);
+        sessionStorage.setItem('plastir_admin_auth', 'true');
+        sessionStorage.setItem('plastir_admin_token', data.token);
+        localStorage.setItem('plastir_admin_token', data.token);
         try {
           localStorage.setItem(AUTH_STORAGE_KEY, 'true');
         } catch {}
-        showToast('¡Sesión iniciada en MVP Catálogo Pro!');
+        showToast('¡Sesión iniciada en Plastir Catálogo Pro!');
         return;
       }
       setAuthError(true);
@@ -707,6 +706,9 @@ export const CatalogApp = () => {
   const handleLogout = () => {
     try {
       localStorage.removeItem(AUTH_STORAGE_KEY);
+      sessionStorage.removeItem('plastir_admin_auth');
+      sessionStorage.removeItem('plastir_admin_token');
+      localStorage.removeItem('plastir_admin_token');
       sessionStorage.removeItem('mvpflow_admin_auth');
       sessionStorage.removeItem('mvpflow_admin_token');
       localStorage.removeItem('mvpflow_admin_token');
@@ -717,14 +719,14 @@ export const CatalogApp = () => {
 
   // Copy Product Pitch to Clipboard
   const handleCopyPitch = (product) => {
-    const sizes = Array.isArray(product.sizes) ? product.sizes.join(' - ') : 'Consultar';
-    const link = `https://mvpflowboutique.com/?p=${product.id}`;
-    const text = `🔥 *${(product.name || '').toUpperCase()}*\n\n` +
-      `💵 *Precio:* RD$ ${product.price?.toLocaleString()} _(Antes RD$ ${product.originalPrice?.toLocaleString() || (product.price + 800)})_\n` +
-      `👟 *Tallas Disponibles:* ${sizes}\n` +
-      `🛡️ *Calidad:* G5 Garantizada con caja original\n` +
-      `🛵 *Entrega Express:* Mismo día en Santo Domingo con Pago Contra Entrega (COD)\n\n` +
-      `📲 *Pídelo directamente aquí o con el mensajero:* ${link}`;
+    const sizes = Array.isArray(product.sizes) ? product.sizes.join(' - ') : 'Estándar';
+    const link = `https://plastirrd.com/?p=${product.id}`;
+    const text = `📦 *${(product.name || '').toUpperCase()}*\n\n` +
+      `💵 *Precio:* RD$ ${product.price?.toLocaleString()} _(Antes RD$ ${product.originalPrice?.toLocaleString() || (product.price + 500)})_\n` +
+      `📏 *Medidas / Opciones:* ${sizes}\n` +
+      `🛡️ *Calidad:* Plástico Virgen de Alta Resistencia para el Hogar\n` +
+      `🛵 *Entrega Express:* Santo Domingo y Envíos a todo el país con Pago al Recibir (COD)\n\n` +
+      `📲 *Ordénalo aquí directamente:* ${link}`;
 
     navigator.clipboard.writeText(text);
     setCopiedId(product.id);

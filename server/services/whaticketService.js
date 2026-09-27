@@ -55,21 +55,21 @@ export const formatWhaticketOrderMessage = (order) => {
     .join('\n');
 
   return (
-    `🔥 *¡PEDIDO CONFIRMADO EN MVP FLOW BOUTIQUE RD!* 🔥\n\n` +
-    `Hola *${customer?.name || 'Cliente'}*, hemos registrado tu autopedido exitosamente.\n\n` +
+    `📦 *¡PEDIDO CONFIRMADO EN PLASTIR RD!* 📦\n\n` +
+    `Hola *${customer?.name || 'Cliente'}*, hemos registrado tu pedido exitosamente.\n\n` +
     `📋 *TICKET DE ENTREGA:* \`#${trackingId}\`\n` +
     `📅 *Fecha:* ${new Date(date || Date.now()).toLocaleDateString('es-DO')}\n\n` +
-    `👟 *DETALLE DE TU MERCANCÍA:*\n${itemsList}\n\n` +
+    `📦 *DETALLE DE TU PEDIDO:*\n${itemsList}\n\n` +
     `📍 *DESTINO DEL ENVÍO:* \n` +
     `• Zona / Municipio: ${shipping?.municipality || 'Santo Domingo'}, ${shipping?.zoneName || 'Distrito Nacional'}\n` +
     `• Dirección: ${shipping?.address || 'Dirección de entrega'}\n` +
     (shipping?.reference ? `• Referencia: ${shipping.reference}\n` : '') +
     `\n💵 *TOTAL A PAGAR AL RECIBIR (COD):*\n` +
-    `👉 *RD$ ${Number(payment?.total || 0).toLocaleString('es-DO')}* (Pagas en efectivo al mensajero)\n\n` +
-    `🛵 *Tiempo de entrega:* 2 a 4 horas en Santo Domingo / 24-48h interior.\n` +
+    `👉 *RD$ ${Number(payment?.total || 0).toLocaleString('es-DO')}* (Pagas al recibir tu mercancía)\n\n` +
+    `🛵 *Tiempo de entrega:* 2 a 4 horas en Santo Domingo / 24-48h al interior del país.\n` +
     `Puedes seguir el estatus de tu entrega en vivo en:\n` +
-    `🌐 https://mvpflowboutique.com/?tracking=${trackingId}\n\n` +
-    `¡Gracias por vestir la verdadera grasa urbana con MVP FLOW!`
+    `🌐 https://plastirrd.com/?tracking=${trackingId}\n\n` +
+    `¡Gracias por confiar en PLASTIR RD! Organización inteligente para tu hogar.`
   );
 };
 
@@ -204,8 +204,8 @@ export const getWhaticketUsers = async (config) => {
 
   if (!token) {
     const fallbackUsers = [
-      { id: 'ventas-3', name: 'Equipo VENTAS 3 (WhatsApp)', email: 'ventas3@mvpflowboutique.com', profile: 'asesor', online: true },
-      { id: 'ventas-2', name: 'Equipo VENTAS 2 (WhatsApp)', email: 'ventas2@mvpflowboutique.com', profile: 'asesor', online: true },
+      { id: 'ventas-1', name: 'Atención al Cliente (WhatsApp)', email: 'ventas@plastirrd.com', profile: 'asesor', online: true },
+      { id: 'ventas-2', name: 'Soporte y Pedidos (WhatsApp)', email: 'soporte@plastirrd.com', profile: 'asesor', online: true },
     ];
     return { success: true, users: fallbackUsers, count: fallbackUsers.length, isFallback: true };
   }
@@ -247,15 +247,15 @@ export const getWhaticketUsers = async (config) => {
       .filter((w) => w.status === 'CONNECTED')
       .map((w, idx) => ({
         id: w.id || idx + 1,
-        name: `Equipo ${w.name || 'Ventas MVP Flow'}`,
-        email: `ventas@mvpflowboutique.com`,
+        name: `Equipo ${w.name || 'Plastir RD'}`,
+        email: `ventas@plastirrd.com`,
         profile: 'asesor',
         online: true,
       }));
 
     const finalUsers = connectedChannels.length > 0 ? connectedChannels : [
-      { id: 'ventas-3', name: 'Equipo VENTAS 3 (WhatsApp)', email: 'ventas@mvpflowboutique.com', profile: 'asesor', online: true },
-      { id: 'ventas-2', name: 'Equipo VENTAS 2 (WhatsApp)', email: 'ventas@mvpflowboutique.com', profile: 'asesor', online: true },
+      { id: 'ventas-1', name: 'Atención al Cliente (WhatsApp)', email: 'ventas@plastirrd.com', profile: 'asesor', online: true },
+      { id: 'ventas-2', name: 'Soporte y Pedidos (WhatsApp)', email: 'soporte@plastirrd.com', profile: 'asesor', online: true },
     ];
 
     return {

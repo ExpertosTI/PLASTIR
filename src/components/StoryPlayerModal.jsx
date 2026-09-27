@@ -192,14 +192,14 @@ export const StoryPlayerModal = ({
     const priceText = currentStory.price ? `RD$ ${Number(currentStory.price).toLocaleString('es-DO')}` : 'Precio en Oferta';
     
     const msg = 
-      `¡Hola MVP FLOW Boutique! 👋👟🔥\n\n` +
+      `¡Hola PLASTIR RD! 👋📦✨\n\n` +
       `Vi este producto en su video:\n` +
       `*${cleanTitle}*\n` +
       `💵 *Precio:* ${priceText}\n` +
       (currentStory.badge ? `🏷️ *Detalle:* ${currentStory.badge}\n` : '') +
-      `📦 *Entrega:* Pago Contra Entrega en efectivo al mensajero\n` +
-      `🌐 *Web:* https://mvpflowboutique.com\n\n` +
-      `¿Tienen disponibilidad para enviármelo hoy?`;
+      `📦 *Entrega:* Pago al recibir contra entrega\n` +
+      `🌐 *Web:* https://plastirrd.com\n\n` +
+      `¿Tienen disponibilidad para envío inmediato?`;
 
     const url = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(msg)}`;
     window.open(url, '_blank');

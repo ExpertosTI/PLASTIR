@@ -9,9 +9,9 @@ import { trackCustomerAction } from '../utils/tracker';
 
 const AuthContext = createContext();
 
-const AUTH_STORAGE_KEY = 'mvpflow_user_v1';
-const AUTH_TOKEN_KEY = 'mvpflow_auth_token_v1';
-const STORE_FOLLOWERS_KEY = 'mvpflow_store_followers_v1';
+const AUTH_STORAGE_KEY = 'plastir_user_v1';
+const AUTH_TOKEN_KEY = 'plastir_auth_token_v1';
+const STORE_FOLLOWERS_KEY = 'plastir_store_followers_v1';
 
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(() => {

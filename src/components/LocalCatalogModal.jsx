@@ -65,7 +65,7 @@ export const LocalCatalogModal = () => {
 
   // Helper for auth headers
   const getAuthHeaders = () => {
-    const token = sessionStorage.getItem('mvpflow_admin_token') || '';
+    const token = sessionStorage.getItem('plastir_admin_token') || sessionStorage.getItem('mvpflow_admin_token') || '';
     return {
       'Content-Type': 'application/json',
       ...(token ? { 'Authorization': `Bearer ${token}` } : {})

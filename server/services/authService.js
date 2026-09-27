@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 const USERS_FILE = path.join(__dirname, '../data/users.json');
 const CONFIG_FILE = path.join(__dirname, '../data/config.json');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'mvpflow_jwt_secret_token_2026_xyz';
+const JWT_SECRET = process.env.JWT_SECRET || 'plastir_jwt_secret_token_2026_secure';
 
 // In-memory cache with debounced persist
 let usersCache = null;

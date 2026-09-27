@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Star, ShoppingBag, ShieldCheck, Truck, RefreshCw, Zap, Check, Package, MessageSquare, Layers, FileText } from 'lucide-react';
+import { X, Star, ShoppingBag, ShieldCheck, Truck, RefreshCw, Zap, Check, Package, MessageSquare, Layers, FileText, Bot } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import {
@@ -19,7 +19,8 @@ export const ProductDetailModal = () => {
     setIsCheckoutOpen, 
     formatMoney, 
     openDirectWhatsAppForProduct,
-    setIsCartOpen 
+    setIsCartOpen,
+    openLiveChat
   } = useCart();
   const { currentUser, setIsAuthModalOpen } = useAuth();
 
@@ -92,18 +93,18 @@ export const ProductDetailModal = () => {
     setIsCartOpen(true);
   };
 
-  const currentImage = selectedProduct.images?.[activeImageIndex] || selectedProduct.images?.[0];
+  const currentImage = selectedColor?.image || selectedProduct.images?.[activeImageIndex] || selectedProduct.images?.[0];
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-4">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
       <div 
-        className="relative bg-slate-900 border border-slate-700 rounded-3xl max-w-4xl w-full overflow-hidden shadow-2xl animate-fade-in"
+        className="relative bg-white border border-slate-200 rounded-3xl max-w-4xl w-full overflow-hidden shadow-2xl animate-fade-in"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
         <button
           onClick={() => setSelectedProduct(null)}
-          className="absolute top-4 right-4 z-20 p-2 rounded-full bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white transition-all border border-slate-700"
+          className="absolute top-4 right-4 z-20 p-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-900 transition-all border border-slate-200"
           title="Cerrar"
         >
           <X size={18} />
@@ -112,22 +113,22 @@ export const ProductDetailModal = () => {
         <div className="grid grid-cols-1 md:grid-cols-12 max-h-[90vh] overflow-y-auto">
           
           {/* Left Column: Media Gallery */}
-          <div className="md:col-span-6 p-4 sm:p-6 bg-slate-950/60 flex flex-col justify-between border-b md:border-b-0 md:border-r border-slate-800">
+          <div className="md:col-span-6 p-4 sm:p-6 bg-slate-50/80 flex flex-col justify-between border-b md:border-b-0 md:border-r border-slate-200">
             <div className="space-y-4">
               {/* Main Image */}
-              <div className="relative aspect-square rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 shadow-inner group">
+              <div className="relative aspect-square rounded-2xl overflow-hidden bg-white border border-slate-200 shadow-sm group">
                 <img
                   src={currentImage}
                   alt={selectedProduct.name}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 {selectedProduct.discountPercent && (
-                  <div className="absolute top-3 left-3 bg-[#FFDB00] text-slate-950 text-xs font-black px-2.5 py-1 rounded shadow uppercase">
+                  <div className="absolute top-3 left-3 bg-[#F16100] text-white text-xs font-black px-2.5 py-1 rounded-lg shadow-sm uppercase tracking-wide">
                     {selectedProduct.discountPercent}% AHORRO
                   </div>
                 )}
                 {selectedProduct.capacity && (
-                  <div className="absolute bottom-3 left-3 bg-slate-950/80 backdrop-blur-md border border-slate-700 text-amber-300 text-xs font-bold px-2 py-1 rounded shadow">
+                  <div className="absolute bottom-3 left-3 bg-white/95 backdrop-blur-md border border-slate-200 text-slate-800 text-xs font-bold px-2.5 py-1 rounded-lg shadow-sm">
                     📐 {selectedProduct.capacity}
                   </div>
                 )}
@@ -141,7 +142,7 @@ export const ProductDetailModal = () => {
                       key={idx}
                       onClick={() => setActiveImageIndex(idx)}
                       className={`w-14 h-14 rounded-xl overflow-hidden border-2 transition-all flex-shrink-0 ${
-                        activeImageIndex === idx ? 'border-blue-500 scale-105 shadow-md' : 'border-slate-800 opacity-60 hover:opacity-100'
+                        activeImageIndex === idx ? 'border-[#F16100] scale-105 shadow-md' : 'border-slate-200 opacity-60 hover:opacity-100 bg-white'
                       }`}
                     >
                       <img src={img} alt="" className="w-full h-full object-cover" />
@@ -152,46 +153,49 @@ export const ProductDetailModal = () => {
             </div>
 
             {/* Department Store Highlights */}
-            <div className="grid grid-cols-3 gap-2 pt-4 border-t border-slate-800 mt-4 text-center">
-              <div className="p-2 rounded-xl bg-slate-900 border border-slate-800">
-                <Truck size={16} className="text-blue-400 mx-auto mb-1" />
-                <span className="text-[10px] text-slate-300 font-bold block">Envío Express</span>
+            <div className="grid grid-cols-3 gap-2 pt-4 border-t border-slate-200 mt-4 text-center">
+              <div className="p-2.5 rounded-xl bg-white border border-slate-200 shadow-sm">
+                <Truck size={16} className="text-[#F16100] mx-auto mb-1" />
+                <span className="text-[10px] text-slate-800 font-bold block">Envío Express</span>
+                <span className="text-[9px] text-slate-400">Todo RD</span>
               </div>
-              <div className="p-2 rounded-xl bg-slate-900 border border-slate-800">
-                <ShieldCheck size={16} className="text-emerald-400 mx-auto mb-1" />
-                <span className="text-[10px] text-slate-300 font-bold block">Libre de BPA</span>
+              <div className="p-2.5 rounded-xl bg-white border border-slate-200 shadow-sm">
+                <ShieldCheck size={16} className="text-emerald-600 mx-auto mb-1" />
+                <span className="text-[10px] text-slate-800 font-bold block">Libre de BPA</span>
+                <span className="text-[9px] text-slate-400">100% Virgen</span>
               </div>
-              <div className="p-2 rounded-xl bg-slate-900 border border-slate-800">
-                <RefreshCw size={16} className="text-amber-400 mx-auto mb-1" />
-                <span className="text-[10px] text-slate-300 font-bold block">Garantía Plastir</span>
+              <div className="p-2.5 rounded-xl bg-white border border-slate-200 shadow-sm">
+                <RefreshCw size={16} className="text-amber-500 mx-auto mb-1" />
+                <span className="text-[10px] text-slate-800 font-bold block">Garantía Plastir</span>
+                <span className="text-[9px] text-slate-400">Calidad Total</span>
               </div>
             </div>
           </div>
 
           {/* Right Column: Product Specs & Ordering */}
-          <div className="md:col-span-6 p-5 sm:p-7 space-y-5 flex flex-col justify-between">
+          <div className="md:col-span-6 p-5 sm:p-7 space-y-5 flex flex-col justify-between bg-white">
             
             <div className="space-y-4">
               {/* Header Badges */}
               <div className="flex items-center justify-between gap-2">
-                <span className="text-xs font-black uppercase text-blue-400 tracking-wider">
-                  {selectedProduct.department || 'Plásticos & Hogar'}
+                <span className="text-xs font-black uppercase text-[#F16100] tracking-wider">
+                  {selectedProduct.department || selectedProduct.category || 'Plásticos & Hogar'}
                 </span>
-                <div className="flex items-center gap-1 text-amber-400">
+                <div className="flex items-center gap-1 text-amber-500">
                   <Star size={13} className="fill-amber-400" />
-                  <span className="text-xs font-bold">{selectedProduct.rating || '5.0'}</span>
+                  <span className="text-xs font-bold text-slate-800">{selectedProduct.rating || '5.0'}</span>
                   <span className="text-[11px] text-slate-400">({selectedProduct.reviewsCount || 42} valoraciones)</span>
                 </div>
               </div>
 
               {/* Title & Price */}
               <div>
-                <h2 className="text-xl sm:text-2xl font-black text-white leading-tight">
+                <h2 className="text-xl sm:text-2xl font-black text-slate-900 leading-tight">
                   {selectedProduct.name}
                 </h2>
                 
                 <div className="flex items-baseline gap-3 mt-2">
-                  <span className="text-2xl sm:text-3xl font-black text-amber-300 font-sans">
+                  <span className="text-2xl sm:text-3xl font-black text-[#F16100] font-sans">
                     {formatMoney(selectedProduct.price)}
                   </span>
                   {selectedProduct.originalPrice && (
@@ -199,8 +203,8 @@ export const ProductDetailModal = () => {
                       {formatMoney(selectedProduct.originalPrice)}
                     </span>
                   )}
-                  <span className="text-xs text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30">
-                    ✔ Stock Central Disponible
+                  <span className="text-xs text-emerald-700 font-bold bg-emerald-50 px-2.5 py-0.5 rounded-md border border-emerald-200">
+                    ✔ Stock Disponible
                   </span>
                 </div>
               </div>
@@ -208,8 +212,8 @@ export const ProductDetailModal = () => {
               {/* Color Selector */}
               {selectedProduct.colors && selectedProduct.colors.length > 1 && (
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
-                    Color: <span className="text-white font-normal">{selectedColor?.name}</span>
+                  <label className="text-xs font-bold text-slate-600 uppercase tracking-wider block">
+                    Color: <span className="text-slate-900 font-semibold">{selectedColor?.name}</span>
                   </label>
                   <div className="flex flex-wrap gap-2">
                     {selectedProduct.colors.map((color) => (
@@ -221,11 +225,11 @@ export const ProductDetailModal = () => {
                         }}
                         className={`flex items-center gap-2 px-3 py-1.5 rounded-xl border text-xs font-semibold transition-all ${
                           selectedColor?.name === color.name
-                            ? 'bg-blue-600/20 border-blue-500 text-white shadow-sm'
-                            : 'bg-slate-800 border-slate-700 text-slate-300 hover:border-slate-500'
+                            ? 'bg-orange-50 border-[#F16100] text-[#F16100] ring-2 ring-[#F16100]/20 shadow-sm'
+                            : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300'
                         }`}
                       >
-                        <span className="w-3.5 h-3.5 rounded-full border border-white/20" style={{ backgroundColor: color.hex }} />
+                        <span className="w-3.5 h-3.5 rounded-full border border-black/10" style={{ backgroundColor: color.hex }} />
                         <span>{color.name}</span>
                       </button>
                     ))}
@@ -234,10 +238,10 @@ export const ProductDetailModal = () => {
               )}
 
               {/* Presentation / Pack Selector */}
-              {selectedProduct.sizes && (
+              {selectedProduct.sizes && selectedProduct.sizes.length > 0 && (
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
-                    Presentación / Pack: <span className="text-white font-normal">{selectedSize}</span>
+                  <label className="text-xs font-bold text-slate-600 uppercase tracking-wider block">
+                    Presentación / Pack: <span className="text-slate-900 font-semibold">{selectedSize}</span>
                   </label>
                   <div className="flex flex-wrap gap-2">
                     {selectedProduct.sizes.map((size) => (
@@ -249,8 +253,8 @@ export const ProductDetailModal = () => {
                         }}
                         className={`px-3.5 py-1.5 rounded-xl text-xs font-bold border transition-all ${
                           selectedSize === size
-                            ? 'bg-blue-600 text-white border-blue-400 shadow-md'
-                            : 'bg-slate-800 text-slate-300 border-slate-700 hover:border-slate-500'
+                            ? 'bg-[#F16100] text-white border-[#F16100] shadow-sm'
+                            : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
                         }`}
                       >
                         {size}
@@ -262,60 +266,60 @@ export const ProductDetailModal = () => {
 
               {/* Quantity */}
               <div className="flex items-center gap-3 pt-1">
-                <label className="text-xs font-bold text-slate-300 uppercase tracking-wider">Cantidad:</label>
-                <div className="flex items-center bg-slate-800 border border-slate-700 rounded-xl">
+                <label className="text-xs font-bold text-slate-600 uppercase tracking-wider">Cantidad:</label>
+                <div className="flex items-center bg-slate-100 border border-slate-200 rounded-xl overflow-hidden shadow-inner">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="px-3 py-1 text-slate-300 hover:text-white font-black"
+                    className="px-3 py-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-200 font-black transition-colors"
                   >
                     -
                   </button>
-                  <span className="px-3 py-1 text-sm font-bold text-white">{quantity}</span>
+                  <span className="px-3 py-1.5 text-xs font-bold text-slate-900 font-mono">{quantity}</span>
                   <button
                     onClick={() => setQuantity(quantity + 1)}
-                    className="px-3 py-1 text-slate-300 hover:text-white font-black"
+                    className="px-3 py-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-200 font-black transition-colors"
                   >
                     +
                   </button>
                 </div>
               </div>
 
-              {/* Technical Specifications Tabs (IKEA Style) */}
-              <div className="pt-2 border-t border-slate-800 space-y-2">
-                <div className="flex gap-2 border-b border-slate-800 pb-1">
+              {/* Technical Specifications Tabs */}
+              <div className="pt-2 border-t border-slate-200 space-y-2">
+                <div className="flex gap-4 border-b border-slate-200 pb-1">
                   <button
                     onClick={() => setActiveTab('specs')}
-                    className={`text-xs font-bold pb-1 transition-colors ${
-                      activeTab === 'specs' ? 'text-blue-400 border-b-2 border-blue-400' : 'text-slate-400 hover:text-slate-200'
+                    className={`text-xs font-bold pb-1.5 transition-colors ${
+                      activeTab === 'specs' ? 'text-[#F16100] border-b-2 border-[#F16100]' : 'text-slate-400 hover:text-slate-700'
                     }`}
                   >
-                    Ficha Técnica
+                    Detalles
                   </button>
                   <button
                     onClick={() => setActiveTab('dimensions')}
-                    className={`text-xs font-bold pb-1 transition-colors ${
-                      activeTab === 'dimensions' ? 'text-blue-400 border-b-2 border-blue-400' : 'text-slate-400 hover:text-slate-200'
+                    className={`text-xs font-bold pb-1.5 transition-colors ${
+                      activeTab === 'dimensions' ? 'text-[#F16100] border-b-2 border-[#F16100]' : 'text-slate-400 hover:text-slate-700'
                     }`}
                   >
-                    Dimensiones
+                    Medidas
                   </button>
                   <button
-                    onClick={() => setActiveTab('wholesale')}
-                    className={`text-xs font-bold pb-1 transition-colors ${
-                      activeTab === 'wholesale' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-slate-400 hover:text-slate-200'
+                    onClick={() => setActiveTab('shipping')}
+                    className={`text-xs font-bold pb-1.5 transition-colors ${
+                      activeTab === 'shipping' ? 'text-[#0058A3] border-b-2 border-[#0058A3]' : 'text-slate-400 hover:text-slate-700'
                     }`}
                   >
-                    Venta Mayorista B2B
+                    Envío & Garantía
                   </button>
                 </div>
 
                 {activeTab === 'specs' && (
-                  <div className="space-y-1.5 text-xs text-slate-300 animate-fade-in">
+                  <div className="space-y-1.5 text-xs text-slate-600 animate-fade-in">
                     <p className="leading-relaxed">{selectedProduct.description}</p>
                     <ul className="space-y-1 pt-1">
                       {selectedProduct.features?.map((feat, i) => (
-                        <li key={i} className="flex items-start gap-1.5 text-[11px] text-slate-300">
-                          <Check size={13} className="text-emerald-400 flex-shrink-0 mt-0.5" />
+                        <li key={i} className="flex items-start gap-1.5 text-[11px] text-slate-600">
+                          <Check size={13} className="text-emerald-600 flex-shrink-0 mt-0.5" />
                           <span>{feat}</span>
                         </li>
                       ))}
@@ -324,27 +328,37 @@ export const ProductDetailModal = () => {
                 )}
 
                 {activeTab === 'dimensions' && (
-                  <div className="space-y-2 text-xs text-slate-300 bg-slate-950/40 p-3 rounded-xl border border-slate-800 animate-fade-in">
+                  <div className="space-y-2 text-xs text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-200 animate-fade-in">
                     <div className="flex justify-between">
-                      <span className="text-slate-400">Capacidad:</span>
-                      <strong className="text-white">{selectedProduct.capacity || 'Estándar'}</strong>
+                      <span className="text-slate-500">Capacidad:</span>
+                      <strong className="text-slate-900">{selectedProduct.capacity || 'Estándar'}</strong>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-400">Medidas:</span>
-                      <strong className="text-white">{selectedProduct.dimensions || 'Ver empaque'}</strong>
+                      <span className="text-slate-500">Medidas:</span>
+                      <strong className="text-slate-900">{selectedProduct.dimensions || 'Ver empaque'}</strong>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-400">Material:</span>
-                      <strong className="text-white">{selectedProduct.material || 'Polipropileno Virgen'}</strong>
+                      <span className="text-slate-500">Material:</span>
+                      <strong className="text-slate-900">{selectedProduct.material || 'Polipropileno Virgen Libre de BPA'}</strong>
                     </div>
                   </div>
                 )}
 
-                {activeTab === 'wholesale' && (
-                  <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs space-y-1.5 text-amber-200 animate-fade-in">
-                    <span className="font-bold block text-amber-300">🏢 Condiciones para Empresas & Ferreterías:</span>
-                    <p className="text-[11px] leading-relaxed">
-                      {selectedProduct.b2bDiscount || 'Descuentos escalonados a partir de 12 unidades. Emitimos Factura con Comprobante Fiscal (NCF B01).'}
+                {activeTab === 'shipping' && (
+                  <div className="p-3 rounded-xl bg-blue-50/60 border border-blue-100 text-xs space-y-2 text-slate-700 animate-fade-in">
+                    <div className="flex items-center gap-2 text-blue-900 font-bold">
+                      <Truck size={14} className="text-blue-600" />
+                      <span>🚚 Envío Rápido a Domicilio:</span>
+                    </div>
+                    <p className="text-[11px] leading-relaxed text-slate-600">
+                      Entregas en 2 a 4 horas en el Distrito Nacional y Santo Domingo. Envíos en 24-48 horas a todo el país con entrega en tu puerta.
+                    </p>
+                    <div className="flex items-center gap-2 text-emerald-900 font-bold pt-1">
+                      <ShieldCheck size={14} className="text-emerald-600" />
+                      <span>💵 Pago Contra Entrega Seguro:</span>
+                    </div>
+                    <p className="text-[11px] leading-relaxed text-slate-600">
+                      Pagas en efectivo o transferencia únicamente cuando recibes y verificas tus productos.
                     </p>
                   </div>
                 )}
@@ -354,37 +368,47 @@ export const ProductDetailModal = () => {
 
             {/* Action Buttons */}
             <div className="space-y-2.5 pt-3">
-              {/* WhatsApp direct order */}
+              {/* Primary: Comprar con Pago Contra Entrega */}
               <button
-                onClick={() => {
-                  trackProductClick(selectedProduct, 'modal_whatsapp_buy_click');
-                  openDirectWhatsAppForProduct(selectedProduct, selectedSize, selectedColor?.name || 'Original');
-                  setSelectedProduct(null);
-                }}
-                className="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-md hover:scale-[1.02] active:scale-95"
+                onClick={handleBuyNow}
+                className="w-full py-3.5 rounded-xl bg-gradient-to-r from-orange-500 via-[#C2410C] to-[#9A3412] hover:from-orange-600 hover:to-[#7C2D12] text-white font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg shadow-orange-500/20 active:scale-98"
               >
-                <MessageSquare size={16} />
-                <span>Pedir Directo por WhatsApp</span>
+                <Zap size={16} />
+                <span>Comprar con Pago Contra Entrega (Pagas al Recibir)</span>
               </button>
 
-              {/* Add to Cart Drawer */}
+              {/* Secondary Row: Add to cart & Consultar con Plastir AI */}
               <div className="grid grid-cols-2 gap-2">
                 <button
                   onClick={handleAddToCartOnly}
-                  className="py-3 rounded-xl bg-slate-800 hover:bg-slate-750 border border-slate-700 text-white font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow"
+                  className="py-3 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-800 font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm"
                 >
                   <ShoppingBag size={15} />
                   <span>Al Carrito</span>
                 </button>
 
                 <button
-                  onClick={handleBuyNow}
-                  className="py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-600/30 active:scale-95"
+                  onClick={() => {
+                    openLiveChat(selectedProduct);
+                  }}
+                  className="py-3 rounded-xl bg-orange-50/80 hover:bg-orange-100 border border-orange-200 text-[#C2410C] font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm"
                 >
-                  <Zap size={15} className="text-amber-300" />
-                  <span>Comprar COD</span>
+                  <Bot size={15} className="text-[#C2410C]" />
+                  <span>Consultar con AI</span>
                 </button>
               </div>
+
+              {/* Discrete WhatsApp Order */}
+              <button
+                onClick={() => {
+                  trackProductClick(selectedProduct, 'modal_whatsapp_buy_click');
+                  openDirectWhatsAppForProduct(selectedProduct, selectedSize, selectedColor?.name || 'Original');
+                }}
+                className="w-full py-2 text-slate-500 hover:text-emerald-700 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors"
+              >
+                <MessageSquare size={13} className="text-emerald-600" />
+                <span>¿Prefieres ordenar directo por WhatsApp? Haz clic aquí</span>
+              </button>
             </div>
 
           </div>
@@ -394,3 +418,5 @@ export const ProductDetailModal = () => {
     </div>
   );
 };
+
+export default ProductDetailModal;

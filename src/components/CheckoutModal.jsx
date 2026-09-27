@@ -155,46 +155,48 @@ export const CheckoutModal = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 bg-slate-950/85 backdrop-blur-md overflow-y-auto">
-      <div className="relative w-full max-w-lg bg-slate-900 border-2 border-blue-500/40 rounded-3xl shadow-2xl overflow-hidden my-auto max-h-[95vh] flex flex-col animate-fade-in">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 bg-slate-900/60 backdrop-blur-sm overflow-y-auto">
+      <div className="relative w-full max-w-lg bg-white border border-slate-200 rounded-3xl shadow-2xl overflow-hidden my-auto max-h-[95vh] flex flex-col animate-fade-in">
         
         {/* Header */}
-        <div className="p-4 border-b border-slate-800 bg-slate-950 flex items-center justify-between flex-shrink-0">
-          <div className="flex items-center gap-2">
-            <Package size={20} className="text-blue-400" />
+        <div className="p-4 sm:p-5 border-b border-slate-200 bg-white flex items-center justify-between flex-shrink-0">
+          <div className="flex items-center gap-2.5">
+            <div className="w-9 h-9 rounded-xl bg-orange-50 border border-orange-200 flex items-center justify-center text-[#F16100]">
+              <Package size={18} />
+            </div>
             <div>
-              <h2 className="text-sm sm:text-base font-black text-white uppercase tracking-wider">
-                Confirmar Pedido // Plastir RD
+              <h2 className="text-sm sm:text-base font-black text-slate-900 uppercase tracking-tight">
+                Confirmar Pedido
               </h2>
-              <span className="text-[11px] text-emerald-400 font-bold block">
-                ⚡ Pagas en efectivo al recibir en tu puerta (COD)
+              <span className="text-[11px] text-emerald-600 font-bold block">
+                ⚡ Pagas al recibir en tu puerta (Contra Entrega)
               </span>
             </div>
           </div>
           <button
             onClick={() => setIsCheckoutOpen(false)}
-            className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors"
+            className="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-100 transition-colors"
           >
             <X size={20} />
           </button>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmitOrder} className="p-4 sm:p-5 space-y-4 overflow-y-auto">
+        <form onSubmit={handleSubmitOrder} className="p-4 sm:p-6 space-y-4 overflow-y-auto">
           
           {/* Nombre */}
           <div>
-            <label className="text-[11px] text-slate-200 font-bold block mb-1">
-              ¿A nombre de quién entregamos? *
+            <label className="text-[11px] text-slate-700 font-bold block mb-1">
+              Nombre de quien recibe *
             </label>
             <div className="relative">
               <input
                 type="text"
                 required
-                placeholder="Nombre y Apellido o Empresa"
+                placeholder="Nombre y Apellido"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-700 focus:border-blue-500 rounded-xl pl-9 pr-3 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none"
+                className="w-full bg-slate-50 border border-slate-200 focus:border-[#F16100] focus:bg-white rounded-xl pl-9 pr-3 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none transition-colors"
               />
               <User size={14} className="absolute left-3 top-3 text-slate-400" />
             </div>
@@ -202,8 +204,8 @@ export const CheckoutModal = () => {
 
           {/* Teléfono */}
           <div>
-            <label className="text-[11px] text-slate-200 font-bold block mb-1">
-              Teléfono / WhatsApp para coordinar *
+            <label className="text-[11px] text-slate-700 font-bold block mb-1">
+              Teléfono / WhatsApp de contacto *
             </label>
             <div className="relative">
               <input
@@ -212,7 +214,7 @@ export const CheckoutModal = () => {
                 placeholder="Ej: 809-555-0199"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-700 focus:border-blue-500 rounded-xl pl-9 pr-3 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none"
+                className="w-full bg-slate-50 border border-slate-200 focus:border-[#F16100] focus:bg-white rounded-xl pl-9 pr-3 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none transition-colors"
               />
               <Phone size={14} className="absolute left-3 top-3 text-slate-400" />
             </div>
@@ -220,8 +222,8 @@ export const CheckoutModal = () => {
 
           {/* Método de Entrega */}
           <div>
-            <label className="text-[11px] text-slate-200 font-bold block mb-1.5">
-              Tipo de Entrega:
+            <label className="text-[11px] text-slate-700 font-bold block mb-1.5">
+              Modalidad de Entrega:
             </label>
             <div className="grid grid-cols-2 gap-2 text-xs">
               <button
@@ -229,12 +231,14 @@ export const CheckoutModal = () => {
                 onClick={() => setDeliveryType('express')}
                 className={`p-2.5 rounded-xl border text-left flex flex-col gap-0.5 transition-all ${
                   deliveryType === 'express'
-                    ? 'bg-blue-600/20 border-blue-400 text-white'
-                    : 'bg-slate-950 border-slate-800 text-slate-400'
+                    ? 'bg-orange-50/70 border-[#F16100] text-[#F16100] ring-1 ring-[#F16100]'
+                    : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
                 }`}
               >
-                <span className="font-bold">🚚 A Domicilio</span>
-                <span className="text-[10px] text-slate-400">Entrega rápida en RD</span>
+                <span className="font-bold flex items-center gap-1">
+                  <Truck size={14} /> A Domicilio
+                </span>
+                <span className="text-[10px] text-slate-500">Entrega rápida en RD</span>
               </button>
 
               <button
@@ -242,12 +246,12 @@ export const CheckoutModal = () => {
                 onClick={() => setDeliveryType('pickup')}
                 className={`p-2.5 rounded-xl border text-left flex flex-col gap-0.5 transition-all ${
                   deliveryType === 'pickup'
-                    ? 'bg-blue-600/20 border-blue-400 text-white'
-                    : 'bg-slate-950 border-slate-800 text-slate-400'
+                    ? 'bg-orange-50/70 border-[#F16100] text-[#F16100] ring-1 ring-[#F16100]'
+                    : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
                 }`}
               >
                 <span className="font-bold">🏢 Retiro en Almacén</span>
-                <span className="text-[10px] text-emerald-400 font-semibold">Gratis (Sin costo de envío)</span>
+                <span className="text-[10px] text-emerald-600 font-semibold">Gratis (Sin costo de envío)</span>
               </button>
             </div>
           </div>
@@ -256,14 +260,14 @@ export const CheckoutModal = () => {
           {deliveryType !== 'pickup' && (
             <>
               <div>
-                <label className="text-[11px] text-slate-200 font-bold block mb-1">
+                <label className="text-[11px] text-slate-700 font-bold block mb-1">
                   Provincia o Zona de Entrega:
                 </label>
                 <div className="relative">
                   <select
                     value={provinceId}
                     onChange={(e) => setProvinceId(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-700 focus:border-blue-500 rounded-xl pl-9 pr-3 py-2.5 text-xs text-white focus:outline-none appearance-none"
+                    className="w-full bg-slate-50 border border-slate-200 focus:border-[#F16100] focus:bg-white rounded-xl pl-9 pr-3 py-2.5 text-xs text-slate-900 focus:outline-none appearance-none cursor-pointer"
                   >
                     {RD_PROVINCES.map((prov) => (
                       <option key={prov.id} value={prov.id}>
@@ -277,14 +281,14 @@ export const CheckoutModal = () => {
 
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <label className="text-[11px] text-slate-200 font-bold block">
+                  <label className="text-[11px] text-slate-700 font-bold block">
                     Dirección exacta y puntos de referencia *
                   </label>
                   <button
                     type="button"
                     onClick={handleCaptureGPS}
                     disabled={isGettingGps}
-                    className="text-[10px] text-blue-400 hover:text-white font-bold flex items-center gap-1 bg-slate-800 px-2 py-0.5 rounded-md border border-slate-700"
+                    className="text-[10px] text-[#F16100] hover:text-[#E05300] font-bold flex items-center gap-1 bg-orange-50 hover:bg-orange-100 px-2 py-0.5 rounded-md border border-orange-200 transition-colors"
                   >
                     <Navigation size={10} />
                     <span>{isGettingGps ? 'Localizando...' : gpsLocation ? '📍 GPS Listo' : 'Usar GPS'}</span>
@@ -293,44 +297,44 @@ export const CheckoutModal = () => {
                 <textarea
                   required
                   rows={2}
-                  placeholder="Calle, número de casa/apartamento, sector y referencia (ej: frente al parque)..."
+                  placeholder="Calle, número, sector y punto de referencia..."
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-700 focus:border-blue-500 rounded-xl p-2.5 text-xs text-white placeholder-slate-500 focus:outline-none resize-none"
+                  className="w-full bg-slate-50 border border-slate-200 focus:border-[#F16100] focus:bg-white rounded-xl p-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none resize-none transition-colors"
                 />
                 {gpsToast && (
-                  <p className="text-[10px] text-amber-300 font-mono mt-1">{gpsToast}</p>
+                  <p className="text-[10px] text-amber-600 font-mono mt-1">{gpsToast}</p>
                 )}
               </div>
             </>
           )}
 
           {/* Resumen Económico */}
-          <div className="bg-slate-950 p-3 rounded-2xl border border-slate-800 space-y-1.5 text-xs">
-            <div className="flex justify-between text-slate-300">
+          <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 space-y-1.5 text-xs">
+            <div className="flex justify-between text-slate-600">
               <span>Subtotal ({cart.length} productos):</span>
-              <span className="font-bold text-white">{formatMoney(subtotalDOP)}</span>
+              <span className="font-bold text-slate-900">{formatMoney(subtotalDOP)}</span>
             </div>
             {couponDiscountDOP > 0 && (
-              <div className="flex justify-between text-emerald-400 font-semibold">
+              <div className="flex justify-between text-emerald-600 font-semibold">
                 <span>Descuento Cupón:</span>
                 <span>-{formatMoney(couponDiscountDOP)}</span>
               </div>
             )}
-            <div className="flex justify-between text-slate-300">
-              <span>Envío ({deliveryType === 'pickup' ? 'Retiro en Tienda' : selectedProvince.name}):</span>
-              <span className="font-bold text-white">
-                {shippingFee === 0 ? <strong className="text-emerald-400">GRATIS</strong> : formatMoney(shippingFee)}
+            <div className="flex justify-between text-slate-600">
+              <span>Envío ({deliveryType === 'pickup' ? 'Retiro en Almacén' : selectedProvince.name}):</span>
+              <span className="font-bold text-slate-900">
+                {shippingFee === 0 ? <strong className="text-emerald-600">GRATIS</strong> : formatMoney(shippingFee)}
               </span>
             </div>
-            <div className="flex justify-between text-sm font-black text-white pt-1.5 border-t border-slate-800">
-              <span className="uppercase">Total a Pagar (Contra Entrega):</span>
-              <span className="text-base sm:text-lg text-amber-300 font-sans">{formatMoney(totalToPay)}</span>
+            <div className="flex justify-between text-sm font-black text-slate-900 pt-2 border-t border-slate-200">
+              <span className="uppercase">Total a Pagar:</span>
+              <span className="text-base sm:text-lg text-[#F16100] font-sans">{formatMoney(totalToPay)}</span>
             </div>
           </div>
 
           {formError && (
-            <p className="text-xs text-red-400 font-bold bg-red-500/10 p-2 rounded-xl border border-red-500/30">
+            <p className="text-xs text-red-600 font-bold bg-red-50 p-2.5 rounded-xl border border-red-200">
               {formError}
             </p>
           )}
@@ -339,15 +343,15 @@ export const CheckoutModal = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 hover:from-blue-500 hover:to-blue-600 text-white font-black text-xs sm:text-sm uppercase tracking-wider shadow-lg shadow-blue-600/30 transition-all active:scale-95 flex items-center justify-center gap-2"
+            className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#F16100] via-[#FA751A] to-[#F16100] hover:from-[#E05300] hover:to-[#F16100] text-white font-black text-xs sm:text-sm uppercase tracking-wider shadow-md shadow-orange-500/25 transition-all active:scale-95 flex items-center justify-center gap-2"
           >
-            <Zap size={16} className="text-amber-300" />
+            <Zap size={16} />
             <span>{isSubmitting ? 'Procesando Pedido...' : 'CONFIRMAR Y ENVIAR PEDIDO'}</span>
           </button>
 
-          <div className="flex items-center justify-center gap-1.5 text-[10px] text-slate-400 text-center">
-            <ShieldCheck size={13} className="text-emerald-400" />
-            <span>Sin pagos por adelantado. Pagas en efectivo al recibir y revisar.</span>
+          <div className="flex items-center justify-center gap-1.5 text-[11px] text-slate-500 text-center">
+            <ShieldCheck size={14} className="text-emerald-600" />
+            <span>Pagas en efectivo o transferencia al recibir tu pedido en mano.</span>
           </div>
 
         </form>
@@ -355,3 +359,5 @@ export const CheckoutModal = () => {
     </div>
   );
 };
+
+export default CheckoutModal;

@@ -3,11 +3,11 @@ import { trackAddToCart, trackDraftCart, trackWhatsAppClick, trackWheelSpin } fr
 
 const CartContext = createContext();
 
-const STORAGE_KEY = 'mvpflow_cart_v1';
-const COUPON_KEY = 'mvpflow_coupon_v1';
-const WHEEL_KEY = 'mvpflow_wheel_won_v1';
-const WISHLIST_KEY = 'mvpflow_wishlist_v1';
-const SOUND_KEY = 'mvpflow_sound_v1';
+const STORAGE_KEY = 'plastir_cart_v1';
+const COUPON_KEY = 'plastir_coupon_v1';
+const WHEEL_KEY = 'plastir_wheel_won_v1';
+const WISHLIST_KEY = 'plastir_wishlist_v1';
+const SOUND_KEY = 'plastir_sound_v1';
 
 export const CartProvider = ({ children }) => {
   // Cart items
@@ -56,14 +56,53 @@ export const CartProvider = ({ children }) => {
   const [isManualOpen, setIsManualOpen] = useState(false);
   const [isQuickRepliesOpen, setIsQuickRepliesOpen] = useState(false);
   const [isQuickQuoterOpen, setIsQuickQuoterOpen] = useState(false);
-  const [isLocalCatalogOpen, setIsLocalCatalogOpen] = useState(false);
   const [isWhaticketChatOpen, setIsWhaticketChatOpen] = useState(false);
   const [whaticketChatProduct, setWhaticketChatProduct] = useState(null);
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
   const [isComboBuilderOpen, setIsComboBuilderOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedProduct, setSelectedProductState] = useState(null);
   const [quoterInitialProduct, setQuoterInitialProduct] = useState(null);
   const [currentTrackingId, setCurrentTrackingId] = useState(null);
+
+  // Behavior tracking: Viewed Products History
+  const [viewedProducts, setViewedProducts] = useState(() => {
+    try {
+      const saved = localStorage.getItem('plastir_viewed_history_v1');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  const recordProductView = (prod) => {
+    if (!prod || !prod.id) return;
+    setViewedProducts((prev) => {
+      const filtered = prev.filter((p) => p.id !== prod.id);
+      const updated = [{
+        id: prod.id,
+        name: prod.name,
+        price: prod.price,
+        originalPrice: prod.originalPrice,
+        image: prod.images?.[0] || prod.image,
+        category: prod.category,
+        department: prod.department,
+        dimensions: prod.dimensions,
+        capacity: prod.capacity,
+        material: prod.material,
+        description: prod.description,
+        timestamp: Date.now()
+      }, ...filtered].slice(0, 10);
+      try {
+        localStorage.setItem('plastir_viewed_history_v1', JSON.stringify(updated));
+      } catch {}
+      return updated;
+    });
+  };
+
+  const setSelectedProduct = (prod) => {
+    if (prod) recordProductView(prod);
+    setSelectedProductState(prod);
+  };
 
   const [quickChoiceProduct, setQuickChoiceProduct] = useState(null);
   const [storePhone, setStorePhone] = useState('18096560219');
@@ -89,16 +128,16 @@ export const CartProvider = ({ children }) => {
     const priceText = Number(prod.price || 0).toLocaleString('es-DO');
 
     const msg =
-      `¡Hola MVP FLOW Boutique! 👋👟\n\n` +
-      `Quiero pedir este modelo para entrega express:\n\n` +
-      `🔥 *${prod.name}*\n` +
+      `¡Hola PLASTIR RD! 👋📦\n\n` +
+      `Deseo ordenar este artículo para entrega express:\n\n` +
+      `⭐ *${prod.name}*\n` +
       `💵 *Precio:* RD$ ${priceText}\n` +
-      `📏 *Talla:* ${selectedSize}\n` +
+      `📐 *Presentación / Medida:* ${selectedSize}\n` +
       `🎨 *Color:* ${selectedColor}\n` +
       (prod.sku ? `🏷️ *SKU:* ${prod.sku}\n` : '') +
-      `\n📦 *Modalidad:* Pago Contra Entrega (COD al recibir)\n` +
-      `🌐 *Web:* https://mvpflowboutique.com\n\n` +
-      `¿Tienen disponibilidad para enviármelo hoy?`;
+      `\n📦 *Modalidad:* Pago Contra Entrega (al recibir)\n` +
+      `🌐 *Web:* https://plastirrd.com\n\n` +
+      `¿Tienen disponibilidad para despacho hoy?`;
 
     const url = `https://wa.me/${formattedPhone}?text=${encodeURIComponent(msg)}`;
     window.open(url, '_blank');
@@ -108,17 +147,18 @@ export const CartProvider = ({ children }) => {
   const promptQuickOrder = (prod, defaultSize = null, defaultColor = null) => {
     setQuickChoiceProduct({
       ...prod,
-      initialSize: defaultSize || (prod.sizes && prod.sizes[0]) || '40 (8)',
+      initialSize: defaultSize || (prod.sizes && prod.sizes[0]) || 'Estándar',
       initialColor: defaultColor || (prod.colors && prod.colors[0]) || { name: 'Original', image: prod.images?.[0] },
     });
   };
 
   const openLiveChat = (prod = null) => {
     if (prod) {
+      recordProductView(prod);
       setWhaticketChatProduct(prod);
-      trackWhatsAppClick('chat_product', prod, 'Ashley');
+      trackWhatsAppClick('chat_product', prod, 'Plastir AI');
     } else {
-      trackWhatsAppClick('chat_general', null, 'Ashley');
+      trackWhatsAppClick('chat_general', null, 'Plastir AI');
     }
     setIsWhaticketChatOpen(true);
   };
@@ -189,58 +229,13 @@ export const CartProvider = ({ children }) => {
     }
   }, [activeCoupon]);
 
-  // Trigger spin wheel on first visit after 2.5 seconds
+  // Disable automatic spin wheel popup to keep interaction clean and non-intrusive
   useEffect(() => {
-    if (!hasSpunWheel) {
-      const timer = setTimeout(() => {
-        setIsWheelOpen(true);
-      }, 2500);
-      return () => clearTimeout(timer);
-    }
-  }, [hasSpunWheel]);
+    // Wheel only opened manually if needed
+  }, []);
 
-  // Sound effects generator using Web Audio API
-  const playBeep = (type = 'add') => {
-    if (!soundEnabled) return;
-    try {
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      if (!AudioContext) return;
-      const ctx = new AudioContext();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-
-      if (type === 'add') {
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(440, ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.15);
-        gain.gain.setValueAtTime(0.12, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.15);
-      } else if (type === 'win') {
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(523.25, ctx.currentTime);
-        osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.1);
-        osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.2);
-        gain.gain.setValueAtTime(0.15, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.4);
-      } else if (type === 'heart') {
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(600, ctx.currentTime);
-        osc.frequency.setValueAtTime(900, ctx.currentTime + 0.1);
-        gain.gain.setValueAtTime(0.1, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.2);
-      }
-    } catch {
-      // Fallback
-    }
-  };
+  // Sound effects generator (disabled by default for clean browsing)
+  const playBeep = () => {};
 
   const toggleFavorite = (productId) => {
     setWishlist((prev) => {
@@ -257,7 +252,7 @@ export const CartProvider = ({ children }) => {
   const isFavorite = (productId) => wishlist.some((id) => String(id) === String(productId));
 
   const addToCart = (product, size, color, quantity = 1, openCartDrawer = true) => {
-    const selectedSize = size || (product.sizes && product.sizes[0]) || '40 (8)';
+    const selectedSize = size || (product.sizes && product.sizes[0]) || 'Estándar';
     const selectedColor = typeof color === 'string' ? color : (color?.name || (product.colors && product.colors[0]?.name) || 'Original');
     const cartItemId = `${product.id}-${selectedSize}-${selectedColor}`;
 
@@ -443,6 +438,8 @@ export const CartProvider = ({ children }) => {
         hasSpunWheel,
         recordWheelSpin,
         playBeep,
+        viewedProducts,
+        recordProductView,
       }}
     >
       {children}

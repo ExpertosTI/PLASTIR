@@ -66,8 +66,6 @@ app.use(compression());
 const ALLOWED_ORIGINS = [
   'https://plastirrd.com',
   'https://www.plastirrd.com',
-  'https://mvpflowboutique.com',
-  'https://www.mvpflowboutique.com',
   'http://localhost:3000',
   'http://localhost:5173',
   'http://127.0.0.1:3000',
@@ -78,7 +76,7 @@ app.use(
   cors({
     origin: (origin, callback) => {
       // Allow requests with no origin (like mobile apps, curl, server-to-server) or allowed origins
-      if (!origin || ALLOWED_ORIGINS.includes(origin) || origin.endsWith('.renace.tech') || origin.endsWith('plastirrd.com') || origin.endsWith('mvpflowboutique.com')) {
+      if (!origin || ALLOWED_ORIGINS.includes(origin) || origin.endsWith('.renace.tech') || origin.endsWith('plastirrd.com')) {
         return callback(null, true);
       }
       return callback(null, true); // Permissive for local preview while preserving standard headers
@@ -153,11 +151,11 @@ try {
   }
   if (!existingCfg.odooConfig || !existingCfg.odooConfig.url) {
     existingCfg.odooConfig = {
-      url: process.env.ODOO_URL || 'https://mvpflow.renace.tech',
-      db: process.env.ODOO_DB || 'mvpflow',
-      username: process.env.ODOO_USERNAME || 'info@mvpflowboutique.com',
-      apiKey: process.env.ODOO_API_KEY || 'abf6067a002549afa0b3b5a6c925d78262658f5c',
-      autoSync: true,
+      url: process.env.ODOO_URL || '',
+      db: process.env.ODOO_DB || '',
+      username: process.env.ODOO_USERNAME || '',
+      apiKey: process.env.ODOO_API_KEY || '',
+      autoSync: false,
     };
     needsSave = true;
   }
@@ -472,9 +470,8 @@ const saveJson = (file, data) => {
 // AUTHENTICATION & SECURITY SYSTEM
 // ==========================================
 
-const ADMIN_SECRET = process.env.ADMIN_SECRET || 'mvpflow_jwt_secret_2026_production_key';
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'mvpflow2026';
-const LEGACY_PASSWORDS = ['mvpflow2026', 'gerson2026', 'mvp2026', 'MVP2027catalogo'];
+const ADMIN_SECRET = process.env.ADMIN_SECRET || 'plastir_jwt_secret_2026_production_key';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Plastir2026Admin!';
 
 // Constant-time password comparison to prevent timing attacks
 function safeComparePasswords(inputPassword, targetPassword) {
@@ -534,7 +531,7 @@ const requireAdminAuth = (req, res, next) => {
     return next();
   }
 
-  if (token && (safeComparePasswords(token, ADMIN_PASSWORD) || LEGACY_PASSWORDS.some((legPass) => safeComparePasswords(token, legPass)))) {
+  if (token && safeComparePasswords(token, ADMIN_PASSWORD)) {
     return next();
   }
 
@@ -709,8 +706,7 @@ app.post('/api/auth/admin-login', loginLimiter, (req, res) => {
     const { password } = req.body || {};
     const inputPass = String(password || '').trim();
 
-    const isMatch = safeComparePasswords(inputPass, ADMIN_PASSWORD) ||
-      LEGACY_PASSWORDS.some((legPass) => safeComparePasswords(inputPass, legPass));
+    const isMatch = safeComparePasswords(inputPass, ADMIN_PASSWORD);
 
     if (!isMatch) {
       return res.status(401).json({ success: false, error: 'Contraseña de administrador incorrecta.' });
@@ -1135,10 +1131,10 @@ app.post('/api/odoo/test', requireAdminAuth, async (req, res) => {
   try {
     const storedConfig = getJson(CONFIG_FILE, {}).odooConfig || {};
     const odooConfig = {
-      url: (req.body?.url || storedConfig.url || process.env.ODOO_URL || 'https://mvpflow.renace.tech').trim(),
-      db: (req.body?.db || storedConfig.db || process.env.ODOO_DB || 'mvpflow').trim(),
-      username: (req.body?.username || storedConfig.username || process.env.ODOO_USERNAME || 'info@mvpflowboutique.com').trim(),
-      apiKey: (req.body?.apiKey || storedConfig.apiKey || process.env.ODOO_API_KEY || 'abf6067a002549afa0b3b5a6c925d78262658f5c').trim(),
+      url: (req.body?.url || storedConfig.url || process.env.ODOO_URL || '').trim(),
+      db: (req.body?.db || storedConfig.db || process.env.ODOO_DB || '').trim(),
+      username: (req.body?.username || storedConfig.username || process.env.ODOO_USERNAME || '').trim(),
+      apiKey: (req.body?.apiKey || storedConfig.apiKey || process.env.ODOO_API_KEY || '').trim(),
     };
     const result = await testOdooConnection(odooConfig);
     res.json(result);
@@ -1153,10 +1149,10 @@ app.post('/api/odoo/sync', requireAdminAuth, async (req, res) => {
     const { config } = req.body || {};
     const storedConfig = getJson(CONFIG_FILE, {}).odooConfig || {};
     const activeConfig = {
-      url: (config?.url || storedConfig.url || process.env.ODOO_URL || 'https://mvpflow.renace.tech').trim(),
-      db: (config?.db || storedConfig.db || process.env.ODOO_DB || 'mvpflow').trim(),
-      username: (config?.username || storedConfig.username || process.env.ODOO_USERNAME || 'info@mvpflowboutique.com').trim(),
-      apiKey: (config?.apiKey || storedConfig.apiKey || process.env.ODOO_API_KEY || 'abf6067a002549afa0b3b5a6c925d78262658f5c').trim(),
+      url: (config?.url || storedConfig.url || process.env.ODOO_URL || '').trim(),
+      db: (config?.db || storedConfig.db || process.env.ODOO_DB || '').trim(),
+      username: (config?.username || storedConfig.username || process.env.ODOO_USERNAME || '').trim(),
+      apiKey: (config?.apiKey || storedConfig.apiKey || process.env.ODOO_API_KEY || '').trim(),
       autoSync: true,
       minStock: config?.minStock !== undefined ? Number(config.minStock) : 0,
     };
@@ -1212,9 +1208,9 @@ app.get('/api/odoo/image/:id', async (req, res) => {
 
     const storedConfig = getJson(CONFIG_FILE, {}).odooConfig || {};
     const activeConfig = {
-      url: (storedConfig.url || process.env.ODOO_URL || 'https://mvpflow.renace.tech').trim(),
-      db: (storedConfig.db || process.env.ODOO_DB || 'mvpflow').trim(),
-      apiKey: (storedConfig.apiKey || process.env.ODOO_API_KEY || 'abf6067a002549afa0b3b5a6c925d78262658f5c').trim(),
+      url: (storedConfig.url || process.env.ODOO_URL || '').trim(),
+      db: (storedConfig.db || process.env.ODOO_DB || '').trim(),
+      apiKey: (storedConfig.apiKey || process.env.ODOO_API_KEY || '').trim(),
     };
 
     const rpcResult = await callJsonRpc(activeConfig.url, '/jsonrpc', {
@@ -1358,7 +1354,7 @@ app.post('/api/contacts/sync-whaticket', requireAdminAuth, async (req, res) => {
   }
 });
 
-// Full two-way sync: Whaticket <-> MVPFLOW <-> Dispositivos
+// Full two-way sync: Whaticket <-> PLASTIR <-> Dispositivos
 app.post('/api/contacts/sync-full', requireAdminAuth, async (req, res) => {
   try {
     const result = await performFullTwoWaySync();
@@ -1475,8 +1471,8 @@ app.post('/api/whaticket/chat/send', whaticketLimiter, async (req, res) => {
     const customerName = name || 'Visitante Web';
 
     const staffBody = product
-      ? `💬 *[CONSULTA EN VIVO - TIENDA WEB]*\n👤 *Cliente:* ${customerName}\n📱 *WhatsApp:* ${customerPhone || 'En chat web'}\n👟 *Interesado en:* ${product.name} (RD$ ${Number(product.price).toLocaleString('es-DO')})\n📝 *Mensaje:* ${message}\n🌐 *Origen:* https://mvpflowboutique.com\n\n👉 *Responder a este número para cerrar la venta.*`
-      : `💬 *[CONSULTA EN VIVO - TIENDA WEB]*\n👤 *Cliente:* ${customerName}\n📱 *WhatsApp:* ${customerPhone || 'En chat web'}\n📝 *Mensaje:* ${message}\n🌐 *Origen:* https://mvpflowboutique.com`;
+      ? `💬 *[CONSULTA EN VIVO - PLASTIR RD]*\n👤 *Cliente:* ${customerName}\n📱 *WhatsApp:* ${customerPhone || 'En chat web'}\n📦 *Interesado en:* ${product.name} (RD$ ${Number(product.price).toLocaleString('es-DO')})\n📝 *Mensaje:* ${message}\n🌐 *Origen:* https://plastirrd.com\n\n👉 *Responder a este número para atender al cliente.*`
+      : `💬 *[CONSULTA EN VIVO - PLASTIR RD]*\n👤 *Cliente:* ${customerName}\n📱 *WhatsApp:* ${customerPhone || 'En chat web'}\n📝 *Mensaje:* ${message}\n🌐 *Origen:* https://plastirrd.com`;
 
     if (whaticketConfig.token) {
       // 1. Si el cliente dejó su número, sincronizar/crear contacto en Whaticket primero para que aparezca en la bandeja
@@ -1542,13 +1538,13 @@ app.post('/api/whaticket/lead', whaticketLimiter, async (req, res) => {
     };
 
     const leadMessage = (
-      `🛍️ *¡NUEVO LEAD DESDE LA WEB — MVP FLOW BOUTIQUE!* 🛍️\n\n` +
+      `📦 *¡NUEVO CONTACTO DESDE LA WEB — PLASTIR RD!* 📦\n\n` +
       `👤 *Cliente:* ${name || 'Cliente Web'}\n` +
       `📱 *WhatsApp:* ${phone}\n` +
-      (product ? `👟 *Producto de Interés:* ${product.name} (RD$ ${Number(product.price).toLocaleString('es-DO')})\n` : '') +
-      `💬 *Mensaje:* ${message || 'Desea ordenar con entrega rápida y pago contra entrega (COD).'}\n\n` +
+      (product ? `📦 *Producto de Interés:* ${product.name} (RD$ ${Number(product.price).toLocaleString('es-DO')})\n` : '') +
+      `💬 *Mensaje:* ${message || 'Desea información sobre disponibilidad y pedidos.'}\n\n` +
       `📅 *Fecha:* ${new Date().toLocaleString('es-DO')}\n` +
-      `🌐 *Origen:* mvpflowboutique.com`
+      `🌐 *Origen:* plastirrd.com`
     );
 
     let result = null;
@@ -1557,7 +1553,7 @@ app.post('/api/whaticket/lead', whaticketLimiter, async (req, res) => {
         whaticketConfig,
         phone,
         leadMessage,
-        name || 'Cliente Web MVP Flow'
+        name || 'Cliente Web Plastir'
       );
     }
 
@@ -1749,7 +1745,8 @@ app.get('/api/image-proxy', proxyLimiter, async (req, res) => {
       targetUrl = rawUrl;
     } else {
       const cleanPath = rawUrl.startsWith('/') ? rawUrl : `/${rawUrl}`;
-      targetUrl = `https://mvpflow.renace.tech${cleanPath}`;
+      const baseUrl = (process.env.ODOO_URL || 'https://plastirrd.com').replace(/\/$/, '');
+      targetUrl = `${baseUrl}${cleanPath}`;
     }
 
     // Strict SSRF Verification
@@ -1763,7 +1760,7 @@ app.get('/api/image-proxy', proxyLimiter, async (req, res) => {
     const response = await fetch(targetUrl, {
       signal: controller.signal,
       headers: {
-        'User-Agent': 'MVPFLOW-Image-Proxy/1.0',
+        'User-Agent': 'PLASTIR-Image-Proxy/1.0',
         'Accept': 'image/jpeg,image/png,image/webp,image/gif,image/*;q=0.8',
       },
     });
@@ -2871,11 +2868,11 @@ app.patch('/api/orders/:trackingId/status', requireAdminAuth, async (req, res) =
     delivered: '¡Entregado exitosamente! 🎉',
   };
 
-  const statusMsg = `📦 *ACTUALIZACIÓN DE TU PEDIDO - MVP FLOW BOUTIQUE RD*\n\n` +
+  const statusMsg = `📦 *ACTUALIZACIÓN DE TU PEDIDO - PLASTIR RD*\n\n` +
     `Ticket: #${trackingId}\n` +
     `Nuevo Estado: *${statusLabels[status] || status}*\n\n` +
     `Puedes seguir tu entrega en vivo en:\n` +
-    `👉 https://mvpflowboutique.com/?tracking=${trackingId}`;
+    `👉 https://plastirrd.com/?tracking=${trackingId}`;
 
   if (config.whaticketConfig?.token && config.whaticketConfig?.connectionId && orders[orderIndex].customer?.phone) {
     try {
@@ -2918,18 +2915,18 @@ app.get('/api/config', (req, res) => {
     ...rawConfig,
     whaticketConfig: {
       apiUrl: (wc.apiUrl || process.env.WHATICKET_API_URL || 'https://api.whaticket.com/api/v1').trim(),
-      token: (wc.token || process.env.WHATICKET_TOKEN || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJjcmVhdGU6bWVzc2FnZXMiLCJjcmVhdGU6bWVkaWFzIiwicmVhZDp3aGF0c2FwcHMiLCJ1cGRhdGU6d2hhdHNhcHBzIiwiY3JlYXRlOmNvbnRhY3RzIiwicmVhZDpjb250YWN0cyJdLCJjb21wYW55SWQiOiIxYjZmMzk1OC05NTExLTRiYzUtOTRkNy04YmE2ZTI2MDYxYTUiLCJpYXQiOjE3ODc4Nzc3MTB9.igKUXGwsEUCqSWhZxgWkpghAmCasRJ9EgazyZUFHr-M').trim(),
-      connectionId: (wc.connectionId || process.env.WHATICKET_CONNECTION_ID || 'b24ea8c3-f5ed-46de-b612-dbe8f76e53c8').trim(),
-      companyId: (wc.companyId || process.env.WHATICKET_COMPANY_ID || '1b6f3958-9511-4bc5-94d7-8ba6e26061a5').trim(),
+      token: (wc.token || process.env.WHATICKET_TOKEN || '').trim(),
+      connectionId: (wc.connectionId || process.env.WHATICKET_CONNECTION_ID || '').trim(),
+      companyId: (wc.companyId || process.env.WHATICKET_COMPANY_ID || '').trim(),
       supportPhone: (wc.supportPhone || process.env.STORE_WHATSAPP_PHONE || '18096560219').trim(),
       autoSendWhaticket: wc.autoSendWhaticket !== undefined ? wc.autoSendWhaticket : true,
     },
     odooConfig: {
-      url: (oc.url || process.env.ODOO_URL || 'https://mvpflow.renace.tech').trim(),
-      db: (oc.db || process.env.ODOO_DB || 'mvpflow').trim(),
-      username: (oc.username || process.env.ODOO_USERNAME || 'info@mvpflowboutique.com').trim(),
-      apiKey: (oc.apiKey || process.env.ODOO_API_KEY || 'abf6067a002549afa0b3b5a6c925d78262658f5c').trim(),
-      autoSync: oc.autoSync !== undefined ? oc.autoSync : true,
+      url: (oc.url || process.env.ODOO_URL || '').trim(),
+      db: (oc.db || process.env.ODOO_DB || '').trim(),
+      username: (oc.username || process.env.ODOO_USERNAME || '').trim(),
+      apiKey: (oc.apiKey || process.env.ODOO_API_KEY || '').trim(),
+      autoSync: oc.autoSync !== undefined ? oc.autoSync : false,
     },
   };
 
@@ -2939,8 +2936,8 @@ app.get('/api/config', (req, res) => {
 
   // Sanitized public view
   res.json({
-    storeName: process.env.STORE_NAME || 'MVP FLOW Boutique',
-    storeDomain: process.env.STORE_DOMAIN || 'mvpflowboutique.com',
+    storeName: process.env.STORE_NAME || 'PLASTIR RD',
+    storeDomain: process.env.STORE_DOMAIN || 'plastirrd.com',
     supportPhone: process.env.STORE_WHATSAPP_PHONE || '18096560219',
     autoSendWhaticket: true,
   });
@@ -3095,7 +3092,7 @@ app.get(['/api/health', '/api/database/status'], (req, res) => {
       uptimeSeconds: Math.floor(process.uptime()),
       timestamp: new Date().toISOString(),
       database: {
-        storageType: 'Persistent Host Volume Mounted (/var/www/mvpflow/server/data -> /app/server/data)',
+        storageType: 'Persistent Host Volume Mounted (/var/www/plastirrd/server/data -> /app/server/data)',
         directory: DATA_DIR,
         isWritable,
         preservationRule: 'Preserved by git clean -e server/data + auto-backup in deploy.sh',

@@ -74,10 +74,10 @@ export const callJsonRpc = (baseUrl, endpoint, params = {}) => {
  * Test connection and authentication with Odoo instance
  */
 export const testOdooConnection = async (config) => {
-  const url = (config?.url || process.env.ODOO_URL || 'https://mvpflow.renace.tech').trim();
-  const db = (config?.db || process.env.ODOO_DB || 'mvpflow').trim();
-  const username = (config?.username || process.env.ODOO_USERNAME || 'info@mvpflowboutique.com').trim();
-  const authSecret = (config?.apiKey || config?.password || process.env.ODOO_API_KEY || 'abf6067a002549afa0b3b5a6c925d78262658f5c').trim();
+  const url = (config?.url || process.env.ODOO_URL || '').trim();
+  const db = (config?.db || process.env.ODOO_DB || '').trim();
+  const username = (config?.username || process.env.ODOO_USERNAME || '').trim();
+  const authSecret = (config?.apiKey || config?.password || process.env.ODOO_API_KEY || '').trim();
 
   if (!url || !db || !username || !authSecret) {
     return {
@@ -171,10 +171,10 @@ export const testOdooConnection = async (config) => {
  * Fetch and normalize ALL products from Odoo ERP without arbitrary limits
  */
 export const fetchOdooProducts = async (config) => {
-  const url = (config?.url || process.env.ODOO_URL || 'https://mvpflow.renace.tech').trim();
-  const db = (config?.db || process.env.ODOO_DB || 'mvpflow').trim();
-  const username = (config?.username || process.env.ODOO_USERNAME || 'info@mvpflowboutique.com').trim();
-  const authSecret = (config?.apiKey || config?.password || process.env.ODOO_API_KEY || 'abf6067a002549afa0b3b5a6c925d78262658f5c').trim();
+  const url = (config?.url || process.env.ODOO_URL || '').trim();
+  const db = (config?.db || process.env.ODOO_DB || '').trim();
+  const username = (config?.username || process.env.ODOO_USERNAME || '').trim();
+  const authSecret = (config?.apiKey || config?.password || process.env.ODOO_API_KEY || '').trim();
   const limit = Number(config?.limit || 0);
   const minStockVal = config?.minStock !== undefined ? Number(config.minStock) : 0;
 

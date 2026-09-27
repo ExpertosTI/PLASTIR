@@ -5,9 +5,9 @@ export const CATEGORIES = [
   { id: 'cocina', name: 'Cocina & Despensa', icon: 'Flame' },
   { id: 'lavanderia', name: 'Lavandería & Baño', icon: 'Layers' },
   { id: 'mesa_hogar', name: 'Mesa, Hogar & Terraza', icon: 'Crown' },
-  { id: 'industrial', name: 'Industrial & Comercial B2B', icon: 'Zap' },
+  { id: 'patio_limpieza', name: 'Patio, Limpieza & Exteriores', icon: 'ShieldCheck' },
   { id: 'infantil', name: 'Infantil & Bebé', icon: 'Sparkles' },
-  { id: 'muebles', name: 'Muebles & Sillas', icon: 'Shirt' },
+  { id: 'muebles', name: 'Muebles & Sillas', icon: 'Layers' },
 ];
 
 export const SHOWROOMS = [
@@ -64,10 +64,10 @@ export const SHOWROOMS = [
   },
   {
     id: 'showroom-4',
-    name: 'Negocio, Almacén & Hostelería',
-    subtitle: 'Zafacones industriales con pedal y ruedas resistentes, cajas plásticas agrícolas y tarimas reforzadas.',
-    tag: 'Industrial & Comercial B2B',
-    room: 'Almacén & Negocio',
+    name: 'Patio, Jardín & Exteriores',
+    subtitle: 'Zafacones herméticos de pedal, cajas multiuso para garaje y organizadores resistentes para terrazas.',
+    tag: 'Patio, Jardín & Exteriores',
+    room: 'Patio & Exterior',
     roomImage: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=1200&auto=format&fit=crop',
     bundlePrice: 8490,
     originalBundlePrice: 11200,
@@ -101,7 +101,6 @@ export const PRODUCTS = [
     dimensions: 'Módulos apilables standard',
     material: 'Polipropileno Virgen 100% • Libre de BPA • Apto Lavavajillas',
     room: 'Cocina & Despensa',
-    b2bDiscount: '15% OFF desde 6 sets (Ideal para negocios de comida)',
     colors: [
       { name: 'Transparente con Broche Blanco Nórdico', hex: '#F8FAFC' },
       { name: 'Transparente con Broche Gris Grafito', hex: '#334155' },
@@ -109,9 +108,9 @@ export const PRODUCTS = [
     ],
     sizes: ['Set Completo 7 Piezas', 'Pack x2 Sets (14 Piezas)', 'Pack Familiar x3 Sets'],
     images: [
-      'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?q=80&w=800&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1584992236310-6edddc08acff?q=80&w=800&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?q=80&w=800&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?q=80&w=800&auto=format&fit=crop'
+      'https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?q=80&w=800&auto=format&fit=crop'
     ],
     description: 'Set insignia de 7 recipientes herméticos modulares con broche click-lock de silicona médica. Mantén cereales, harinas, pastas y granos libres de humedad y plagas con diseño nórdico minimalista.',
     features: [
@@ -144,15 +143,14 @@ export const PRODUCTS = [
     dimensions: '32 x 32 x 40 cm',
     material: 'Plástico ABS Grado Alimenticio Reforzado',
     room: 'Cocina & Despensa',
-    b2bDiscount: '12% OFF desde 4 unidades',
     colors: [
       { name: 'Blanco Nieve & Oro Nórdico', hex: '#FFFFFF' },
       { name: 'Gris Perla Escandinavo', hex: '#94A3B8' }
     ],
     sizes: ['Capacidad 10 KG con Taza Medidora'],
     images: [
-      'https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?q=80&w=800&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?q=80&w=800&auto=format&fit=crop'
+      'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=800&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1584992236310-6edddc08acff?q=80&w=800&auto=format&fit=crop'
     ],
     description: 'Dispensador rotatorio inteligente con un solo toque dosificador. Almacena arroz, frijoles, avena, maíz y lentejas en un solo lugar compacto y gira con suavidad milimétrica.',
     features: [
@@ -183,13 +181,12 @@ export const PRODUCTS = [
     dimensions: '60 x 42 x 34 cm',
     material: 'Polipropileno Copolímero Alto Impacto',
     room: 'Clóset & Dormitorio',
-    b2bDiscount: 'Precio Mayorista: RD$ 790 a partir de 12 unidades',
     colors: [
       { name: 'Translúcido con Broche Azul Plastir', hex: '#0058A3' },
       { name: 'Translúcido con Broche Blanco', hex: '#F1F5F9' },
       { name: 'Translúcido con Broche Gris', hex: '#475569' }
     ],
-    sizes: ['1 Unidad (65L)', 'Pack x3 Ahorro (195L Totales)', 'Bulto x6 Unidades Mayorista'],
+    sizes: ['1 Unidad (65L)', 'Pack x3 Ahorro (195L Totales)', 'Pack Familiar x6 Unidades'],
     images: [
       'https://images.unsplash.com/photo-1558997519-83ea9252def8?q=80&w=800&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=800&auto=format&fit=crop'
@@ -224,7 +221,6 @@ export const PRODUCTS = [
     dimensions: '40 x 32 x 85 cm',
     material: 'Polipropileno Virgen Libre de Olores',
     room: 'Clóset & Dormitorio',
-    b2bDiscount: '10% OFF a partir de 3 unidades',
     colors: [
       { name: 'Blanco Nórdico Minimalista', hex: '#FFFFFF' },
       { name: 'Gris Ceniza Moderno', hex: '#64748B' },
@@ -251,7 +247,7 @@ export const PRODUCTS = [
     name: 'Set x6 Cajas Zapateras Magnéticas Apilables "Drop Box Clear"',
     category: 'organizacion',
     department: 'Organización & Clóset',
-    tag: '👟 TENDENCIA SNEAKERHEAD',
+    tag: '⭐ ORGANIZACIÓN MODULAR PREMIUM',
     price: 2190,
     originalPrice: 3200,
     discountPercent: 31,
@@ -265,7 +261,6 @@ export const PRODUCTS = [
     dimensions: '36 x 28 x 22 cm cada caja',
     material: 'Acrílico PET Transparente + Marco PP Extra Rígido',
     room: 'Clóset & Dormitorio',
-    b2bDiscount: '15% OFF desde 4 sets (24 cajas)',
     colors: [
       { name: 'Transparente Cristal 100%', hex: '#FFFFFF' },
       { name: 'Ahumado Black Smoke', hex: '#1E293B' }
@@ -283,7 +278,7 @@ export const PRODUCTS = [
       'Plástico transparente anti-amarilleo UV'
     ],
     reviews: [
-      { user: 'Miguel A. (Gazcue)', rating: 5, date: 'Ayer', comment: 'Mis Jordan ahora lucen como vitrina de tienda. Calidad insuperable.' }
+      { user: 'Miguel A. (Gazcue)', rating: 5, date: 'Ayer', comment: 'Las cajas son super resistentes y el cierre frontal magnético es una maravilla. El clóset quedó 10/10.' }
     ]
   },
   {
@@ -304,7 +299,6 @@ export const PRODUCTS = [
     dimensions: '44 x 35 x 58 cm',
     material: 'Polipropileno Flexible Ultra-Resistente',
     room: 'Lavandería',
-    b2bDiscount: 'Precio Mayorista: RD$ 690 a partir de 10 unidades',
     colors: [
       { name: 'Blanco Nórdico', hex: '#F8FAFC' },
       { name: 'Gris Carbón', hex: '#334155' },
@@ -313,7 +307,7 @@ export const PRODUCTS = [
     sizes: ['Capacidad Estándar 60L', 'Pack x2 Cestos (Ropa Clara / Ropa Oscura)'],
     images: [
       'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?q=80&w=800&auto=format&fit=crop'
+      'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=800&auto=format&fit=crop'
     ],
     description: 'Cesto de ropa de gran capacidad con diseño de rombos micro-ventilados que previenen olores por sudor o humedad. Asas suaves engomadas para traslado fácil.',
     features: [
@@ -344,7 +338,6 @@ export const PRODUCTS = [
     dimensions: '38 x 30 x 36 cm',
     material: 'Plástico Polímero Virgen Antigolpes',
     room: 'Lavandería',
-    b2bDiscount: 'Precio Especial Empresas: RD$ 890 a partir de 6 unidades',
     colors: [
       { name: 'Azul Plastir Industrial', hex: '#0058A3' },
       { name: 'Gris Titanio', hex: '#475569' }
@@ -383,7 +376,6 @@ export const PRODUCTS = [
     dimensions: '18 x 12 x 26 cm',
     material: 'Acrílico SAN Grado Alimenticio • BPA Free',
     room: 'Cocina & Despensa',
-    b2bDiscount: 'Pack Familiar x3 Jarras por RD$ 1,190',
     colors: [
       { name: 'Transparente con Tapa Blanca', hex: '#F8FAFC' },
       { name: 'Transparente con Tapa Azul Océano', hex: '#0284C7' },
@@ -392,7 +384,7 @@ export const PRODUCTS = [
     sizes: ['1 Unidad (2.5L)', 'Pack x3 Jarras Multiuso'],
     images: [
       'https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=800&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?q=80&w=800&auto=format&fit=crop'
+      'https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?q=80&w=800&auto=format&fit=crop'
     ],
     description: 'Jarra premium transparente con medida lateral en mililitros y onzas. Diseñada para caber perfectamente en la puerta de la nevera. Tapa giratoria con posición de colado para jugos naturales.',
     features: [
@@ -424,7 +416,6 @@ export const PRODUCTS = [
     dimensions: 'Altura 14 cm, Boca 8.5 cm',
     material: 'Policarbonato Alimenticio Libre de BPA',
     room: 'Cocina & Mesa',
-    b2bDiscount: 'Descuento para Piscinas y Hoteles: RD$ 690 desde 6 sets',
     colors: [
       { name: 'Cristal Transparente', hex: '#FFFFFF' },
       { name: 'Turquesa Caribeño', hex: '#06B6D4' },
@@ -433,7 +424,7 @@ export const PRODUCTS = [
     sizes: ['Set de 8 Vasos', 'Set de 16 Vasos para Eventos'],
     images: [
       'https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=800&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?q=80&w=800&auto=format&fit=crop'
+      'https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?q=80&w=800&auto=format&fit=crop'
     ],
     description: 'La elegancia del cristal con la seguridad del polímero irrompible. Perfectos para el día a día, terrazas, piscinas y hogares con niños. No se rayan ni pierden brillo en el lavaplatos.',
     features: [
@@ -464,7 +455,6 @@ export const PRODUCTS = [
     dimensions: '42 x 34 x 88 cm',
     material: 'Polipropileno Grado Médico Libre de Toxinas',
     room: 'Infantil & Bebé',
-    b2bDiscount: '10% OFF para Colegios y Guarderías',
     colors: [
       { name: 'Multicolor Pastel (Rosa, Menta, Celeste, Vainilla)', hex: '#FDE047' },
       { name: 'Blanco Nórdico & Madera Soft', hex: '#F3F4F6' }
@@ -488,8 +478,8 @@ export const PRODUCTS = [
   {
     id: 'pla-011',
     name: 'Zafacón Industrial con Pedal y Ruedas Heavy Duty 120 Litros',
-    category: 'industrial',
-    department: 'Industrial & Comercial B2B',
+    category: 'patio_limpieza',
+    department: 'Patio, Limpieza & Exteriores',
     tag: '🏭 COMERCIAL & EMPRESARIAL',
     price: 4890,
     originalPrice: 6500,
@@ -502,8 +492,7 @@ export const PRODUCTS = [
     capacity: '120 Litros',
     dimensions: '55 x 48 x 93 cm',
     material: 'Polietileno de Alta Densidad (HDPE) con Protección UV',
-    room: 'Almacén & Negocio',
-    b2bDiscount: 'Precio Mayorista: RD$ 4,190 a partir de 4 unidades (Factura Fiscal B01)',
+    room: 'Patio & Exterior',
     colors: [
       { name: 'Gris Oscuro Industrial con Pedal', hex: '#1E293B' },
       { name: 'Azul Reciclaje Plastir', hex: '#0058A3' },
@@ -528,8 +517,8 @@ export const PRODUCTS = [
   {
     id: 'pla-012',
     name: 'Caja Plástica Agrícola y Almacén Perforada Apilable 50kg',
-    category: 'industrial',
-    department: 'Industrial & Comercial B2B',
+    category: 'patio_limpieza',
+    department: 'Patio, Limpieza & Exteriores',
     tag: '📦 CARGA PESADA & LOGÍSTICA',
     price: 650,
     originalPrice: 950,
@@ -542,14 +531,13 @@ export const PRODUCTS = [
     capacity: '50 Kilogramos de Carga',
     dimensions: '60 x 40 x 31 cm',
     material: 'Polipropileno Alto Impacto con Nervaduras Reforzadas',
-    room: 'Almacén & Negocio',
-    b2bDiscount: 'RD$ 520 por docena / RD$ 480 por bulto de 50+',
+    room: 'Patio & Exterior',
     colors: [
       { name: 'Azul Industrial Plastir', hex: '#0058A3' },
       { name: 'Rojo Carga', hex: '#DC2626' },
       { name: 'Negro Reciclado Eco', hex: '#0F172A' }
     ],
-    sizes: ['1 Unidad', 'Pack x6 Cajas', 'Tarima x30 Cajas Mayorista'],
+    sizes: ['1 Unidad', 'Pack x6 Cajas', 'Pack x6 Cajas Multiuso'],
     images: [
       'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=800&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1558997519-83ea9252def8?q=80&w=800&auto=format&fit=crop'
@@ -583,13 +571,12 @@ export const PRODUCTS = [
     dimensions: '54 x 52 x 82 cm (Altura asiento 44 cm)',
     material: 'Polipropileno Virgen con Filtro UV Solar',
     room: 'Terraza & Comedor',
-    b2bDiscount: 'Precio Mayorista Eventos: RD$ 690 a partir de 20 sillas',
     colors: [
       { name: 'Blanco Puro', hex: '#FFFFFF' },
       { name: 'Negro Grafito', hex: '#1E293B' },
       { name: 'Azul Marino Plastir', hex: '#003E75' }
     ],
-    sizes: ['1 Silla', 'Pack x4 Sillas Comedor', 'Pack x10 Sillas Eventos'],
+    sizes: ['1 Silla', 'Pack x4 Sillas Comedor', 'Set Familiar x8 Sillas'],
     images: [
       'https://images.unsplash.com/photo-1592078615290-033ee584e267?q=80&w=800&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=800&auto=format&fit=crop'
@@ -623,7 +610,6 @@ export const PRODUCTS = [
     dimensions: '80 x 80 x 74 cm',
     material: 'Polímero de Alta Resistencia con Orificio para Sombrilla',
     room: 'Terraza & Comedor',
-    b2bDiscount: '12% OFF en Combo con 4 Sillas',
     colors: [
       { name: 'Blanco Nórdico', hex: '#FFFFFF' },
       { name: 'Negro Carbón', hex: '#0F172A' }
@@ -663,7 +649,6 @@ export const PRODUCTS = [
     dimensions: '80 x 45 x 18 cm (Perfil Slim)',
     material: 'Polipropileno Transparente de Alta Durabilidad',
     room: 'Clóset & Dormitorio',
-    b2bDiscount: 'Pack x2 Cajas Bajo Cama por RD$ 2,290',
     colors: [
       { name: 'Transparente con Ruedas Blancas', hex: '#F1F5F9' },
       { name: 'Transparente con Ruedas Azul Plastir', hex: '#0058A3' }

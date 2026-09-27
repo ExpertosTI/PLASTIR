@@ -2,74 +2,75 @@ import React from 'react';
 import { 
   ShieldCheck, 
   Truck, 
-  FileCheck2, 
-  Building2, 
   Star, 
   CheckCircle2, 
-  Clock, 
   Award,
-  ArrowRight,
-  FileText
+  CreditCard,
+  ShoppingBag
 } from 'lucide-react';
-import { useCart } from '../context/CartContext';
 
 const REVIEWS = [
   {
     id: 1,
-    author: 'Lic. Roberto Tavárez',
-    role: 'Gerente de Operaciones - Grupo Gastronómico Naco',
-    city: 'Distrito Nacional',
+    author: 'Carmen Morales',
+    role: 'Cliente Verificada',
+    city: 'Naco, Distrito Nacional',
     rating: 5,
-    date: '18 de Septiembre, 2026',
-    title: 'Excelente calidad industrial y entrega con Comprobante Fiscal puntual',
+    date: 'Ayer',
+    title: 'Transformó por completo mi despensa y cocina',
     comment:
-      'Equipamos toda el área de almacenamiento y refrigeración con los contenedores herméticos y gaveteros modulares Plastir. La emisión del NCF de Crédito Fiscal fue inmediata y el material soporta el uso continuo de cocina comercial sin deformarse.',
+      'Compré el set de 7 contenedores herméticos y el dispensador giratorio. La calidad es increíble, son súper transparentes y sellan al vacío sin fugas. Me llegó en menos de 3 horas a mi casa y pagué al recibir.',
     verified: true,
   },
   {
     id: 2,
     author: 'Dra. Patricia Lora',
-    role: 'Organización Residencial',
+    role: 'Cliente Verificada',
     city: 'Bella Vista, Santo Domingo',
     rating: 5,
-    date: '12 de Septiembre, 2026',
-    title: 'Acabado superior, plástico transparente y broches de alta resistencia',
+    date: 'Hace 3 días',
+    title: 'Plástico grueso, sin olores químicos y broches fuertes',
     comment:
-      'Compré el juego de cajas organizadoras para clóset y zafacones de pedal. El plástico es 100% virgen, sin olores químicos y los broches sellan perfectamente. Servicio al cliente de primera con pago contra entrega en mi puerta.',
+      'Las cajas organizadoras transparentes para clóset y zapateras magnéticas son de calidad superior. Cero olores a plástico reciclado, todo se ve ordenado y elegante. Excelente servicio de entrega en mi puerta.',
     verified: true,
   },
   {
     id: 3,
-    author: 'Ing. Carlos Santana',
-    role: 'Ferretería & Suministros Cibao',
+    author: 'Yaniris Peña',
+    role: 'Cliente Verificada',
     city: 'Santiago de los Caballeros',
     rating: 5,
-    date: '5 de Septiembre, 2026',
-    title: 'Excelente margen para reventa y soporte B2B confiable',
+    date: 'Hace 5 días',
+    title: 'Envío rápido al interior y todo en perfecto estado',
     comment:
-      'Llevamos 6 meses adquiriendo bultos por mayor a través del cotizador B2B. Los despachos hacia Santiago vía transporte de carga son impecables y la relación precio-calidad es la más competitiva del mercado dominicano.',
+      'Hice el pedido por la página web y al día siguiente ya lo tenía en Santiago. Todo llegó súper bien protegido en su caja. El gavetero y los cestos de lavandería son súper resistentes.',
     verified: true,
   },
 ];
 
 export const ExecutiveTrustSection = () => {
-  const { setIsQuickQuoterOpen } = useCart();
+  const scrollToCatalog = () => {
+    const el = document.getElementById('catalog');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   return (
     <section className="py-12 px-4 bg-white border-t border-slate-200">
       <div className="max-w-7xl mx-auto space-y-12">
         
-        {/* 4 Executive Corporate Pillars (Amazon / Enterprise Style) */}
+        {/* 4 Customer Pillars (Amazon / Modern Retail Style) */}
         <div>
           <div className="text-center max-w-2xl mx-auto mb-8 space-y-2">
             <span className="text-[11px] font-black uppercase tracking-wider text-[#F16100] bg-orange-50 border border-orange-200 px-3 py-1 rounded-full">
-              ESTÁNDARES CORPORATIVOS PLASTIR RD
+              GARANTÍA & CONFIANZA PLASTIR RD
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-slate-900 uppercase tracking-tight">
-              Calidad Industrial para el Hogar y la Empresa
+              Tu Hogar en Orden con Calidad Garantizada
             </h2>
             <p className="text-xs sm:text-sm text-slate-500">
-              Garantizamos máxima resistencia en cada producto, respaldo fiscal formal y cobertura logística en toda República Dominicana.
+              Productos duraderos, materiales certificados libres de BPA y entregas rápidas con Pago Contra Entrega en todo el país.
             </p>
           </div>
 
@@ -78,13 +79,13 @@ export const ExecutiveTrustSection = () => {
             {/* Pillar 1 */}
             <div className="bg-slate-50 hover:bg-white border border-slate-200 hover:border-[#F16100]/40 rounded-2xl p-5 transition-all shadow-sm hover:shadow-md space-y-3">
               <div className="w-11 h-11 rounded-xl bg-orange-50 border border-orange-200 flex items-center justify-center text-[#F16100]">
-                <FileCheck2 size={22} />
+                <Award size={22} />
               </div>
               <h3 className="text-sm font-black text-slate-900 uppercase">
-                Comprobante Fiscal (NCF)
+                Garantía de Calidad
               </h3>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Emitimos facturas válidas para Crédito Fiscal (B01) y Régimen Especial para empresas registradas ante la DGII.
+                Plásticos gruesos de alta resistencia diseñados para soportar el uso diario sin romperse ni deformarse.
               </p>
             </div>
 
@@ -97,7 +98,7 @@ export const ExecutiveTrustSection = () => {
                 100% Virgen & Libre de BPA
               </h3>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Polímeros certificados de grado alimenticio. Aptos para refrigeración, congelador y microondas sin toxinas.
+                Aprobados para conservar alimentos frescos. Aptos para refrigerador, congelador y microondas con total seguridad.
               </p>
             </div>
 
@@ -107,23 +108,23 @@ export const ExecutiveTrustSection = () => {
                 <Truck size={22} />
               </div>
               <h3 className="text-sm font-black text-slate-900 uppercase">
-                Logística Nacional
+                Envío Rápido a Domicilio
               </h3>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Despacho en 24h para Santo Domingo y envíos asegurados a todas las provincias a través de transporte expreso de carga.
+                Entregas en 2 a 4 horas en Santo Domingo y envíos seguros a todas las provincias del país en 24 a 48 horas.
               </p>
             </div>
 
             {/* Pillar 4 */}
             <div className="bg-slate-50 hover:bg-white border border-slate-200 hover:border-[#F16100]/40 rounded-2xl p-5 transition-all shadow-sm hover:shadow-md space-y-3">
               <div className="w-11 h-11 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600">
-                <Building2 size={22} />
+                <CreditCard size={22} />
               </div>
               <h3 className="text-sm font-black text-slate-900 uppercase">
-                Ventas Corporativas B2B
+                Pago Contra Entrega Seguro
               </h3>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Escala de precios por docena y bultos cerrados para ferreterías, hoteles, restaurantes e instituciones.
+                Pagas en efectivo o transferencia únicamente cuando recibes y verificas tu pedido en tus manos.
               </p>
             </div>
 
@@ -144,16 +145,16 @@ export const ExecutiveTrustSection = () => {
                 <span className="text-base font-black text-slate-900">4.9 de 5 estrellas</span>
               </div>
               <p className="text-xs text-slate-500">
-                Basado en más de 380 órdenes corporativas y residenciales completadas con éxito.
+                Basado en más de 1,240 valoraciones y compras verificadas en República Dominicana.
               </p>
             </div>
 
             <button
-              onClick={() => setIsQuickQuoterOpen?.(true)}
-              className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-[#F16100] text-white text-xs font-bold uppercase tracking-wider transition-all shadow-sm flex items-center gap-2 self-start sm:self-auto"
+              onClick={scrollToCatalog}
+              className="px-5 py-2.5 rounded-xl bg-[#F16100] hover:bg-[#D95500] text-white text-xs font-bold uppercase tracking-wider transition-all shadow-sm flex items-center gap-2 self-start sm:self-auto"
             >
-              <FileText size={15} />
-              <span>Solicitar Cotización Empresarial</span>
+              <ShoppingBag size={15} />
+              <span>Ver Catálogo Completo</span>
             </button>
           </div>
 
@@ -183,18 +184,17 @@ export const ExecutiveTrustSection = () => {
                   </p>
                 </div>
 
-                <div className="pt-3 border-t border-slate-100 space-y-0.5">
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-xs font-bold text-slate-900">{review.author}</span>
-                    {review.verified && (
-                      <span className="inline-flex items-center gap-0.5 text-[9px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200">
-                        <CheckCircle2 size={10} className="text-emerald-600" />
-                        Compra Verificada
-                      </span>
-                    )}
+                <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+                  <div>
+                    <strong className="text-xs text-slate-900 block">{review.author}</strong>
+                    <span className="text-[10px] text-slate-400">{review.city}</span>
                   </div>
-                  <p className="text-[11px] text-slate-500">{review.role}</p>
-                  <p className="text-[10px] text-slate-400">{review.city}</p>
+                  {review.verified && (
+                    <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                      <CheckCircle2 size={11} />
+                      Compra Verificada
+                    </span>
+                  )}
                 </div>
               </div>
             ))}

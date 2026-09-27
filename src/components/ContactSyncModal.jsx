@@ -330,7 +330,7 @@ export const ContactSyncModal = ({ isOpen, onClose, getAuthHeaders, showToast })
                 onClick={handleFullTwoWaySync}
                 disabled={isFullSyncing || isSyncingWhaticket}
                 className="px-3.5 py-2.5 rounded-xl bg-gradient-to-r from-sky-600 to-blue-700 hover:from-sky-500 hover:to-blue-600 text-white font-black text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-sky-500/20 transition-all disabled:opacity-50 active:scale-95"
-                title="Sincroniza contactos entre Whaticket, celulares y MVPFLOW en ambas direcciones"
+                title="Sincroniza contactos entre Whaticket, celulares y PLASTIR RD en ambas direcciones"
               >
                 <ArrowLeftRight className={`w-4 h-4 ${isFullSyncing ? 'animate-spin' : ''}`} />
                 <span>{isFullSyncing ? 'Sincronizando...' : 'Sincronizar Todo (Celulares ⇄ Whaticket)'}</span>

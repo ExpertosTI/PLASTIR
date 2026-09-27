@@ -294,7 +294,7 @@ export const loginWithAppleSDK = async (clientId) => {
   const redirectURI = window.location.origin;
 
   AppleAuth.init({
-    clientId: clientId || 'com.mvpflowboutique.web',
+    clientId: clientId || 'com.plastirrd.web',
     scope: 'name email',
     redirectURI: redirectURI,
     usePopup: true,
