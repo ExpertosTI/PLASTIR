@@ -179,14 +179,23 @@ export const App = () => {
     }
   }, []);
 
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
+  const [isAisleTransitioning, setIsAisleTransitioning] = useState(false);
+
   useEffect(() => {
     initSessionTracking();
     trackPageView('home_storefront');
     fetchProductsFromApi();
+    const timer = setTimeout(() => setIsInitialLoading(false), 800);
+    return () => clearTimeout(timer);
   }, [fetchProductsFromApi]);
 
   const handleSelectCategory = (catId) => {
     trackCategoryClick(catId);
+    if (catId !== selectedCategory) {
+      setIsAisleTransitioning(true);
+      setTimeout(() => setIsAisleTransitioning(false), 500);
+    }
     setSelectedCategory(catId);
     setSearchQuery('');
   };
@@ -235,6 +244,36 @@ export const App = () => {
   return (
     <div className="min-h-screen bg-[#FAFAFA] text-slate-900 flex flex-col font-sans selection:bg-[#F16100] selection:text-white">
       
+      {/* Initial Page Preloader with Plastir video loading animation */}
+      {isInitialLoading && (
+        <div className="fixed inset-0 z-[9999] bg-white flex flex-col items-center justify-center transition-opacity duration-500 animate-fadeIn pointer-events-none">
+          <div className="relative flex flex-col items-center gap-4">
+            <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl overflow-hidden shadow-2xl border-2 border-orange-100 bg-white p-1 flex items-center justify-center">
+              <img 
+                src="/img/plastir-loading.webp" 
+                alt="Plastir RD" 
+                className="w-full h-full object-cover rounded-2xl"
+              />
+            </div>
+            <div className="text-center">
+              <span className="text-sm font-black tracking-widest text-[#F16100] uppercase">PLASTIR RD</span>
+              <p className="text-xs text-slate-400 font-medium mt-1">Cargando el departamento del hogar...</p>
+            </div>
+            <div className="w-32 h-1 bg-slate-100 rounded-full overflow-hidden">
+              <div className="w-full h-full bg-[#F16100] animate-[shimmer_1.2s_infinite]"></div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Department Transition Indicator */}
+      {isAisleTransitioning && (
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-slate-900/90 text-white backdrop-blur-md px-4 py-2 rounded-full shadow-xl flex items-center gap-2.5 border border-slate-700 text-xs font-bold animate-fadeIn">
+          <img src="/img/plastir-transition.webp" alt="Transición de Pasillo" className="w-5 h-5 rounded-full object-cover" />
+          <span>Cambiando a Pasillo: {selectedCategory.toUpperCase()}</span>
+        </div>
+      )}
+
       {/* Sticky Header with Shopify Style MegaMenu */}
       <Navbar
         searchQuery={searchQuery}
