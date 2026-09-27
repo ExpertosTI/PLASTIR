@@ -38,47 +38,6 @@
             <field name="summary">Asiento contable definitivo y valorización</field>
         </record>
 
-        <!-- Tipos de Operación / Dashboard Cards (Estilo Inventory Stock Manager) -->
-        <record id="type_in_transit" model="plastir.settlement.type">
-            <field name="name">Liquidaciones en Tránsito Marítimo / Aéreo</field>
-            <field name="code">in_transit</field>
-            <field name="sequence">10</field>
-            <field name="color">4</field>
-            <field name="icon">fa-ship</field>
-        </record>
-
-        <record id="type_customs" model="plastir.settlement.type">
-            <field name="name">Gestión DGA &amp; Despacho Aduanal</field>
-            <field name="code">customs</field>
-            <field name="sequence">20</field>
-            <field name="color">2</field>
-            <field name="icon">fa-building</field>
-        </record>
-
-        <record id="type_draft" model="plastir.settlement.type">
-            <field name="name">Pendientes de Prorrateo &amp; Costeo Landed</field>
-            <field name="code">draft</field>
-            <field name="sequence">30</field>
-            <field name="color">3</field>
-            <field name="icon">fa-calculator</field>
-        </record>
-
-        <record id="type_done" model="plastir.settlement.type">
-            <field name="name">Cierre Contable Tránsito &amp; Inventario</field>
-            <field name="code">done</field>
-            <field name="sequence">40</field>
-            <field name="color">10</field>
-            <field name="icon">fa-cubes</field>
-        </record>
-
-        <record id="type_local" model="plastir.settlement.type">
-            <field name="name">Compras Locales (RD$)</field>
-            <field name="code">local</field>
-            <field name="sequence">50</field>
-            <field name="color">1</field>
-            <field name="icon">fa-shopping-cart</field>
-        </record>
-
         <!-- Proveedor Internacional Oficial Plantilla -->
         <record id="partner_ningbo_topwin" model="res.partner">
             <field name="name">NINGBO TOPWIN CO., LTD</field>
@@ -96,7 +55,6 @@
             <field name="date">2026-07-28</field>
             <field name="eta_date">2026-08-15</field>
             <field name="partner_id" ref="partner_ningbo_topwin"/>
-            <field name="type_id" ref="type_in_transit"/>
             <field name="state">in_transit</field>
             <field name="exchange_rate">60.00</field>
             <field name="subtotal_gastos_rd">245000.00</field>

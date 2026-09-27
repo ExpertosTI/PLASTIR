@@ -252,7 +252,6 @@
                     <!-- Datos Generales -->
                     <group>
                         <group name="general_info" string="Información del Embarque">
-                            <field name="type_id" readonly="state in ('done', 'cancel')"/>
                             <field name="operation_code" readonly="state in ('done', 'cancel')"/>
                             <field name="shipping_ref" readonly="state in ('done', 'cancel')"/>
                             <field name="eta_date" readonly="state in ('done', 'cancel')"/>
@@ -371,7 +370,6 @@
                 <field name="operation_code"/>
                 <field name="shipping_ref"/>
                 <field name="partner_id"/>
-                <field name="type_id"/>
                 <filter name="filter_draft" string="Borrador / Pendiente Prorrateo" domain="[('state', '=', 'draft')]"/>
                 <filter name="filter_in_transit" string="En Tránsito Marítimo / Aéreo" domain="[('state', '=', 'in_transit')]"/>
                 <filter name="filter_liquidated" string="Liquidadas" domain="[('state', '=', 'liquidated')]"/>
@@ -385,7 +383,6 @@
                 <separator/>
                 <filter name="filter_date" date="date"/>
                 <group expand="0" string="Agrupar por">
-                    <filter name="group_by_type" string="Tipo de Operación" context="{'group_by': 'type_id'}"/>
                     <filter name="group_by_partner" string="Proveedor" context="{'group_by': 'partner_id'}"/>
                     <filter name="group_by_state" string="Estado" context="{'group_by': 'state'}"/>
                     <filter name="group_by_date" string="Fecha" context="{'group_by': 'date:month'}"/>
@@ -394,7 +391,23 @@
         </field>
     </record>
 
-    <!-- Acción de Ventana para Liquidaciones (Multi-Vistas 2026: Kanban, List, Form, Graph, Pivot, Activity) -->
+    <!-- Acción Principal: Información General / Dashboard Operativo (Estilo Stock Manager) -->
+    <record id="action_plastir_settlement_overview" model="ir.actions.act_window">
+        <field name="name">Información general</field>
+        <field name="res_model">plastir.settlement</field>
+        <field name="view_mode">kanban,list,form,activity</field>
+        <field name="context">{'search_default_group_by_state': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Panel General de Control y Liquidación de Importaciones PLASTIR.
+            </p>
+            <p>
+                Visualice el estado de los embarques en tránsito, costos prorrateados, gestión aduanal DGA y valorización real del inventario.
+            </p>
+        </field>
+    </record>
+
+    <!-- Acción de Ventana para Expedientes de Liquidación -->
     <record id="action_plastir_settlement" model="ir.actions.act_window">
         <field name="name">Liquidación de Mercancías</field>
         <field name="res_model">plastir.settlement</field>

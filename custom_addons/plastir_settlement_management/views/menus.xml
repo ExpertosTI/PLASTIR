@@ -49,13 +49,6 @@
         </field>
     </record>
 
-    <!-- Acción para Configuración de Tipos de Operación -->
-    <record id="action_settlement_type_config" model="ir.actions.act_window">
-        <field name="name">Tipos de Operación y Control</field>
-        <field name="res_model">plastir.settlement.type</field>
-        <field name="view_mode">list,form</field>
-    </record>
-
     <!-- Menú Principal de la Aplicación -->
     <menuitem id="menu_plastir_settlement_root"
               name="Liquidaciones PLASTIR"
@@ -66,7 +59,7 @@
     <menuitem id="menu_plastir_settlement_dashboard"
               name="Información general"
               parent="menu_plastir_settlement_root"
-              action="action_plastir_settlement_dashboard"
+              action="action_plastir_settlement_overview"
               sequence="1"/>
 
     <!-- Submenú 2: Operaciones -->
@@ -119,12 +112,6 @@
               groups="group_settlement_manager"
               sequence="90"/>
 
-    <menuitem id="menu_settlement_type_config_item"
-              name="Tipos de Operación"
-              parent="menu_plastir_settlement_config"
-              action="action_settlement_type_config"
-              sequence="5"/>
-
     <menuitem id="menu_plastir_settlement_settings"
               name="Ajustes Contables"
               parent="menu_plastir_settlement_config"
@@ -135,6 +122,6 @@
     <menuitem id="menu_purchase_settlement_integration"
               name="Liquidación de Mercancías"
               parent="purchase.menu_procurement_management"
-              action="action_plastir_settlement_dashboard"
+              action="action_plastir_settlement_overview"
               sequence="25"/>
 </odoo>

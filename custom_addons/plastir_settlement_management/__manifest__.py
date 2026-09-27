@@ -56,7 +56,6 @@ Este módulo resuelve de forma integral la gestión de compras y la contabilidad
         'security/settlement_security.xml',
         'security/ir.model.access.csv',
         'data/plastir_settlement_data.xml',
-        'views/plastir_settlement_type_views.xml',
         'views/plastir_settlement_views.xml',
         'wizard/plastir_settlement_import_wizard_views.xml',
         'views/purchase_order_views.xml',
