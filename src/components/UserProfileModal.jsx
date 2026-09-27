@@ -50,17 +50,15 @@ export const UserProfileModal = () => {
 
   const { setIsTrackerOpen } = useCart();
 
-  if (!isProfileModalOpen || !currentUser) return null;
-
   // View or Edit Mode
   const [isEditing, setIsEditing] = useState(false);
   const [copied, setCopied] = useState(false);
 
   // Form states for editing
-  const [nameInput, setNameInput] = useState(currentUser.name || '');
-  const [usernameInput, setUsernameInput] = useState(currentUser.username || '');
-  const [phoneInput, setPhoneInput] = useState(currentUser.phone || '');
-  const [avatarInput, setAvatarInput] = useState(currentUser.avatar || '');
+  const [nameInput, setNameInput] = useState(() => currentUser?.name || '');
+  const [usernameInput, setUsernameInput] = useState(() => currentUser?.username || '');
+  const [phoneInput, setPhoneInput] = useState(() => currentUser?.phone || '');
+  const [avatarInput, setAvatarInput] = useState(() => currentUser?.avatar || '');
 
   // WhatsApp OTP Verification states
   const [showOtpSection, setShowOtpSection] = useState(false);
@@ -88,11 +86,13 @@ export const UserProfileModal = () => {
     return () => clearInterval(interval);
   }, [otpCountdown]);
 
+  if (!isProfileModalOpen || !currentUser) return null;
+
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({
-        title: 'MVP FLOW Boutique | Ropa Urbana',
-        text: '¡Únete a la comunidad de MVP FLOW con mi código y recibe 15% OFF en tu primer pedido!',
+        title: 'PLASTIR RD | Tienda de Artículos Plásticos y Organización',
+        text: '¡Únete a la comunidad de PLASTIR RD con mi código y recibe 15% OFF en tu primer pedido!',
         url: window.location.origin,
       }).catch(() => {});
     } else {

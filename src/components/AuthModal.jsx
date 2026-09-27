@@ -38,45 +38,6 @@ export const AuthModal = () => {
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
 
-  if (!isAuthModalOpen) return null;
-
-  // Handle sending 6-digit WhatsApp OTP
-  const handleRequestOtp = async (e) => {
-    if (e) e.preventDefault();
-    const cleanPhone = phoneInput.replace(/\D/g, '');
-    if (cleanPhone.length < 10) {
-      setErrorMsg('Por favor ingresa un número de WhatsApp dominicano de 10 dígitos (ej: 809-555-0123).');
-      return;
-    }
-    setErrorMsg('');
-    try {
-      await sendWhatsAppOtp(cleanPhone, nameInput);
-      setOtpSent(true);
-      setMode('otp');
-      setCountdown(60);
-      setSuccessMsg(`Código de 6 dígitos enviado por WhatsApp al +1 ${cleanPhone.slice(-10)}`);
-    } catch (err) {
-      setErrorMsg(err.message || 'Error enviando código por WhatsApp. Verifica el número.');
-    }
-  };
-
-  // Handle verifying 6-digit WhatsApp OTP
-  const handleVerifyOtp = async (e) => {
-    if (e) e.preventDefault();
-    const cleanCode = otpCode.trim();
-    if (cleanCode.length !== 6) {
-      setErrorMsg('Por favor introduce el código de 6 dígitos que te llegó por WhatsApp.');
-      return;
-    }
-    setErrorMsg('');
-    try {
-      await verifyWhatsAppOtp(phoneInput, cleanCode, nameInput);
-      applyCoupon('VIP15');
-    } catch (err) {
-      setErrorMsg(err.message || 'Código incorrecto o expirado.');
-    }
-  };
-
   // Countdown timer for resending OTP
   React.useEffect(() => {
     if (countdown <= 0) return;
@@ -85,6 +46,8 @@ export const AuthModal = () => {
     }, 1000);
     return () => clearInterval(timer);
   }, [countdown]);
+
+  if (!isAuthModalOpen) return null;
 
   const handleGoogleLogin = async () => {
     await loginWithGoogle();

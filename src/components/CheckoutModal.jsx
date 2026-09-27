@@ -28,8 +28,6 @@ export const CheckoutModal = () => {
     formatMoney,
   } = useCart();
 
-  if (!isCheckoutOpen) return null;
-
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [provinceId, setProvinceId] = useState('dn');
@@ -47,6 +45,8 @@ export const CheckoutModal = () => {
   const [gpsToast, setGpsToast] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState(null);
+
+  if (!isCheckoutOpen) return null;
 
   const selectedProvince = RD_PROVINCES.find((p) => p.id === provinceId) || RD_PROVINCES[0];
   const selectedZone = getZoneByProvince(provinceId);
