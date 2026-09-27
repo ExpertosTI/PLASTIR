@@ -20,3 +20,40 @@
     border-radius: 9999px;
     padding: 0.25rem 0.65rem;
 }
+
+/* ── Full Width Responsive Form Sheet ── */
+.o_form_view .o_form_sheet_bg {
+    max-width: 100% !important;
+    padding: 1rem !important;
+
+    > .o_form_sheet {
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+}
+
+/* ── Compact Right-Side Bar (Chatter) ── */
+.o_form_renderer:has(.o-mail-Form-chatter.o-aside) {
+    .o-mail-Form-chatter.o-aside {
+        width: 260px !important;
+        max-width: 320px !important;
+        min-width: 200px !important;
+        flex: 0 0 260px !important;
+        border-left: 1px solid #e2e8f0;
+        
+        .o-mail-Chatter-top {
+            flex-wrap: wrap;
+            gap: 4px;
+            padding: 6px;
+            
+            .btn {
+                padding: 4px 8px;
+                font-size: 11px;
+            }
+        }
+        
+        .o-mail-Thread {
+            padding: 8px 10px;
+        }
+    }
+}

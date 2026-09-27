@@ -1,0 +1,28 @@
+.o-mail-Chatter-top:has(.o-mail-Chatter-sendMessage.active) .o-mail-Composer-send {
+    @extend .btn-danger
+}
+
+.o-mail-Form-chatter.o-aside {
+    width: 260px;
+    max-width: 380px;
+    min-width: 200px;
+    flex: 0 0 auto !important;
+    border-left: 1px solid #e2e8f0;
+
+    .mk_chatter_resize {
+        top: 0;
+        bottom: 0;
+        z-index: 10;
+        width: 6px;
+        height: 100%;
+        cursor: col-resize;
+        position: absolute;
+        left: -3px;
+        background: transparent;
+        transition: background 0.15s ease;
+        &:hover {
+            background: $o-brand-primary;
+        }
+    }
+}
+
