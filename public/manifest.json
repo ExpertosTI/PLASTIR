@@ -1,11 +1,11 @@
 {
-  "name": "MVP FLOW Boutique",
-  "short_name": "MVP FLOW",
-  "description": "Tienda #1 de Ropa Urbana y Streetwear en República Dominicana",
+  "name": "PLASTIR RD — Tienda por Departamentos",
+  "short_name": "PLASTIR RD",
+  "description": "Artículos para el hogar, organización inteligente y plásticos. Av. San Vicente de Paúl No. 108, Santo Domingo Este",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0A0A0C",
-  "theme_color": "#FF1E27",
+  "background_color": "#FFFFFF",
+  "theme_color": "#F16100",
   "orientation": "portrait",
   "icons": [
     {

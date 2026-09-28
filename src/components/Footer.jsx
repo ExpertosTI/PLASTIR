@@ -85,12 +85,23 @@ export const Footer = ({ onSelectCategory }) => {
               Artículos para el hogar y soluciones de organización con diseño funcional. El orden y calidad que transforman tu espacio.
             </p>
 
-            <p className="text-slate-600 text-[11px] flex items-start gap-1.5 pt-1">
-              <MapPin size={15} className="text-[#F16100] flex-shrink-0 mt-0.5" />
-              <span>
-                <strong>Almacén y Distribución:</strong> Santo Domingo, República Dominicana.
-              </span>
-            </p>
+            <div className="space-y-1.5 pt-1 text-[11px] text-slate-600">
+              <p className="flex items-start gap-1.5">
+                <MapPin size={15} className="text-[#F16100] flex-shrink-0 mt-0.5" />
+                <span>
+                  <strong className="text-slate-900">Tienda Física & Despacho:</strong><br />
+                  Av. San Vicente de Paúl No. 108, Los Mina, Santo Domingo Este, República Dominicana.
+                </span>
+              </p>
+              <a
+                href="https://maps.google.com/?q=Av.+San+Vicente+de+Pa%C3%BAl+No.+108,+Santo+Domingo+Este"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1 text-[10px] font-bold text-[#F16100] hover:text-[#d45500] pl-5 underline"
+              >
+                📍 Ver en Google Maps
+              </a>
+            </div>
 
             <p className="text-slate-500 text-[11px] flex items-center gap-1.5">
               <Clock size={14} className="text-amber-500 flex-shrink-0" />

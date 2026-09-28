@@ -1,7 +1,7 @@
 /**
- * Distance & Tiered Shipping Calculator based on MVP Flow Boutique Store Location
+ * Distance & Tiered Shipping Calculator based on PLASTIR RD Store Location
  * Base Location: https://maps.google.com/maps?q=18.509674072265625%2C-69.8631591796875&z=17&hl=es
- * Address: Av. San Vicente de Paúl, Los Mina, Santo Domingo Este, RD
+ * Address: Av. San Vicente de Paúl No. 108, Los Mina, Santo Domingo Este, RD
  *
  * REGLAS TARIFARIAS MARGINALES EXACTAS:
  * - Mínimo absoluto de envío: RD$ 200
@@ -14,9 +14,10 @@
 export const MVP_STORE_LOCATION = {
   lat: 18.509674072265625,
   lng: -69.8631591796875,
-  name: 'Tienda MVP Flow Boutique (Los Mina, Av. San Vicente de Paúl)',
+  name: 'Tienda PLASTIR RD (Av. San Vicente de Paúl No. 108, Los Mina, Santo Domingo Este)',
   mapsUrl: 'https://maps.google.com/maps?q=18.509674072265625%2C-69.8631591796875&z=17&hl=es',
 };
+export const PLASTIR_STORE_LOCATION = MVP_STORE_LOCATION;
 
 /**
  * Helper to round strictly to nearest multiple of RD$ 25

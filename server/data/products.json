@@ -60,7 +60,9 @@
         "date": "Hace 3 días",
         "comment": "Excelente calidad del plástico, cierran super herméticos. Compré 3 sets para el restaurante."
       }
-    ]
+    ],
+    "isPublishedWeb": true,
+    "isLocalCatalog": true
   },
   {
     "id": "pla-002",
@@ -111,7 +113,9 @@
         "date": "Hace 2 días",
         "comment": "El mejor invento para no tener fundas de arroz y habichuelas tiradas en la despensa."
       }
-    ]
+    ],
+    "isPublishedWeb": true,
+    "isLocalCatalog": true
   },
   {
     "id": "pla-003",
@@ -167,7 +171,9 @@
         "date": "Ayer",
         "comment": "Compré 12 para organizar el depósito y el clóset. Plástico duro, nada que ver con las cajas frágiles del súper."
       }
-    ]
+    ],
+    "isPublishedWeb": true,
+    "isLocalCatalog": true
   },
   {
     "id": "pla-004",
@@ -223,7 +229,9 @@
         "date": "Hace 4 días",
         "comment": "Armado en 2 minutos sin herramientas. El acabado es impecable, super elegante."
       }
-    ]
+    ],
+    "isPublishedWeb": true,
+    "isLocalCatalog": true
   },
   {
     "id": "pla-005",
@@ -275,7 +283,9 @@
         "date": "Ayer",
         "comment": "Las cajas son super resistentes y la visibilidad es excelente. El clóset quedó ordenadísimo."
       }
-    ]
+    ],
+    "isPublishedWeb": true,
+    "isLocalCatalog": true
   },
   {
     "id": "pla-006",
@@ -330,7 +340,9 @@
         "date": "Hace 5 días",
         "comment": "Muy espacioso, caben las sábanas y toallas de la semana entera sin doblarse."
       }
-    ]
+    ],
+    "isPublishedWeb": true,
+    "isLocalCatalog": true
   },
   {
     "id": "pla-007",
@@ -381,7 +393,9 @@
         "date": "Hace 1 semana",
         "comment": "El exprimidor es fuerte de verdad, no se pandea como otros baldes baratos."
       }
-    ]
+    ],
+    "isPublishedWeb": true,
+    "isLocalCatalog": true
   },
   {
     "id": "pla-008",
@@ -437,7 +451,9 @@
         "date": "Hace 3 días",
         "comment": "Excelente para té frío y jugos. Cabe exacta en la nevera y no derrama nada."
       }
-    ]
+    ],
+    "isPublishedWeb": true,
+    "isLocalCatalog": true
   },
   {
     "id": "pla-009",
@@ -494,7 +510,9 @@
         "date": "Ayer",
         "comment": "Ideales para la terraza y piscina. Parecen cristal fino pero no se rompen."
       }
-    ]
+    ],
+    "isPublishedWeb": true,
+    "isLocalCatalog": true
   },
   {
     "id": "pla-010",
@@ -545,7 +563,9 @@
         "date": "Hace 4 días",
         "comment": "Precioso para la habitación de mi niña. Todos los juguetes quedaron ordenados."
       }
-    ]
+    ],
+    "isPublishedWeb": true,
+    "isLocalCatalog": true
   },
   {
     "id": "pla-011",
@@ -601,7 +621,9 @@
         "date": "Hace 3 días",
         "comment": "Excelente grosor del plástico y el pedal aguanta uso continuo. Súper higiénico."
       }
-    ]
+    ],
+    "isPublishedWeb": true,
+    "isLocalCatalog": true
   },
   {
     "id": "pla-012",
@@ -657,7 +679,9 @@
         "date": "Hace 1 semana",
         "comment": "El mejor precio del mercado y aguantan peso de verdad. Cliente fijo de Plastir."
       }
-    ]
+    ],
+    "isPublishedWeb": true,
+    "isLocalCatalog": true
   },
   {
     "id": "pla-013",
@@ -713,7 +737,9 @@
         "date": "Hace 5 días",
         "comment": "Compré 40 para la terraza del restaurante. Cómodas, resistentes y fáciles de apilar."
       }
-    ]
+    ],
+    "isPublishedWeb": true,
+    "isLocalCatalog": true
   },
   {
     "id": "pla-014",
@@ -765,7 +791,9 @@
         "date": "Hace 2 días",
         "comment": "Firme y muy linda. La tengo en el patio con las 4 sillas y ha llovido bastante sin afectarle nada."
       }
-    ]
+    ],
+    "isPublishedWeb": true,
+    "isLocalCatalog": true
   },
   {
     "id": "pla-015",
@@ -818,6 +846,8 @@
         "date": "Hace 3 días",
         "comment": "El invento del siglo para apartamentos pequeños. Entré 4 edredones y cabe perfecto bajo la cama."
       }
-    ]
+    ],
+    "isPublishedWeb": true,
+    "isLocalCatalog": true
   }
 ]

@@ -51,15 +51,15 @@ const QUICK_REPLIES = [
   {
     shortcut: 'bienvenida',
     title: 'Saludo & Bienvenida Oficial',
-    message: `¡Hola! 🔥 Bienvenido a *MVP FLOW BOUTIQUE RD* — El rey de los precios bajos en Los Mina, Av. San Vicente de Paúl.\n\nTe atiende el equipo oficial de ventas. ¿Qué modelo, talla o combo de ropa estás buscando hoy? 👟`,
+    message: `¡Hola! 👋✨ Bienvenido a *PLASTIR RD* — Tienda por departamentos de artículos para el hogar y plásticos en Av. San Vicente de Paúl No. 108, Los Mina, Santo Domingo Este.\n\nTe atiende el equipo oficial de ventas. ¿En qué artículo, gavetero o producto para el hogar te podemos ayudar hoy? 🏡📦`,
   },
   {
     shortcut: 'envio',
     title: 'Política de Envíos y Tiempos de Entrega',
-    message: `🛵 *ENVÍOS Y ENTREGAS:*
-• *Santo Domingo:* Entrega el mismo día (2 a 4 horas) por mensajería express COD.
-• *Interior del país:* 24 horas por Caribe Tour, Metro Pac o Aptra.
-• *Pago Contra Entrega (COD):* Pagas en efectivo al recibir tu paquete en mano.`,
+    message: `🛵 *ENVÍOS Y ENTREGAS PLASTIR RD:*
+• *Santo Domingo (DN y SDE):* Entrega el mismo día (2 a 4 horas) por mensajería express COD.
+• *Interior del país:* 24 a 48 horas con envío asegurado.
+• *Pago Contra Entrega (COD):* Pagas en efectivo o transferencia al recibir tu paquete en mano.`,
   },
   {
     shortcut: 'pago',
@@ -67,24 +67,22 @@ const QUICK_REPLIES = [
     message: `💵 *FORMAS DE PAGO:*
 1. *Efectivo contra entrega (COD)* al recibir en tus manos.
 2. *Transferencia bancaria instantánea:*
-   • Banreservas: 960-xxxxxx-x (MVP Flow)
-   • BHD: 245-xxxxxx-x
-   • Banco Popular: 812-xxxxxx-x
+   • Banreservas / Popular / BHD
 3. *Tarjeta de crédito/débito* en tienda física.`,
   },
   {
     shortcut: 'garantia',
-    title: 'Garantía de Calidad G5 y Caja',
-    message: `🛡️ *GARANTÍA MVP FLOW RD:*
-Todos nuestros tenis son calidad *G5 garantizada*, vienen con su caja original y sellos de autenticidad. Puedes verificar tu producto antes de pagarle al mensajero.`,
+    title: 'Garantía de Calidad y Libre de BPA',
+    message: `🛡️ *GARANTÍA PLASTIR RD:*
+Todos nuestros productos son plásticos vírgenes certificados *100% libres de BPA* y con garantía de durabilidad. Puedes verificar tu paquete antes de pagarle al mensajero.`,
   },
   {
     shortcut: 'tienda',
     title: 'Ubicación de Tienda Física',
-    message: `📍 *UBICACIÓN TIENDA FÍSICA:*
-Av. San Vicente de Paúl, Los Mina, Santo Domingo Este (al lado de la estación del Metro Trina de Moya de Vázquez).
-🕒 *Horario:* Lunes a Domingo de 9:00 AM a 9:00 PM.
-🗺️ *Google Maps:* ${MVP_STORE_LOCATION.mapsUrl}`,
+    message: `📍 *UBICACIÓN TIENDA FÍSICA PLASTIR RD:*
+Av. San Vicente de Paúl No. 108, Los Mina, Santo Domingo Este (próximo a estación Metro Trina de Moya).
+🕒 *Horario:* Lunes a Sábado de 8:00 AM a 7:00 PM, Domingos de 9:00 AM a 2:00 PM.
+🗺️ *Google Maps:* https://maps.google.com/?q=Av.+San+Vicente+de+Pa%C3%BAl+No.+108,+Santo+Domingo+Este`,
   },
 ];
 
