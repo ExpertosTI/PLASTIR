@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MessageCircle, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
 export const FloatingWhatsApp = () => {
@@ -47,7 +47,7 @@ export const FloatingWhatsApp = () => {
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
           <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-white"></span>
         </span>
-        <MessageCircle size={18} className="text-white fill-white/20 group-hover:rotate-6 transition-transform" />
+        <img src="/favicon.svg" alt="Chat" className="w-5 h-5 object-contain group-hover:rotate-6 transition-transform brightness-0 invert" />
         <span className="uppercase tracking-wider text-xs">Asesoría en Vivo</span>
       </button>
     </aside>

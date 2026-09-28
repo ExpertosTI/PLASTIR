@@ -60,10 +60,7 @@
 	}
 }
 
-.mk_sidebar_type_large {
-	--mk-sidebar-width: #{$mk-sidebar-large-width};
-}
-
+.mk_sidebar_type_large,
 .mk_sidebar_type_small {
 	--mk-sidebar-width: #{$mk-sidebar-small-width};
     
