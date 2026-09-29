@@ -87,13 +87,13 @@ export const AuthModal = () => {
 
         {/* Top Community Badge */}
         <div className="space-y-1 mb-4">
-          <div className="inline-flex items-center gap-1.5 bg-gradient-to-r from-mvp-red/20 to-amber-500/20 border border-mvp-red/40 text-amber-300 px-3 py-1 rounded-full text-xs font-black uppercase">
-            <Users size={13} className="text-mvp-red" />
-            <span>COMUNIDAD OFICIAL MVP FLOW</span>
+          <div className="inline-flex items-center gap-1.5 bg-gradient-to-r from-plastir-orange/20 to-amber-500/20 border border-plastir-orange/40 text-amber-300 px-3 py-1 rounded-full text-xs font-black uppercase">
+            <Users size={13} className="text-plastir-orange" />
+            <span>COMUNIDAD OFICIAL PLASTIR RD</span>
           </div>
 
           <h3 className="text-2xl font-display font-black text-white uppercase tracking-wide">
-            ÚNETE AL <span className="text-gradient-red">CLUB DEL FLOW</span>
+            ÚNETE AL <span className="text-[#F16100]">CLUB PLASTIR</span>
           </h3>
 
           <p className="text-xs text-mvp-silver/80">
@@ -105,15 +105,15 @@ export const AuthModal = () => {
         <div className="bg-mvp-black/70 border border-mvp-cardHover rounded-2xl p-3 mb-5 text-left space-y-1.5 text-xs">
           <div className="flex items-center gap-2 text-mvp-gold font-bold">
             <Gift size={15} className="text-yellow-400 flex-shrink-0" />
-            <span>500 Puntos FLOW de Bienvenida</span>
+            <span>500 Puntos PLASTIR de Bienvenida</span>
           </div>
           <div className="flex items-center gap-2 text-mvp-neonGreen font-semibold">
             <CheckCircle2 size={15} className="text-mvp-neonGreen flex-shrink-0" />
             <span>15% OFF automático en tu primera orden (Cupón VIP15)</span>
           </div>
           <div className="flex items-center gap-2 text-mvp-silver font-semibold">
-            <Zap size={15} className="text-mvp-red flex-shrink-0" />
-            <span>Acceso anticipado a Drops virales de TikTok</span>
+            <Zap size={15} className="text-plastir-orange flex-shrink-0" />
+            <span>Acceso anticipado a ofertas exclusivas</span>
           </div>
         </div>
 
@@ -216,7 +216,7 @@ export const AuthModal = () => {
                 type="text"
                 value={nameInput}
                 onChange={(e) => setNameInput(e.target.value)}
-                placeholder="Ej. Juan Flow"
+                placeholder="Ej. Juan Pérez"
                 className="w-full bg-mvp-black/80 border border-mvp-cardHover focus:border-emerald-500 rounded-xl px-3 py-2.5 text-xs text-white placeholder-slate-500 outline-none transition-colors"
               />
             </div>
@@ -292,7 +292,7 @@ export const AuthModal = () => {
                 className="w-48 mx-auto text-center font-mono text-2xl tracking-[0.35em] font-black bg-mvp-card/90 border-2 border-emerald-400/80 focus:border-emerald-300 rounded-xl py-2 px-3 text-white placeholder-mvp-muted outline-none shadow-[0_0_15px_rgba(16,185,129,0.25)]"
               />
               <p className="text-[10px] text-mvp-muted mt-2">
-                Revisa la conversación de WhatsApp oficial de MVP FLOW.
+                Revisa la conversación de WhatsApp oficial de PLASTIR RD.
               </p>
             </div>
 

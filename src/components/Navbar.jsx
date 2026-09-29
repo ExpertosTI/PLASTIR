@@ -258,14 +258,7 @@ export const Navbar = ({ searchQuery, setSearchQuery, onSelectCategory }) => {
             </span>
           </button>
 
-          {/* Customer / Store Stats Button */}
-          <button
-            onClick={() => setIsStatsOpen(true)}
-            className="hidden md:flex items-center gap-1 p-2 rounded-xl bg-slate-50 border border-slate-200 hover:border-emerald-500/50 text-slate-600 hover:text-emerald-600 text-xs transition-all shadow-sm"
-            title="Estadísticas & Métricas"
-          >
-            <BarChart2 size={16} className="text-emerald-600" />
-          </button>
+
 
           {/* User Auth/Profile */}
           <button

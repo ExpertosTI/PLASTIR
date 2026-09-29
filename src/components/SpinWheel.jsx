@@ -211,9 +211,9 @@ export const SpinWheel = () => {
 
         {/* Header Ribbon */}
         <div className="space-y-1.5 pt-1">
-          <div className="inline-flex items-center gap-1.5 bg-gradient-to-r from-amber-500/20 via-mvp-red/30 to-amber-500/20 border border-amber-400/60 text-amber-300 px-3.5 py-1 rounded-full text-[11px] font-black uppercase tracking-widest shadow-glow-sm">
+          <div className="inline-flex items-center gap-1.5 bg-gradient-to-r from-amber-500/20 via-plastir-orange/30 to-amber-500/20 border border-amber-400/60 text-amber-300 px-3.5 py-1 rounded-full text-[11px] font-black uppercase tracking-widest shadow-glow-sm">
             <Crown size={13} className="text-amber-400 fill-amber-400 animate-bounce" />
-            <span>CLUB VIP EXCLUSIVO MVP FLOW</span>
+            <span>CLUB VIP EXCLUSIVO PLASTIR RD</span>
           </div>
 
           <h2 className="text-xl sm:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-amber-200 to-amber-400 uppercase font-display tracking-wide drop-shadow-sm">

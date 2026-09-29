@@ -41,6 +41,7 @@ export const AdminModal = ({ onProductUpdated }) => {
     isAdminOpen, 
     setIsAdminOpen, 
     setIsManualOpen, 
+    setIsStatsOpen,
     openQuoterWithProduct, 
     formatMoney 
   } = useCart();
@@ -542,7 +543,7 @@ export const AdminModal = ({ onProductUpdated }) => {
             <Settings size={22} className="text-mvp-red" />
             <div>
               <h2 className="text-base sm:text-lg font-black text-white uppercase tracking-wider">
-                Panel Administrativo CMS & Odoo / Whaticket (MVP FLOW RD)
+                Panel Administrativo CMS & Odoo / Whaticket (PLASTIR RD)
               </h2>
               <span className="text-[11px] text-mvp-muted">Catálogo Real, Sincronización Odoo ERP y Whaticket API v1.0.0</span>
             </div>
@@ -558,6 +559,18 @@ export const AdminModal = ({ onProductUpdated }) => {
               <Film size={13} />
               <span className="hidden sm:inline">Historias / Shorts</span>
             </a>
+
+            <button
+              onClick={() => {
+                setIsAdminOpen(false);
+                setIsStatsOpen(true);
+              }}
+              className="flex items-center gap-1 text-[11px] bg-gradient-to-r from-emerald-600 to-teal-500 text-white px-3 py-1.5 rounded-xl font-bold shadow-glow-sm"
+              title="Métricas de Cliente"
+            >
+              <TrendingUp size={13} />
+              <span className="hidden sm:inline">Métricas</span>
+            </button>
 
             <button
               onClick={() => {
