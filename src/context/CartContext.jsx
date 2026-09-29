@@ -61,6 +61,8 @@ export const CartProvider = ({ children }) => {
   const [whaticketChatProduct, setWhaticketChatProduct] = useState(null);
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
   const [isComboBuilderOpen, setIsComboBuilderOpen] = useState(false);
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const [isStatsOpen, setIsStatsOpen] = useState(false);
   const [selectedProduct, setSelectedProductState] = useState(null);
   const [quoterInitialProduct, setQuoterInitialProduct] = useState(null);
   const [currentTrackingId, setCurrentTrackingId] = useState(null);
@@ -427,6 +429,10 @@ export const CartProvider = ({ children }) => {
         setIsWishlistOpen,
         isComboBuilderOpen,
         setIsComboBuilderOpen,
+        isNotificationsOpen,
+        setIsNotificationsOpen,
+        isStatsOpen,
+        setIsStatsOpen,
         selectedProduct,
         setSelectedProduct,
         quickChoiceProduct,

@@ -20,6 +20,9 @@ import { UserProfileModal } from './components/UserProfileModal';
 import { ExecutiveTrustSection } from './components/ExecutiveTrustSection';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { MobileBottomNav } from './components/MobileBottomNav';
+import { CategoryGridSection } from './components/CategoryGridSection';
+import { NotificationsModal } from './components/NotificationsModal';
+import { CustomerStatsModal } from './components/CustomerStatsModal';
 import { QuickQuoterModal } from './components/QuickQuoterModal';
 import { Footer } from './components/Footer';
 import { PRODUCTS as STATIC_PRODUCTS } from './data/products';
@@ -286,6 +289,12 @@ export const App = () => {
         <>
           <HeroBanner onSelectCategory={handleSelectCategory} />
           
+          {/* Circular Category Grid Badges (Office Target Style) */}
+          <CategoryGridSection 
+            selectedCategory={selectedCategory} 
+            onSelectCategory={handleSelectCategory} 
+          />
+
           {/* IKEA Showrooms / Inspírate por Espacios */}
           <ShowroomsSection 
             onSelectCategory={handleSelectCategory} 
@@ -435,6 +444,8 @@ export const App = () => {
       <CheckoutModal />
       <QuickQuoterModal />
       <OrderTracker />
+      <NotificationsModal />
+      <CustomerStatsModal />
       <AdminModal onProductUpdated={fetchProductsFromApi} />
       <StaffManualModal />
       <StaffPortal 

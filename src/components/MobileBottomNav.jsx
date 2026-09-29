@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, Sparkles, ShoppingBag, Heart, FileText, PhoneCall } from 'lucide-react';
+import { Home, Sparkles, ShoppingBag, Heart, FileText, PhoneCall, Bell } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
 export const MobileBottomNav = ({ selectedCategory, onSelectCategory }) => {
@@ -7,6 +7,7 @@ export const MobileBottomNav = ({ selectedCategory, onSelectCategory }) => {
     itemsCount, 
     setIsCartOpen, 
     setIsWishlistOpen, 
+    setIsNotificationsOpen,
     setIsQuickQuoterOpen,
     openLiveChat, 
     wishlist 
@@ -49,6 +50,18 @@ export const MobileBottomNav = ({ selectedCategory, onSelectCategory }) => {
           <Sparkles size={20} />
         </div>
         <span className="text-[9px] font-black text-[#F16100] mt-0.5 uppercase tracking-wider">Asistente AI</span>
+      </button>
+
+      {/* Notificaciones */}
+      <button
+        onClick={() => setIsNotificationsOpen(true)}
+        className="relative flex flex-col items-center gap-0.5 py-1 px-2 rounded-xl text-slate-500 hover:text-[#F16100] transition-all"
+      >
+        <Bell size={18} />
+        <span className="text-[10px] font-medium">Alertas</span>
+        <span className="absolute top-0.5 right-1.5 bg-[#F16100] text-white text-[8px] font-bold w-3.5 h-3.5 rounded-full flex items-center justify-center animate-pulse">
+          3
+        </span>
       </button>
 
       {/* Favoritos */}

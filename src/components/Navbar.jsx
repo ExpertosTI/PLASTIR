@@ -17,7 +17,9 @@ import {
   Flame,
   FileText,
   ChevronDown,
-  Bot
+  Bot,
+  Bell,
+  BarChart2
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
@@ -37,6 +39,8 @@ export const Navbar = ({ searchQuery, setSearchQuery, onSelectCategory }) => {
     itemsCount, 
     wishlist,
     setIsWishlistOpen,
+    setIsNotificationsOpen,
+    setIsStatsOpen,
     setIsCartOpen, 
     setIsTrackerOpen, 
     setIsAdminOpen,
@@ -240,6 +244,27 @@ export const Navbar = ({ searchQuery, setSearchQuery, onSelectCategory }) => {
                 {wishlist.length}
               </span>
             )}
+          </button>
+
+          {/* Notification Bell Button */}
+          <button
+            onClick={() => setIsNotificationsOpen(true)}
+            className="relative p-2 rounded-xl bg-slate-50 border border-slate-200 hover:border-[#F16100]/50 text-slate-600 hover:text-[#F16100] text-xs transition-all shadow-sm"
+            title="Notificaciones & Alertas"
+          >
+            <Bell size={16} />
+            <span className="absolute -top-1 -right-1 bg-[#F16100] text-white text-[9px] font-black w-3.5 h-3.5 rounded-full flex items-center justify-center animate-pulse">
+              3
+            </span>
+          </button>
+
+          {/* Customer / Store Stats Button */}
+          <button
+            onClick={() => setIsStatsOpen(true)}
+            className="hidden md:flex items-center gap-1 p-2 rounded-xl bg-slate-50 border border-slate-200 hover:border-emerald-500/50 text-slate-600 hover:text-emerald-600 text-xs transition-all shadow-sm"
+            title="Estadísticas & Métricas"
+          >
+            <BarChart2 size={16} className="text-emerald-600" />
           </button>
 
           {/* User Auth/Profile */}
